@@ -1,0 +1,70 @@
+<div class="calendar">
+
+    <div class="title">{{monthString}} {{year}}</div> 
+
+    <!-- Další měsíc -->
+    <button (click)="changeMonth(status.next)">
+        <img src="assets/next.png">
+    </button>
+
+    <!-- Předchozí měsíc -->
+    <button (click)="changeMonth(status.previous)">
+        <img src="assets/previous.png">
+    </button>
+
+    <!-- Dny v týdnu -->
+    <div class="daysOfWeek">
+        <div>Pondělí</div>
+        <div>Úterý</div>
+        <div>Středa</div>
+        <div>Čtvrtek</div>
+        <div>Pátek</div>
+        <div>Sobota</div>
+        <div>Neděle</div>
+    </div>
+
+    <!-- Dny v měsíci -->
+    <div *ngFor="let month of moviesOfMonth">
+
+        <div class="cell">{{month.day}}
+
+            <div class="movieFrame">
+
+                <!-- Další film -->
+                <button [ngClass]="{hide: month.movies.length === 0 || month.movies.length === 1, nextMovie: true}" 
+                    (click)="changeMovie(month.movies[0].id, status.next)">
+
+                    <img src="assets/next.png">
+                </button>
+
+                <!-- Předchozí film -->
+                <button [ngClass]="{hide: true, previousMovie: true}" 
+                    (click)="changeMovie(month.movies[0].id, status.previous)">
+
+                    <img src="assets/previous.png">
+                </button>
+
+                <!-- Filmy -->
+                <div *ngFor="let movie of month.movies">
+
+                    <!-- Nastavení šířky podle počtu filmů -->
+                    <div #movieWrapper [movieID]="movie.id" 
+                        [style.width.px]="movieElement.offsetWidth * month.movies.length" 
+                        class="movieWrapper">
+
+                        <div #movieElement class="movie">
+
+                            <a routerLink="/movie-detail/{{movie.id}}">
+                                <img src="assets/images/{{movie.imageFolder}}/poster.jpg"> <br>
+
+                                <div class="nameContainer">
+                                    <span class="name">{{movie.nameCZ}}</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

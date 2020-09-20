@@ -1,0 +1,10 @@
+* {
+    font-family: Consolas;
+    color: #232344;
+}
+
+body {
+    background: url(assets/background.jpg);
+    padding: 0;
+    margin: 5px 0px;
+}
