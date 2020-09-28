@@ -2,6 +2,11 @@
 
     <div class="title">{{monthString}} {{year}}</div> 
 
+    <!-- Seznam Link -->
+    <a routerLink="/seznam" class="listLink">
+        <img src="assets/list.png">
+    </a>
+
     <!-- Další měsíc -->
     <button (click)="changeMonth(status.next)">
         <img src="assets/next.png">
@@ -52,13 +57,15 @@
                         [style.width.px]="movieElement.offsetWidth * month.movies.length" 
                         class="movieWrapper">
 
+                        <!-- Film -->
                         <div #movieElement class="movie">
 
-                            <a routerLink="/movie-detail/{{movie.id}}">
+                            <a routerLink="/detail/{{movie.id}}">
                                 <img src="assets/images/{{movie.imageFolder}}/poster.jpg"> <br>
 
                                 <div class="nameContainer">
                                     <span class="name">{{movie.nameCZ}}</span>
+                                    <span class="tooltip">{{movie.nameCZ}}</span>
                                 </div>
                             </a>
                         </div>

@@ -1,0 +1,4 @@
+poster - width 200px
+image - width 1200px
+youTube setting - ?modestbranding=1&rel=0
+

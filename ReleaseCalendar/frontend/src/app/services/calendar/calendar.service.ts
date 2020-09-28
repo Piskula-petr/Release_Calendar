@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Movie } from 'src/app/models/Movie';
-import { Months } from "../months";
+import { MovieCalendar } from 'src/app/models/movieCalendar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarService {
 
-  // Obsah měsíce (dny, filmy)
-  private moviesOfMonth: Array<{day: number, movies: Array<Movie>}>;
+  // Obsah měsíce (dny, filmy[])
+  private moviesOfMonth: Array<{day: number, movies: Array<MovieCalendar>}>;
 
   // Pole filmů
-  private movies: Array<Movie> = [];
+  private movies: Array<MovieCalendar> = [];
 
 
   /**
@@ -22,17 +21,17 @@ export class CalendarService {
 
 
   /**
-   * Získání pole dnů v zadaném měsíci (včetně prázdných počátečních dnů)
+   * Získání pole dnů ze zadaného měsíce (včetně prázdných počátečních dnů)
    * 
    * @param movies - pole filmů
    * @param year - rok (yyyy)
    * @param month - měsíc (0 - 11)
    */
-  getMoviesOfMonth(movies: Array<Movie>, year: number, month: number): Array<{day: number, movies: Array<Movie>}> {
+  getMoviesOfMonth(movies: Array<MovieCalendar>, year: number, month: number): Array<{day: number, movies: Array<MovieCalendar>}> {
 
     this.moviesOfMonth = [];
 
-    // Počáteční den měsíce (0-6), 0 = Pondělí, 1 = Úterý
+    // Počáteční den měsíce (0-6), 0 = Pondělí, 1 = Úterý...
     const monthStartDay: number = new Date(year, month).getDay();
     
     // Počet dnů měsíce
@@ -66,16 +65,6 @@ export class CalendarService {
     }
 
     return this.moviesOfMonth;
-  }
-
-
-  /**
-   * Získání měsíce (String)
-   * 
-   * @param month - měsíc (0 - 11)
-   */
-  getMonth(month: number): string {
-    return Months[month];
   }
 
 

@@ -1,0 +1,146 @@
+.list {
+    width: 1386px;
+    display: table;
+    margin: 0px auto;
+    background: #EEE;
+    border-radius: 10px;
+    padding: 20px 20px 0px 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/*__________________________ Předchozí, další filmy (tlačítka) __________________________*/
+.list button {
+    display: block;
+    margin: 0px auto;
+    background-color: transparent;
+    border: none;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.list button:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.list button:focus {
+    outline: none;
+}
+
+.list button img {
+    width: 24px;
+}
+
+.previousMovies {
+    margin: 0px 0px -15px 75px;
+}
+
+.nextMovies {
+    margin: -15px 0px 5px 0px;
+}
+
+/*__________________________ Link na kalendář __________________________*/
+.calendarLink {
+    float: right;
+    margin: -10px 10px 5px 20px;
+    padding: 6px 5px 2px 5px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+}
+
+.calendarLink:hover {
+    border: 2px solid black;
+}
+
+.calendarLink img {
+    width: 30px;
+}
+
+/*__________________________ Buňka filmu __________________________*/
+.cell {
+    position: relative;
+    display: table;
+    width: 100%;
+    height: 120px;
+    background: whitesmoke;
+    border-radius: 4px;
+    margin: 25px 0px;
+    border: 1px solid #BEBEBE;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.cell:hover {
+    opacity: 0.8;
+}
+
+.dayContainer {
+    width: 120px;
+    height: 120px;
+    background: #232344;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.dayContainer .day, .dayContainer .month {
+    color: #EEE;
+    font-size: 1.5em;
+    font-weight: bold;
+    max-width: 120px;
+    max-height: 120px;
+}
+
+.cell img {
+    float: left;
+    height: 120px;
+}
+
+/*__________________________ Informace o filmu __________________________*/
+.movieInfo {
+    float: left;
+    width: 1160px;
+    height: 120px;
+}
+
+.name {
+    float: left;
+    margin: 7px 20px 3px 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    width: 1030px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.director, .genres, .actors {
+    float: left;
+    width: 1030px;
+    margin: 1px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.director span, .genres span, .actors span {
+    font-weight: normal;
+}
+
+.genres div, .actors div {
+    display: inline-block;
+}
+
+.platform {
+    position: absolute;
+    top: 35px;
+    right: 25px;
+}
+
+.platform img {
+    width: 100%;
+    height: 100%;
+}

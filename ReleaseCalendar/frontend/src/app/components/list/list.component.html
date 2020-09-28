@@ -1,0 +1,65 @@
+<div class="list">
+
+    <!-- Kalendář Link -->
+    <a routerLink="/kalendar" class="calendarLink">
+        <img src="assets/calendar.png">
+    </a>
+
+    <!-- Předchozí filmy -->
+    <div class="previousMovies" *ngIf="indexForPrevious %8===0">
+        <button (click)="getMoreMovies(status.previous)" class="rotate90">
+            <img src="assets/previous.png">
+        </button>
+    </div>
+
+    <!-- Film -->
+    <div *ngFor="let movie of movies">
+
+        <a class="cell" routerLink="/detail/{{movie.id}}">
+
+            <!-- Den + měsíc -->
+            <div class="dayContainer">
+                <div class="day">{{movie.releaseDate | date:"dd"}}.</div>
+                <div class="month">{{getMonth(movie.releaseDate | date:"MM")}}</div>
+            </div>
+
+            <div class="movieInfo">
+                <img src="assets/images/{{movie.imageFolder}}/poster.jpg">
+                <span class="name">{{movie.nameCZ}} | {{movie.nameEN}}</span>
+
+                <!-- Režie -->
+                <div class="director">Režie: 
+                    <span>{{movie.director}}</span>
+                </div>
+
+                <!-- Žánry -->
+                <div class="genres">{{movie.genres.length === 1 ? "Žánr" : "Žánry"}}:
+                    <div *ngFor="let genre of movie.genres; let last = last">
+                        <span>{{genre}}</span>
+                        <span *ngIf="!last">&nbsp;/&nbsp;</span>
+                    </div>
+                </div>
+
+                <!-- Herci -->
+                <div class="actors">Hrají:
+                    <div *ngFor="let actor of movie.actors | slice:0:4; let last = last;">
+                        <span>{{actor}}</span>
+                        <span *ngIf="!last">,&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vysílací platforma -->
+            <div class="platform">
+                <img src="assets/platforms/{{movie.platform}}.png">
+            </div>
+        </a>
+    </div>
+
+    <!-- Další filmy -->
+    <div class="nextMovies" *ngIf="indexForNext %8===0">
+        <button (click)="getMoreMovies(status.next)" class="rotateDown">
+            <img src="assets/next.png">
+        </button>
+    </div>
+</div>

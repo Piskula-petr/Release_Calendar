@@ -1,8 +1,10 @@
-import { MoviesService } from './../../services/movies/movies.service';
+import { MovieCalendar } from './../../models/movieCalendar';
 import { Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
-import { Movie } from 'src/app/models/Movie';
+
+import { MoviesService } from 'src/app/services/movies/movies.service';
 import { CalendarService } from "src/app/services/calendar/calendar.service";
-import { Status } from "src/app/services/status";
+import { Status } from "src/app/models/status";
+import { Months } from "../../models/months";
 
 @Component({
   selector: 'app-calender',
@@ -15,7 +17,7 @@ export class CalenderComponent implements OnInit {
   @ViewChildren("movieWrapper") movieWrapperRef: QueryList<ElementRef>;
 
   // Obsah měsíce (dny, filmy)
-  public moviesOfMonth: Array<{day: number, movies: Array<Movie>}>;
+  public moviesOfMonth: Array<{day: number, movies: Array<MovieCalendar>}>;
   
   // Enum - [další / předchozí]
   public status = Status;
@@ -25,14 +27,19 @@ export class CalenderComponent implements OnInit {
   private month: number | null = null;
   public year: number | null = null;
   
+  
   /**
    * Konstruktor
    * 
    * @param calendarService - service pro tvorbu kalendáře
    * @param renderer
+   * @param moviesService - service pro získání filmů z databáze
    */
-  constructor(private calendarService: CalendarService, private renderer: Renderer2,
-    private moviesService: MoviesService) {}
+  constructor(
+    private calendarService: CalendarService, 
+    private renderer: Renderer2,
+    private moviesService: MoviesService,
+  ) {}
 
 
   /**
@@ -48,16 +55,18 @@ export class CalenderComponent implements OnInit {
       this.month = dateNow.getMonth()
     }
 
+    // Nastavení potřebných dat pro komponentu
     this.setComponentData();
   }
+
 
   /**
    * Nastavení potřebných dat pro komponentu
    */
   setComponentData(): void {
 
-    this.monthString = this.calendarService.getMonth(this.month);
-    this.moviesService.getMovies(this.year, this.month).subscribe((movies: Array<Movie>) => {
+    this.monthString = this.getMonth(this.month);
+    this.moviesService.getMoviesForCalendar(this.year, this.month).subscribe((movies: Array<MovieCalendar>) => {
 
       // Přenastavení parametrů
       movies = movies.map(movie => ({
@@ -68,6 +77,16 @@ export class CalenderComponent implements OnInit {
 
       this.moviesOfMonth = this.calendarService.getMoviesOfMonth(movies, this.year, this.month);
     });
+  }
+
+
+  /**
+   * Získání měsíce (String)
+   * 
+   * @param month - měsíc (0 - 11)
+   */
+  getMonth(month: number): string {
+    return Months[month];
   }
 
 

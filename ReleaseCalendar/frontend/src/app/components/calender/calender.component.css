@@ -19,6 +19,56 @@
     margin: 0px 8px 20px 8px;
 }
 
+/*__________________________ Tooltip __________________________*/
+.tooltip {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #EEE;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px 1px;
+    position: absolute;
+    z-index: 1;
+    top: 160px;
+    left: 175px;
+    opacity: 0;
+}
+
+.nameContainer .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+  }
+
+.nameContainer:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0s linear 2s;
+}
+
+/*__________________________ Link na seznam __________________________*/
+.listLink {
+    float: right;
+    margin: 3px 10px 0px 20px;
+    padding: 6px 5px 2px 5px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+}
+
+.listLink:hover {
+    border: 2px solid black;
+}
+
+.listLink img {
+    width: 30px;
+}
+
 /*__________________________ Předchozí, další měsíc (tlačítka) __________________________*/
 .calendar button {
     margin: 0px 7px;
@@ -66,6 +116,7 @@
 
 /*__________________________ Dny v měsíci __________________________*/
 .cell {
+    position: relative;
     height: 200px;
     width: 170px;
     color: #808080;
@@ -106,7 +157,6 @@
 }
 
 .movieWrapper {
-    position: relative;
     text-align: center;
 }
 
@@ -122,6 +172,7 @@
 
 .movie img {
     max-width: 100px;
+    max-height: 140px;
     border-radius: 4px;
     margin: 0px auto;
 }

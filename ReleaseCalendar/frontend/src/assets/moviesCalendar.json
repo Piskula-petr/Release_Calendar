@@ -1,0 +1,32 @@
+[
+    {
+        "id": 8,
+        "nameCZ": "Bojovník Série 2",
+        "nameEN": "Warrior Season 2",
+        "releaseDate": "2020-10-09T22:00:00.000+00:00"
+    },
+    {
+        "id": 6,
+        "nameCZ": "Greenland: Poslední úkryt",
+        "nameEN": "Greenland",
+        "releaseDate": "2020-10-14T22:00:00.000+00:00"
+    },
+    {
+        "id": 11,
+        "nameCZ": "Chicagský tribunál",
+        "nameEN": "The Trial of the Chicago 7",
+        "releaseDate": "2020-10-15T22:00:00.000+00:00"
+    },
+    {
+        "id": 12,
+        "nameCZ": "Clouds",
+        "nameEN": "Clouds",
+        "releaseDate": "2020-10-15T22:00:00.000+00:00"
+    },
+    {
+        "id": 10,
+        "nameCZ": "The Mandalorian Série 2",
+        "nameEN": "The Mandalorian Season 2",
+        "releaseDate": "2020-10-29T23:00:00.000+00:00"
+    }
+]
