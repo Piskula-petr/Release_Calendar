@@ -3,6 +3,6 @@ export class MovieList {
     nameCZ: string;
     nameEN: string;
     releaseDate: Date;
-    imageFolder: string | null;
+    imageFolder: string | null = null;
     platform: string;
 }

@@ -22,15 +22,38 @@ public interface MovieService {
 	
 	
 	/**
+	 * Počet záznamů od dnešního data
+	 * 
+	 * @param today - dnešní datum
+	 * @param status - enum [další / předchozí]
+	 * 
+	 * @return - vrací počet záznamů
+	 */
+	public Long getMoviesFromTodayCount(LocalDate today, Status status);
+	
+	
+	/**
 	 * Seznam filmů od dnešního data
 	 * 
 	 * @param today - dnešní datum
 	 * @param startIndex - počáteční index
-	 * @param staus - enum [další / předchozí]
+	 * @param status - enum [další / předchozí]
 	 * 
 	 * @return - vrací List filmů pro seznam
 	 */
-	public List<ListMovie> getMoviesFromToday(LocalDate today, int startIndex, Status staus);
+	public List<ListMovie> getMoviesFromToday(LocalDate today, int startIndex, Status status);
+	
+	
+	/**
+	 * Limitovaný seznam filmů od dnešního data
+	 * 
+	 * @param today - dnešní datum
+	 * @param limit - limit výstupů
+	 * @param staus - enum [další / předchozí]
+	 * 
+	 * @return - vrací limitovaný List filmů pro seznam
+	 */
+	public List<ListMovie> getMoviesFromTodayLimited(LocalDate today, int limit, Status status);
 	
 	
 	/**

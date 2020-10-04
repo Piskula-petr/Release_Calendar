@@ -54,6 +54,45 @@ public class MovieServiceImpl implements MovieService {
 
 	
 	/**
+	 * Počet záznamů od dnešního data
+	 * 
+	 * @param today - dnešní datum
+	 * @param staus - enum [další / předchozí]
+	 * 
+	 * @return - vrací počet záznamů
+	 */
+	@Override
+	@Transactional
+	public Long getMoviesFromTodayCount(LocalDate today, Status status) {
+		
+		String condition = "";
+		
+		// Načíst další
+		if (status.equals(Status.next)) {
+			
+			condition = ">=";
+			
+		// Načíst předchozí
+		} else if (status.equals(Status.previous)) {
+
+			condition = "<=";
+		}
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+		
+		"SELECT Count(*) FROM ListMovie "
+	  + "WHERE release_date " + condition + " :today");
+		
+		query.setParameter("today", today);
+		
+		Long moviesCount =  (Long) query.uniqueResult();
+		
+		return moviesCount;
+	}
+	
+	
+	/**
 	 * Seznam filmů od dnešního data
 	 * 
 	 * @param today - dnešní datum
@@ -66,29 +105,71 @@ public class MovieServiceImpl implements MovieService {
 	@Transactional
 	public List<ListMovie> getMoviesFromToday(LocalDate today, int startIndex, Status status) {
 		
-		String queryString = "";
+		String condition = "";
 		
 		// Načíst další
 		if (status.equals(Status.next)) {
 			
-			queryString = "FROM ListMovie "
-						+ "WHERE release_date >= :today "
-						+ "ORDER BY release_date";
+			condition = ">=";
 			
 		// Načíst předchozí
 		} else if (status.equals(Status.previous)) {
-			
-			queryString = "FROM ListMovie "
-						+ "WHERE release_date <= :today "
-						+ "ORDER BY release_date";
+
+			condition = "<=";
 		}
 		
 		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(queryString, ListMovie.class);
+		Query query = session.createQuery(
+		
+		"FROM ListMovie "
+	  + "WHERE release_date " + condition + " :today "
+	  + "ORDER BY release_date", ListMovie.class);
 		
 		query.setParameter("today", today);
 		query.setFirstResult(startIndex);
 		query.setMaxResults(8);
+		
+		List<ListMovie> movies = query.list();
+		
+		return movies;
+	}
+	
+	
+	/**
+	 * Limitovaný seznam filmů od dnešního data
+	 * 
+	 * @param today - dnešní datum
+	 * @param limit - limit výstupů
+	 * @param status - enum [další / předchozí]
+	 * 
+	 * @return - vrací limitovaný List filmů pro seznam
+	 */
+	@Override
+	@Transactional
+	public List<ListMovie> getMoviesFromTodayLimited(LocalDate today, int limit, Status status) {
+		
+		String condition = "";
+		
+		// Načíst další
+		if (status.equals(Status.next)) {
+			
+			condition = ">=";
+			
+		// Načíst předchozí
+		} else if (status.equals(Status.previous)) {
+
+			condition = "<=";
+		}
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+				
+		"FROM ListMovie "
+	  + "WHERE release_date " + condition + " :today "
+	  + "ORDER BY release_date", ListMovie.class);
+		
+		query.setParameter("today", today);
+		query.setMaxResults(limit);
 		
 		List<ListMovie> movies = query.list();
 		

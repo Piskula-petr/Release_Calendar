@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cz.release_calendar.entities.ListMovie;
 import cz.release_calendar.enums.Status;
+import cz.release_calendar.pojo.MoviesTotalCount;
 import cz.release_calendar.services.MovieService;
 
 @RestController
@@ -22,16 +23,54 @@ public class ListController {
 	@Autowired
 	private MovieService movieService;
 	
+	
 	/**
-	 * Získání filmů
+	 * Získání počtu záznamů
+	 * 
+	 * @return - vrací počet záznamů
+	 */
+	@GetMapping("/movies/list/count")
+	public MoviesTotalCount getMoviesFromTodayCount() {
+		
+		MoviesTotalCount moviesTotalCount = new MoviesTotalCount();
+		moviesTotalCount.setNextTotal(movieService.getMoviesFromTodayCount(LocalDate.now(), Status.next));
+		moviesTotalCount.setPreviousTotal(movieService.getMoviesFromTodayCount(LocalDate.now(), Status.previous));
+		
+		return moviesTotalCount;
+	}
+	
+	
+	/**
+	 * Získání filmů od dnešního data
+	 * 
+	 * @param startIndex - počáteční index
+	 * @param status - enum [další / předchozí]
 	 * 
 	 * @return - vrací pole filmů
 	 */
 	@GetMapping("/movies/list/index={startIndex}&{status}")
-	public List<ListMovie> getMoviesAfterToday(@PathVariable("startIndex") int startIndex,
-											   @PathVariable("status") Status status) {
+	public List<ListMovie> getMoviesFromToday(@PathVariable("startIndex") int startIndex,
+											  @PathVariable("status") Status status) {
 			
 		List<ListMovie> movies = movieService.getMoviesFromToday(LocalDate.now(), startIndex, status);
+		
+		return movies;
+	}
+	
+	
+	/**
+	 * Získání limitovaného seznamu filmů od dnešního data
+	 * 
+	 * @param limit - limit výstupů
+	 * @param staus - enum [další / předchozí]
+	 * 
+	 * @return - vrací limitované pole filmů
+	 */
+	@GetMapping("/movies/list/limit={limit}&{status}")
+	public List<ListMovie> getMoviesFromTodayLimited(@PathVariable("limit") int limit,
+													 @PathVariable("status") Status status) {
+		
+		List<ListMovie> movies = movieService.getMoviesFromTodayLimited(LocalDate.now(), limit, status);
 		
 		return movies;
 	}

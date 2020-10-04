@@ -52,20 +52,28 @@
     transition: opacity 0s linear 2s;
 }
 
-/*__________________________ Link na seznam __________________________*/
-.listLink {
+/*__________________________ Link na kalendář, seznam __________________________*/
+.calendarLink {
     float: right;
-    margin: 3px 10px 0px 20px;
+    margin: 3px 0px 0px 20px;
     padding: 6px 5px 2px 5px;
     border: 2px solid transparent;
     border-radius: 10px;
 }
 
-.listLink:hover {
-    border: 2px solid black;
+.listLink {
+    float: right;
+    margin: 3px 10px 0px 15px;
+    padding: 6px 5px 2px 5px;
+    border: 2px solid transparent;
+    border-radius: 10px;
 }
 
-.listLink img {
+.calendarLink:hover , .listLink:hover {
+    border: 2px solid black; 
+}
+
+.calendarLink img, .listLink img {
     width: 30px;
 }
 

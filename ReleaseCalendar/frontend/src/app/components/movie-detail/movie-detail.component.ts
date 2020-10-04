@@ -56,7 +56,7 @@ export class MovieDetailComponent implements OnInit {
         this.getImageCount();
       },
       (error) => console.log(error)
-    )
+    );
   }
 
 
@@ -97,4 +97,5 @@ export class MovieDetailComponent implements OnInit {
   previousPage() {
     this.location.back();
   }
+
 }

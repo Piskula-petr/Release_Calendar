@@ -2,8 +2,8 @@ export class Movie {
     id: number;
     nameCZ: string;
     nameEN: string;
-    releaseDate: string; // Date
-    imageFolder: string | null;
+    releaseDate: Date;
+    imageFolder: string | null = null;
     platform: string;
     genres: Array<string>;
     csfdLink: string;

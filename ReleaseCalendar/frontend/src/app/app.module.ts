@@ -9,6 +9,7 @@ import { MovieDetailComponent } from './components/movie-detail/movie-detail.com
 import { HttpClientModule } from '@angular/common/http';
 import { UrlPipe } from './pipes/url.pipe';
 import { ListComponent } from './components/list/list.component';
+import { MoviesComponent } from './components/list/movies/movies.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ListComponent } from './components/list/list.component';
     MovieDetailComponent,
     UrlPipe,
     ListComponent,
+    MoviesComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,8 +27,8 @@ import { ListComponent } from './components/list/list.component';
   ],
   providers: [
     CalendarService,
-    MoviesService
+    MoviesService,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

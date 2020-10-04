@@ -2,9 +2,14 @@
 
     <div class="title">{{monthString}} {{year}}</div> 
 
-    <!-- Seznam Link -->
+    <!-- Seznam link -->
     <a routerLink="/seznam" class="listLink">
         <img src="assets/list.png">
+    </a>
+
+    <!-- Kalendář link -->
+    <a routerLink="/kalendar" class="calendarLink">
+        <img src="assets/calendar.png">
     </a>
 
     <!-- Další měsíc -->
@@ -29,38 +34,38 @@
     </div>
 
     <!-- Dny v měsíci -->
-    <div *ngFor="let month of moviesOfMonth">
+    <div *ngFor="let monthContent of moviesOfMonth">
 
-        <div class="cell">{{month.day}}
+        <div class="cell">{{monthContent.day}}
 
             <div class="movieFrame">
 
                 <!-- Další film -->
-                <button [ngClass]="{hide: month.movies.length === 0 || month.movies.length === 1, nextMovie: true}" 
-                    (click)="changeMovie(month.movies[0].id, status.next)">
+                <button [ngClass]="{hide: monthContent.movies.length === 0 || monthContent.movies.length === 1, nextMovie: true}" 
+                    (click)="changeMovie(monthContent.movies[0].id, status.next)">
 
                     <img src="assets/next.png">
                 </button>
 
                 <!-- Předchozí film -->
                 <button [ngClass]="{hide: true, previousMovie: true}" 
-                    (click)="changeMovie(month.movies[0].id, status.previous)">
+                    (click)="changeMovie(monthContent.movies[0].id, status.previous)">
 
                     <img src="assets/previous.png">
                 </button>
 
                 <!-- Filmy -->
-                <div *ngFor="let movie of month.movies">
+                <div *ngFor="let movie of monthContent.movies">
 
                     <!-- Nastavení šířky podle počtu filmů -->
                     <div #movieWrapper [movieID]="movie.id" 
-                        [style.width.px]="movieElement.offsetWidth * month.movies.length" 
+                        [style.width.px]="movieElement.offsetWidth * monthContent.movies.length" 
                         class="movieWrapper">
 
                         <!-- Film -->
                         <div #movieElement class="movie">
 
-                            <a routerLink="/detail/{{movie.id}}">
+                            <a routerLink="/detail/{{movie.id}}" [queryParams]="{month: month, year: year}">
                                 <img src="assets/images/{{movie.imageFolder}}/poster.jpg"> <br>
 
                                 <div class="nameContainer">

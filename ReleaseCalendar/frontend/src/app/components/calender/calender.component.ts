@@ -1,10 +1,11 @@
+import { ActivatedRoute } from '@angular/router';
 import { MovieCalendar } from './../../models/movieCalendar';
 import { Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
-
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { CalendarService } from "src/app/services/calendar/calendar.service";
 import { Status } from "src/app/models/status";
 import { Months } from "../../models/months";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calender',
@@ -18,27 +19,32 @@ export class CalenderComponent implements OnInit {
 
   // Obsah měsíce (dny, filmy)
   public moviesOfMonth: Array<{day: number, movies: Array<MovieCalendar>}>;
-  
+
   // Enum - [další / předchozí]
   public status = Status;
 
   // Informace o měsíci
   public monthString: string;
-  private month: number | null = null;
-  public year: number | null = null;
+  public month: number;
+  public year: number;
   
   
   /**
    * Konstruktor
    * 
    * @param calendarService - service pro tvorbu kalendáře
-   * @param renderer
    * @param moviesService - service pro získání filmů z databáze
+   * @param renderer
+   * @param router
+   * @param route
+   *
    */
   constructor(
     private calendarService: CalendarService, 
-    private renderer: Renderer2,
     private moviesService: MoviesService,
+    private renderer: Renderer2,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
 
@@ -46,17 +52,25 @@ export class CalenderComponent implements OnInit {
    * Inicializační metoda
    */
   ngOnInit(): void {
-    
-    // Aktuální rok + měsíc
-    if (this.year === null && this.month === null) {
 
-      const dateNow: Date = new Date();
-      this.year = dateNow.getFullYear();
-      this.month = dateNow.getMonth()
-    }
+    // Získání parametrů z URL
+    this.route.queryParams.subscribe(params => {
 
-    // Nastavení potřebných dat pro komponentu
-    this.setComponentData();
+      if (params.month && params.year) {
+
+        this.month = parseInt(params.month);
+        this.year = parseInt(params.year);
+
+      } else {
+
+        const date = new Date();
+        this.month = date.getMonth();
+        this.year = date.getFullYear();
+      }
+
+      // Nastavení potřebných dat pro komponentu
+      this.setComponentData();
+    });
   }
 
 
@@ -64,6 +78,12 @@ export class CalenderComponent implements OnInit {
    * Nastavení potřebných dat pro komponentu
    */
   setComponentData(): void {
+
+    // Přidání parametrů do URL
+    this.router.navigate([], {queryParams: {
+      month: this.month,
+      year: this.year
+    }});
 
     this.monthString = this.getMonth(this.month);
     this.moviesService.getMoviesForCalendar(this.year, this.month).subscribe((movies: Array<MovieCalendar>) => {
@@ -100,13 +120,15 @@ export class CalenderComponent implements OnInit {
     let date: Date;
 
     // Nastavení data pro odlišný status
-    if (Status[status] === Status.next) {
+    switch (Status[status]) {
 
-      date = this.calendarService.nextMonth(this.year, this.month);
+      case Status.previous:
+        date = this.calendarService.previousMonth(this.year, this.month);
+        break;
 
-    } else if (Status[status] === Status.previous) {
-
-      date = this.calendarService.previousMonth(this.year, this.month);
+      case Status.next:
+        date = this.calendarService.nextMonth(this.year, this.month);
+        break;
     }
 
     this.year = date.getFullYear();
@@ -131,13 +153,13 @@ export class CalenderComponent implements OnInit {
     const cellElement: Element = movieElement.nativeElement.parentElement.parentElement;
 
     // Posun na další / předchozí film
-    if (Status[status] === Status.next) {
+    switch (Status[status]) {
 
-      cellElement.scrollLeft += elementWidth;
+      case Status.previous:
+        cellElement.scrollLeft -= elementWidth; break;
 
-    } else if (Status[status] === Status.previous) {
-
-      cellElement.scrollLeft -= elementWidth;
+      case Status.next:
+        cellElement.scrollLeft += elementWidth; break;
     }
 
     // Elementy tlačítek
@@ -152,24 +174,20 @@ export class CalenderComponent implements OnInit {
     switch (cellElement.scrollLeft === scrollLeftMax) {
 
       case true:
-        this.renderer.addClass(nextMovieElement, "hide");
-        break;
+        this.renderer.addClass(nextMovieElement, "hide"); break;
 
       case false:
-        this.renderer.removeClass(nextMovieElement, "hide");
-        break;
+        this.renderer.removeClass(nextMovieElement, "hide"); break;
     }
 
     // Zobrazení / skrytí tlačítka pro předchozí film
     switch (cellElement.scrollLeft === scrollLeftMin) {
 
       case true:
-        this.renderer.addClass(previousMovieElement, "hide");
-        break;
+        this.renderer.addClass(previousMovieElement, "hide"); break;
 
       case false:
-        this.renderer.removeClass(previousMovieElement, "hide");
-        break;
+        this.renderer.removeClass(previousMovieElement, "hide"); break;
     }
   }
 
