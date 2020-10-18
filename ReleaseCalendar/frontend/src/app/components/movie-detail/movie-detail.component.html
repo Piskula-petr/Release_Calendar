@@ -9,7 +9,7 @@
         <div class="label">Přehled:</div>
 
         <!-- Náhledový obrázek -->
-        <img src="assets/images/{{movie.imageFolder}}/poster.jpg">
+        <img src="data:image/JPEG;base64,{{movie.image}}">
 
         <div class="movieInfo">
 
@@ -87,16 +87,15 @@
             </span>
         </div>
 
-        <iframe [src]="movie.videoLink | safeUrl"></iframe>
+        <iframe [src]="movie.videoLink | safeUrl" allowfullscreen="allowfullscreen"></iframe>
     </div>
 
     <!-- Obrázky -->
     <div class="images">
         <div class="label">Obrázky:</div>
 
-        <!-- Iterace prázdného pole o délce počtu obrázku -->
-        <div *ngFor="let emptyValue of arrayOf(imageCount); let index = index">
-            <img src="assets/images/{{movie.imageFolder}}/image{{index + 1}}.jpg">
+        <div *ngFor="let image of movie.images">
+            <img src="data:image/JPEG;base64,{{image}}">
         </div>
     </div>
 </div>

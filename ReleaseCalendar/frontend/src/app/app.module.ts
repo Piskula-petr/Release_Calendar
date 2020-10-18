@@ -10,6 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { UrlPipe } from './pipes/url.pipe';
 import { ListComponent } from './components/list/list.component';
 import { MoviesComponent } from './components/list/movies/movies.component';
+import { FormsModule } from '@angular/forms';
+import { NewMovieComponent } from './components/new-movie/new-movie.component';
 
 @NgModule({
   declarations: [
@@ -19,11 +21,13 @@ import { MoviesComponent } from './components/list/movies/movies.component';
     UrlPipe,
     ListComponent,
     MoviesComponent,
+    NewMovieComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [
     CalendarService,

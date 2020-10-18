@@ -6,6 +6,7 @@ import { CalendarService } from "src/app/services/calendar/calendar.service";
 import { Status } from "src/app/models/status";
 import { Months } from "../../models/months";
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-calender',
@@ -13,6 +14,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./calender.component.css']
 })
 export class CalenderComponent implements OnInit {
+
+  public isModalClosed: boolean = true;
 
   @ViewChild("movieElement") movieElementRef: ElementRef;
   @ViewChildren("movieWrapper") movieWrapperRef: QueryList<ElementRef>;
@@ -45,6 +48,7 @@ export class CalenderComponent implements OnInit {
     private renderer: Renderer2,
     private router: Router,
     private route: ActivatedRoute,
+    private sanitizer: DomSanitizer
   ) {}
 
 
@@ -75,6 +79,16 @@ export class CalenderComponent implements OnInit {
 
 
   /**
+   * Zavření / zobrazení Modalu
+   * 
+   * @param value - hondota
+   */
+  closeModal(value: boolean) {
+    this.isModalClosed = value;
+  }
+
+
+  /**
    * Nastavení potřebných dat pro komponentu
    */
   setComponentData(): void {
@@ -92,7 +106,6 @@ export class CalenderComponent implements OnInit {
       movies = movies.map(movie => ({
         ...movie,
         releaseDate: new Date(movie.releaseDate),
-        imageFolder: movie.nameEN.replace(":", "").replace(/ /g, "_").toUpperCase(),
       }));
 
       this.moviesOfMonth = this.calendarService.getMoviesOfMonth(movies, this.year, this.month);

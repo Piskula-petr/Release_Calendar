@@ -1,12 +1,15 @@
 package cz.release_calendar.entities;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -19,7 +22,7 @@ import com.vladmihalcea.hibernate.type.array.StringArrayType;
 public class Movie {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	
@@ -57,6 +60,12 @@ public class Movie {
 	
 	@Column(name = "video_link")
 	private String videoLink;
+	
+	@Transient
+	private byte[] image;
+	
+	@Transient
+	private List<byte[]> images;
 	
 // Bezparametrový konstruktor //////////////////////////////////////////////////////////////
 	
@@ -160,6 +169,22 @@ public class Movie {
 
 	public void setVideoLink(String videoLink) {
 		this.videoLink = videoLink;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public List<byte[]> getImages() {
+		return images;
+	}
+
+	public void setImages(List<byte[]> images) {
+		this.images = images;
 	}
 	
 }

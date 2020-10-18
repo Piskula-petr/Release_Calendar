@@ -1,12 +1,13 @@
-export class MovieList {
-    id: number;
+export class NewMovie {
     nameCZ: string;
     nameEN: string;
     releaseDate: Date;
     platform: string;
-    director: string;
     genres: Array<string>;
+    csfdLink: string;
+    imdbLink: string;
+    director: string;
     actors: Array<string>;
-    image: string;
-    
+    content: string;
+    videoLink: string;
 }

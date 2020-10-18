@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import cz.release_calendar.entities.CalendarMovie;
+import cz.release_calendar.entities.File;
 import cz.release_calendar.entities.ListMovie;
 import cz.release_calendar.entities.Movie;
 import cz.release_calendar.enums.Status;
@@ -65,4 +66,13 @@ public interface MovieService {
 	 */
 	public Movie getMovieByID(long movieID);
 	
+	
+	/**
+	 * Uložení nového filmu (informace + obrázky)
+	 * 
+	 * @param movie - film
+	 * @param images - obrázky
+	 * @param poster - náhledový obrázek
+	 */
+	public void saveMovie(Movie movie, List<File> images, File poster);
 }

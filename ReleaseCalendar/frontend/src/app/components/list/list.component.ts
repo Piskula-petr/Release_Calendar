@@ -14,6 +14,8 @@ import { MoviesService } from 'src/app/services/movies/movies.service';
 })
 export class ListComponent implements OnInit {
 
+  public isModalClosed: boolean = true;
+
   // Enum - [další / předchozí]
   public status = Status;
 
@@ -76,6 +78,16 @@ export class ListComponent implements OnInit {
 
 
   /**
+   * Zavření / zobrazení Modalu
+   * 
+   * @param value - hondota
+   */
+  closeModal(value: boolean) {
+    this.isModalClosed = value;
+  }
+
+
+  /**
    * Nastavení filmů
    * 
    * @param limit - limit
@@ -84,12 +96,6 @@ export class ListComponent implements OnInit {
   setMovies(limit: number, status: Status): void {
 
     this.moviesService.getMoviesForListLimited(limit, status).subscribe((movies: Array<MovieList>) => {
-
-      // Nastavení dodatečného porametru
-      movies = movies.map(movie => ({
-        ...movie,
-        imageFolder: movie.nameEN.replace(":", "").replace(/ /g, "_").toUpperCase(),
-      }));
 
       switch (Status[status]) {
 
@@ -129,12 +135,6 @@ export class ListComponent implements OnInit {
     }
 
     this.moviesService.getMoviesForList(startIndex, status).subscribe((movies: Array<MovieList>) => {
-      
-      // Nastavení dodatečného porametru
-      movies = movies.map(movie => ({
-        ...movie,
-        imageFolder: movie.nameEN.replace(":", "").replace(/ /g, "_").toUpperCase(),
-      }));
 
       switch (Status[status]) {
 

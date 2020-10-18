@@ -1,0 +1,179 @@
+.toRight {
+    text-align: right;
+}
+
+.hide {
+    display: none;
+}
+
+.errorColor {
+    color: red;
+}
+
+.errorBorder {
+    border-color: red !important;
+    color: red;
+}
+
+.disabled {
+    opacity: 0.8;
+}
+
+/*__________________________ Formulář __________________________*/
+form {
+    padding: 10px;
+}
+
+form input {
+    border: 1px solid #808080;
+    border-radius: 4px;
+    padding: 5px;
+    width: 220px;
+}
+
+form input:focus, form select:focus, form textarea:focus {
+    outline: none;
+}
+
+form select {
+    border: 1px solid #808080;
+    border-radius: 4px;
+    padding: 5px;
+    width: 233px;
+    margin: 0;
+}
+
+form option {
+    padding: 0px 5px;
+}
+
+form textarea {
+    border: 1px solid #808080;
+    border-radius: 4px;
+    padding: 5px;
+    width: 220px;
+    resize: none;
+}
+
+form table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form table tr td {
+    padding: 10px 0px 0px 0px;
+}
+
+.labelColumn {
+    width: 160px;
+}
+
+.inputColumn {
+    width: 300px;
+}
+
+form button {
+    margin: 5px;
+}
+
+form button:hover {
+    cursor: pointer;
+}
+
+.selectedContainer {
+    width: 300px;
+}
+
+.selectedGenres, .selectedActors {
+    float: left;
+}
+
+/*__________________________ Přidání souborů __________________________*/
+.fileContainer {
+    position: relative;
+    display: block;
+    width: 218px;
+    height: 19px;
+	border: 1px solid #808080;
+    border-radius: 4px;
+    padding: 3px 7px;
+    margin: 10px auto 0px auto;
+}
+
+.fileContainer span {
+    position: relative;
+    width: 190px;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fileContainer button {
+    padding: 5px 7px;
+    position: relative;
+    margin: 0;
+    top: -5px;
+    right: -8px;
+    border: none;
+    border-left: 1px solid #808080;
+}
+
+.fileContainer button:focus {
+    outline: none;
+}
+
+.fileContainer:hover {
+    cursor: pointer;
+    background: #E8E8E8;
+}
+
+.fileLabel {
+    padding: 17px 0px 0px 0px !important;
+}
+
+/*__________________________ Přidání herců __________________________*/
+#actorInput {
+    width: 164px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#actorButton {
+    margin: 0;
+    height: 27px;
+    border: 1px solid #808080;
+    border-left: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 4px;
+}
+
+#actorButton:hover {
+    cursor: pointer;
+    background: #E8E8E8;
+}
+
+#actorButton:focus {
+    outline: none;
+}
+
+/*__________________________ Tlačítko pro odeslání __________________________*/
+#submitButton {
+	margin: 30px 0px 10px 0px;
+	padding: 3px 15px;
+	font-size: 1.2em;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	background: #232344;
+	border: 2px solid #232344;
+	border-radius: 4px;
+	cursor: pointer;
+	color: white;
+}
+
+#submitButton:hover, #submitButton:focus {
+    opacity: 0.8;
+}

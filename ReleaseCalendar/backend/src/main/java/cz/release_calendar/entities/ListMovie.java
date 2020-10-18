@@ -5,8 +5,10 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -15,7 +17,7 @@ import org.hibernate.annotations.Type;
 public class ListMovie {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	
@@ -41,6 +43,9 @@ public class ListMovie {
 	@Type(type = "string-array")
 	@Column(name = "actors")
 	private String [] actors;
+	
+	@Transient
+	private byte[] image;
 	
 // Bezparametrový konstruktor //////////////////////////////////////////////////////////////
 	
@@ -112,6 +117,14 @@ public class ListMovie {
 
 	public void setActors(String[] actors) {
 		this.actors = actors;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 	
 }

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { MovieCalendar } from 'src/app/models/movieCalendar';
 import { Movie } from 'src/app/models/movie';
 import { MovieList } from 'src/app/models/moviesList';
+import { NewMovie } from 'src/app/models/newMovie';
 
 @Injectable({
   providedIn: 'root'
@@ -56,8 +57,8 @@ export class MoviesService {
    * @param limit - limit výstupů
    * @param status - enum [další / předchozí]
    */
-  getMoviesForListLimited(limit: number, status: Status): Observable<Array<MovieCalendar>> {
-    return this.httpClient.get<Array<MovieCalendar>>
+  getMoviesForListLimited(limit: number, status: Status): Observable<Array<MovieList>> {
+    return this.httpClient.get<Array<MovieList>>
       ("/api/movies/list/limit=" + limit + "&" + Status[status]);
   }
 
@@ -71,4 +72,30 @@ export class MoviesService {
     return this.httpClient.get<Movie>("/api/movie/" + movieID);
   }
   
+
+  /**
+   * Odeslání dat na server
+   * 
+   * @param newMovie - informace o filmu
+   * @param poster - náhledový obrázek
+   * @param images - obrázky
+   */
+  postNewMovie(newMovie: NewMovie, poster: File, images: Array<File>): Observable<any> {
+
+    const formData: FormData = new FormData();
+
+    // Informace o filmu
+    formData.append("newMovie", JSON.stringify(newMovie));
+
+    // Náhledový obrázek
+    formData.append("file", poster);
+
+    // Obrázky
+    for (const image of images) {
+      formData.append("files", image);
+    }
+
+    return this.httpClient.post("/api/saveMovie", formData);
+  }
+
 }

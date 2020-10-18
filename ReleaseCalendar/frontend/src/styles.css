@@ -10,3 +10,108 @@ body {
     padding: 0;
     margin: 5px 0px;
 }
+
+/*__________________________ Link na seznam, kalendář __________________________*/
+.calendarLink {
+    float: right;
+    margin: 3px 0px 10px 15px;
+    padding: 6px 5px 2px 5px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+}
+
+.listLink {
+    float: right;
+    margin: 3px 0px 10px 10px;
+    padding: 6px 5px 2px 5px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+}
+
+.listLink:hover, .calendarLink:hover {
+    border: 2px solid black;
+}
+
+.listLink img, .calendarLink img {
+    width: 30px;
+}
+
+/*__________________________ Modal pro přidání filmu __________________________*/
+.addMovie {
+    float: right;
+    margin: 3px 0px 0px 20px;
+    padding: 6px 5px 2px 5px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+}
+
+.addMovie img {
+    width: 23px;
+}
+
+.addMovie:hover {
+    border: 2px solid black; 
+    cursor: pointer;
+}
+
+.addMovie:focus {
+    outline: none;
+}
+
+.addMovieModal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.addMovieModal .header {
+    text-align: left;
+    font-size: 1.3em;
+    color: white;
+    font-weight: bold;
+    background: #232344;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 4px 7px;
+    margin: -1px -1px 0px -1px;
+}
+
+.addMovieModal .header button {
+    float: right;
+    background-color: transparent;
+    border: none;
+    margin: 3px -5px 0px 0px;
+}
+
+.addMovieModal .header button:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.addMovieModal .header button:focus {
+    outline: none;
+}
+
+.addMovieModal .header button img {
+    width: 17px;
+}
+
+.addMovieModal .content {
+    position: absolute;
+    display: block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: #EEE;
+    border-radius: 4px;
+    margin: 0 auto;
+    width: 1100px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

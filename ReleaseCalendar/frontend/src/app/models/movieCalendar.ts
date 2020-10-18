@@ -3,5 +3,5 @@ export class MovieCalendar {
     nameCZ: string;
     nameEN: string;
     releaseDate: Date;
-    imageFolder: string | null = null;
+    image: string;
 }

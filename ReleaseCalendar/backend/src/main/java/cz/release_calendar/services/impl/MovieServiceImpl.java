@@ -2,6 +2,7 @@ package cz.release_calendar.services.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cz.release_calendar.entities.CalendarMovie;
+import cz.release_calendar.entities.File;
 import cz.release_calendar.entities.ListMovie;
 import cz.release_calendar.entities.Movie;
+import cz.release_calendar.enums.FileCategory;
 import cz.release_calendar.enums.Status;
 import cz.release_calendar.services.MovieService;
 
@@ -48,6 +51,21 @@ public class MovieServiceImpl implements MovieService {
 		query.setParameter("endOfMonth", endOfMonth);
 		
 		List<CalendarMovie> movies = query.list();
+		
+		// Náhledové obrázky, podle ID filmu
+		for (CalendarMovie calendarMovie : movies) {
+			
+			query = session.createQuery(
+			
+			"FROM File "
+		  + "WHERE movie_id = :movieID AND category = :category", File.class);
+			
+			query.setParameter("movieID", calendarMovie.getId());
+			query.setParameter("category", FileCategory.poster);
+			
+			File file = (File) query.uniqueResult();
+			calendarMovie.setImage(file.getData());
+		}
 		
 		return movies;
 	}
@@ -131,6 +149,21 @@ public class MovieServiceImpl implements MovieService {
 		
 		List<ListMovie> movies = query.list();
 		
+		// Náhledové obrázky, podle ID filmu
+		for (ListMovie listMovie : movies) {
+			
+			query = session.createQuery(
+			
+			"FROM File "
+		  + "WHERE movie_id = :movieID AND category = :category", File.class);
+			
+			query.setParameter("movieID", listMovie.getId());
+			query.setParameter("category", FileCategory.poster);
+			
+			File file = (File) query.uniqueResult();
+			listMovie.setImage(file.getData());
+		}
+		
 		return movies;
 	}
 	
@@ -173,6 +206,21 @@ public class MovieServiceImpl implements MovieService {
 		
 		List<ListMovie> movies = query.list();
 		
+		// Náhledové obrázky, podle ID filmu
+		for (ListMovie listMovie : movies) {
+			
+			query = session.createQuery(
+			
+			"FROM File "
+		  + "WHERE movie_id = :movieID AND category = :category", File.class);
+			
+			query.setParameter("movieID", listMovie.getId());
+			query.setParameter("category", FileCategory.poster);
+			
+			File file = (File) query.uniqueResult();
+			listMovie.setImage(file.getData());
+		}
+		
 		return movies;
 	}
 	
@@ -191,7 +239,59 @@ public class MovieServiceImpl implements MovieService {
 		Session session = sessionFactory.getCurrentSession();
 		Movie movie = session.get(Movie.class, movieID);
 		
+		// Náhledový obrázek, podle ID filmu
+		Query query = session.createQuery(
+				
+		"FROM File "
+	  + "WHERE movie_id = :movieID AND category = :category", File.class);
+		
+		query.setParameter("movieID", movieID);
+		query.setParameter("category", FileCategory.poster);
+		
+		File image = (File) query.uniqueResult();
+		movie.setImage(image.getData());
+		
+		// List obrázku, podle ID filmu
+		query = session.createQuery(
+		
+		"FROM File "
+	  + "WHERE movie_id = :movieID AND category = :category", File.class);
+		
+		query.setParameter("movieID", movieID);
+		query.setParameter("category", FileCategory.image);
+		
+		List<File> files = query.list();
+		
+		movie.setImages(files.stream().map(file -> file.getData()).collect(Collectors.toList()));
+		
 		return movie;
+	}
+	
+	
+	/**
+	 * Uložení nového filmu (informace + obrázky)
+	 * 
+	 * @param movie - film
+	 * @param images - obrázky
+	 * @param poster - náhledový obrázek
+	 */
+	@Override
+	@Transactional
+	public void saveMovie(Movie movie, List<File> images, File poster) {
+		
+		// Uložení informací o filmu
+		Session session = sessionFactory.getCurrentSession();
+		Long movieID = (Long) session.save("Movie", movie);
+		
+		// Uložení náhledového obrázku
+		poster.setMovie_id(movieID);
+		session.save("File", poster);
+		
+		// Uložení obrázků
+		for (File image : images) {
+			image.setMovie_id(movieID);
+			session.save("File", image);
+		}
 	}
 	
 }

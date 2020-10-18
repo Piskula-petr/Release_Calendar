@@ -40,54 +40,15 @@ export class MovieDetailComponent implements OnInit {
     // Získání ID filmu z URL
     const movieID: number = parseInt(this.route.snapshot.paramMap.get("movieID"));
 
-    this.moviesService.getMovieDetail(movieID).subscribe(
-      (movie: Movie) => {
+    this.moviesService.getMovieDetail(movieID).subscribe((movie: Movie) => {
 
-        // Nastavení dodatečného porametru
-        this.movie = movie = {
-          ...movie,
-          imageFolder: movie.nameEN.replace(":", "").replace(/ /g, "_").toUpperCase(),
-        };
+        this.movie = movie;
 
         // Nastavení titulku
         this.title.setTitle(this.movie.nameCZ + " | Release Calendar");
-
-        // Získání počtu obrázků ze složky filmu
-        this.getImageCount();
-      },
+      }, 
       (error) => console.log(error)
     );
-  }
-
-
-  /**
-   * Získání počtu obrázků ze složky filmu
-   * 
-   * @param index - index počátečního obrázku (default = 1)
-   */
-  getImageCount(index: number = 1): void {
-
-    let image: HTMLImageElement = new Image();
-
-    // Cesta k obrázku
-    let imagePath: string = "assets/images/" + this.movie.imageFolder + "/image" + index + ".jpg";
-    image.src = imagePath;
-
-    // Rekurze, při načtení obrázku
-    image.onload = () => {
-      this.imageCount = index;
-      this.getImageCount(index + 1);
-    }
-  }
-
-
-  /**
-   * Vytvoření pole se zadanou délkou
-   * 
-   * @param length - délka pole
-   */
-  arrayOf(length: number): Array<number> {
-    return Array(length);
   }
 
 

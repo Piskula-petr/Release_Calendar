@@ -9,7 +9,7 @@
 }
 
 /*__________________________ Předchozí, další filmy (tlačítka) __________________________*/
-.list button {
+.nextMovies button, .previousMovies button {
     display: block;
     margin: 0 auto;
     background-color: transparent;
@@ -21,16 +21,16 @@
     transform: rotate(90deg);
 }
 
-.list button:hover {
+.nextMovies button:hover, .previousMovies button:hover {
     opacity: 0.7;
     cursor: pointer;
 }
 
-.list button:focus {
+.nextMovies button:focus, .previousMovies button:focus {
     outline: none;
 }
 
-.list button img {
+.nextMovies button img, .previousMovies button img {
     width: 24px;
 }
 
@@ -40,29 +40,4 @@
 
 .nextMovies {
     margin: -15px 0px 5px 0px;
-}
-
-/*__________________________ Link na seznam, kalendář __________________________*/
-.listLink {
-    float: right;
-    margin: 0px 0px 5px 20px;
-    padding: 6px 5px 2px 5px;
-    border: 2px solid transparent;
-    border-radius: 10px;
-}
-
-.calendarLink {
-    float: right;
-    margin: 0px 5px 5px 15px;
-    padding: 6px 5px 2px 5px;
-    border: 2px solid transparent;
-    border-radius: 10px;
-}
-
-.listLink:hover, .calendarLink:hover {
-    border: 2px solid black;
-}
-
-.listLink img, .calendarLink img {
-    width: 30px;
 }

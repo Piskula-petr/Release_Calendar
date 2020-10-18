@@ -52,49 +52,24 @@
     transition: opacity 0s linear 2s;
 }
 
-/*__________________________ Link na kalendář, seznam __________________________*/
-.calendarLink {
-    float: right;
-    margin: 3px 0px 0px 20px;
-    padding: 6px 5px 2px 5px;
-    border: 2px solid transparent;
-    border-radius: 10px;
-}
-
-.listLink {
-    float: right;
-    margin: 3px 10px 0px 15px;
-    padding: 6px 5px 2px 5px;
-    border: 2px solid transparent;
-    border-radius: 10px;
-}
-
-.calendarLink:hover , .listLink:hover {
-    border: 2px solid black; 
-}
-
-.calendarLink img, .listLink img {
-    width: 30px;
-}
-
 /*__________________________ Předchozí, další měsíc (tlačítka) __________________________*/
-.calendar button {
-    margin: 0px 7px;
+.previousMonth, .nextMonth, .movieFrame button {
     float: right;
+    margin: 0px 7px;
     background-color: transparent;
     border: none;
 }
 
-.calendar button:hover {
+.previousMonth:hover, .nextMonth:hover {
     opacity: 0.7;
     cursor: pointer;
 }
 
-.calendar button:focus {
+.previousMonth:focus, .nextMonth:focus, .movieFrame button {
     outline: none;
 }
 
-.calendar button img {
+.previousMonth img, .nextMonth img {
     width: 25px;
 }
 
@@ -162,6 +137,11 @@
 
 .movieFrame button img {
     width: 10px;
+}
+
+.movieFrame button:hover {
+    opacity: 0.7;
+    cursor: pointer;
 }
 
 .movieWrapper {

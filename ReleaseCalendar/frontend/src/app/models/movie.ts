@@ -3,7 +3,6 @@ export class Movie {
     nameCZ: string;
     nameEN: string;
     releaseDate: Date;
-    imageFolder: string | null = null;
     platform: string;
     genres: Array<string>;
     csfdLink: string;
@@ -12,4 +11,6 @@ export class Movie {
     actors: Array<string>;
     content: string;
     videoLink: string;
+    image: string;
+    images: Array<string>
 }

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "movies")
@@ -25,6 +26,9 @@ public class CalendarMovie {
 	
 	@Column(name = "release_date")
 	private Date releaseDate;
+	
+	@Transient
+	private byte[] image;
 	
 // Bezparametrový konstruktor //////////////////////////////////////////////////////////////
 	
@@ -64,6 +68,14 @@ public class CalendarMovie {
 
 	public void setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 	
 }

@@ -39,7 +39,7 @@ public class CalendarController {
 		
 		// Konec měsíce "2020-01-31"
 		LocalDate endOfMonth = LocalDate.of(year, month, startOfMonth.lengthOfMonth());
-		
+
 		List<CalendarMovie> movies = movieService.getMoviesByDate(startOfMonth, endOfMonth);
 		
 		return movies;

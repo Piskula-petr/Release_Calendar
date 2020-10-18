@@ -12,13 +12,18 @@
         <img src="assets/calendar.png">
     </a>
 
+    <!-- Přidání filmu -->
+    <button (click)="isModalClosed = false" class="addMovie">
+        <img src="assets/add.png">
+    </button>
+
     <!-- Další měsíc -->
-    <button (click)="changeMonth(status.next)">
+    <button (click)="changeMonth(status.next)" class="nextMonth">
         <img src="assets/next.png">
     </button>
 
     <!-- Předchozí měsíc -->
-    <button (click)="changeMonth(status.previous)">
+    <button (click)="changeMonth(status.previous)" class="previousMonth">
         <img src="assets/previous.png">
     </button>
 
@@ -48,7 +53,7 @@
                 </button>
 
                 <!-- Předchozí film -->
-                <button [ngClass]="{hide: true, previousMovie: true}" 
+                <button [ngClass]="{hide: true, previousMovie: true}"
                     (click)="changeMovie(monthContent.movies[0].id, status.previous)">
 
                     <img src="assets/previous.png">
@@ -66,7 +71,7 @@
                         <div #movieElement class="movie">
 
                             <a routerLink="/detail/{{movie.id}}" [queryParams]="{month: month, year: year}">
-                                <img src="assets/images/{{movie.imageFolder}}/poster.jpg"> <br>
+                                <img src="data:image/JPEG;base64,{{movie.image}}"> <br>
 
                                 <div class="nameContainer">
                                     <span class="name">{{movie.nameCZ}}</span>
@@ -78,5 +83,22 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal pro přidání filmu -->
+<div class="addMovieModal" *ngIf="!isModalClosed">
+
+    <div class="content">
+        
+        <!-- Záhlaví -->
+            <div class="header">Přidat film:
+                <button (click)="isModalClosed = true">
+                    <img src="assets/close.png">
+                </button>
+            </div>
+
+            <!-- Formulář pro přidání nového filmu -->
+            <app-new-movie (isModalClosed)="closeModal($event)"></app-new-movie>
     </div>
 </div>
