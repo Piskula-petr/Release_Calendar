@@ -1,5 +1,4 @@
-import { typeWithParameters } from '@angular/compiler/src/render3/util';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { FileStatus } from 'src/app/models/fileStatus';
 import { Genres } from 'src/app/models/genres';
 import { NewMovie } from "src/app/models/newMovie";
@@ -13,7 +12,7 @@ import { MoviesService } from 'src/app/services/movies/movies.service';
 })
 export class NewMovieComponent implements OnInit {
 
-  @Output() isModalClosed = new EventEmitter<boolean>();
+  @Output() isNewMovieModalClosed = new EventEmitter<boolean>();
 
   @ViewChild("file") fileRef: ElementRef;
   @ViewChild("files") filesRef: ElementRef;
@@ -63,7 +62,7 @@ export class NewMovieComponent implements OnInit {
    * Zavření Modalu
    */
   closeModal() {
-    this.isModalClosed.emit(true);
+    this.isNewMovieModalClosed.emit(true);
   }
 
 
@@ -251,9 +250,7 @@ export class NewMovieComponent implements OnInit {
       if (response.status === 200) {
         this.closeModal();
       }
-
-    },
-    (error) => console.log(error));
+    }, (error) => console.log(error));
   }
 
 }

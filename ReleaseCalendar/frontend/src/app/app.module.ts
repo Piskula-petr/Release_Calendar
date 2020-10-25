@@ -12,6 +12,7 @@ import { ListComponent } from './components/list/list.component';
 import { MoviesComponent } from './components/list/movies/movies.component';
 import { FormsModule } from '@angular/forms';
 import { NewMovieComponent } from './components/new-movie/new-movie.component';
+import { RemoveMovieComponent } from './components/remove-movie/remove-movie.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { NewMovieComponent } from './components/new-movie/new-movie.component';
     ListComponent,
     MoviesComponent,
     NewMovieComponent,
+    RemoveMovieComponent,
   ],
   imports: [
     BrowserModule,

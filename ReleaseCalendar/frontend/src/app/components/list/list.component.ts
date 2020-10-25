@@ -14,7 +14,8 @@ import { MoviesService } from 'src/app/services/movies/movies.service';
 })
 export class ListComponent implements OnInit {
 
-  public isModalClosed: boolean = true;
+  public isNewMovieModalClosed: boolean = true;
+  public isRemoveMovieModalClosed: boolean = true;
 
   // Enum - [další / předchozí]
   public status = Status;
@@ -55,8 +56,18 @@ export class ListComponent implements OnInit {
    */
   ngOnInit(): void {
 
+    console.log("Init");
+    console.log("moviesPrevious: " + this.moviesPrevious);
+    console.log("moviesNext: " + this.moviesNext);
+
+    console.log("moviesPreviousCount: " + this.moviesPreviousCount);
+    console.log("moviesNextCount: " + this.moviesNextCount);
+
+    console.log("moviesPreviousTotal: " + this.moviesPreviousTotal);
+    console.log("moviesNextTotal: " + this.moviesNextTotal);
+
     // Nastavení počtu celkových záznamů
-    this.moviesService.getMoviesForListCount().subscribe((moviesCount: MoviesTotalCount) => {
+    this.moviesService.getMoviesFromTodayCount().subscribe((moviesCount: MoviesTotalCount) => {
       
       this.moviesPreviousTotal = moviesCount.previousTotal;
       this.moviesNextTotal = moviesCount.nextTotal;
@@ -78,12 +89,40 @@ export class ListComponent implements OnInit {
 
 
   /**
-   * Zavření / zobrazení Modalu
+   * Zavření zobrazeného Modalu
    * 
    * @param value - hondota
    */
   closeModal(value: boolean) {
-    this.isModalClosed = value;
+
+    // Zavření modalu pro přidání nového filmu
+    if (!this.isNewMovieModalClosed) {
+
+      this.isNewMovieModalClosed = value;
+
+    // Zavření modalu pro odebrání filmu
+    } else if (!this.isRemoveMovieModalClosed) {
+      
+      this.isRemoveMovieModalClosed = value;
+    }
+
+    // Vynulování stávajících hodnot
+    this.moviesNext = null;
+    this.moviesPrevious = null;
+
+    this.moviesPreviousCount = null;
+    this.moviesNextCount = null;
+
+    this.moviesPreviousTotal = null;
+    this.moviesNextTotal = null;
+
+    // Vynulování URL parametrů
+    this.router.navigate([], {queryParams: {
+      previous: this.moviesPreviousCount,
+      next: this.moviesNextCount,
+    }});
+
+    this.ngOnInit();
   }
 
 

@@ -2,12 +2,14 @@
 
     <a class="cell" routerLink="/detail/{{movie.id}}">
 
-        <!-- Den + měsíc -->
+        <!-- Datum vydání -->
         <div class="dayContainer">
-            <div class="day">{{movie.releaseDate | date:"dd"}}.</div>
-            <div class="month">{{getMonth(movie.releaseDate | date:"MM")}}</div>
+            <div class="day">{{movie.releaseDate | date: "dd"}}.</div>
+            <div class="month">{{getMonth(movie.releaseDate | date: "MM")}}</div>
+            <div class="year">{{movie.releaseDate | date: "yyyy"}}</div>
         </div>
 
+        <!-- Informace o filmu -->
         <div class="movieInfo">
             <img src="data:image/JPEG;base64,{{movie.image}}">
             <span class="name">{{movie.nameCZ}} | {{movie.nameEN}}</span>

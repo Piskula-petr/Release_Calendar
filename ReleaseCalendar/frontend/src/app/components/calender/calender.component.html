@@ -12,8 +12,13 @@
         <img src="assets/calendar.png">
     </a>
 
+    <!-- Odebrání filmu -->
+    <button (click)="isRemoveMovieModalClosed = false" class="removeMovie">
+        <img src="assets/minus.png">
+    </button>
+
     <!-- Přidání filmu -->
-    <button (click)="isModalClosed = false" class="addMovie">
+    <button (click)="isNewMovieModalClosed = false" class="addMovie">
         <img src="assets/add.png">
     </button>
 
@@ -87,18 +92,35 @@
 </div>
 
 <!-- Modal pro přidání filmu -->
-<div class="addMovieModal" *ngIf="!isModalClosed">
+<div class="movieModal" *ngIf="!isNewMovieModalClosed">
 
     <div class="content">
         
         <!-- Záhlaví -->
-            <div class="header">Přidat film:
-                <button (click)="isModalClosed = true">
-                    <img src="assets/close.png">
-                </button>
-            </div>
+        <div class="header">Přidat film:
+            <button (click)="isNewMovieModalClosed = true">
+                <img src="assets/close.png">
+            </button>
+        </div>
 
-            <!-- Formulář pro přidání nového filmu -->
-            <app-new-movie (isModalClosed)="closeModal($event)"></app-new-movie>
+        <!-- Formulář pro přidání nového filmu -->
+        <app-new-movie (isNewMovieModalClosed)="closeModal($event)"></app-new-movie>
+    </div>
+</div>
+
+<!-- Modal pro odebrání filmu -->
+<div class="movieModal" *ngIf="!isRemoveMovieModalClosed">
+
+    <div class="content">
+
+        <!-- Záhlaví -->
+        <div class="header">Odebrat film:
+            <button (click)="isRemoveMovieModalClosed = true">
+                <img src="assets/close.png">
+            </button>
+        </div>
+
+        <!-- Formulář pro odebrání filmu -->
+        <app-remove-movie (isRemoveMovieModalClosed)="closeModal($event)"></app-remove-movie>
     </div>
 </div>

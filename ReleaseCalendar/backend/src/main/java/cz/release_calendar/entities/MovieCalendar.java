@@ -11,12 +11,12 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "movies")
-public class CalendarMovie {
+public class MovieCalendar {
 
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
-	private Long id;
+	private long id;
 	
 	@Column(name = "name_cz", length = 100)
 	private String nameCZ;
@@ -32,7 +32,7 @@ public class CalendarMovie {
 	
 // Bezparametrový konstruktor //////////////////////////////////////////////////////////////
 	
-	public CalendarMovie() {
+	public MovieCalendar() {
 		
 	}
 

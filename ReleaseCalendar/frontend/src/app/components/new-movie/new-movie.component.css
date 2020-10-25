@@ -15,10 +15,6 @@
     color: red;
 }
 
-.disabled {
-    opacity: 0.8;
-}
-
 /*__________________________ Formulář __________________________*/
 form {
     padding: 10px;

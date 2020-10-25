@@ -1,0 +1,103 @@
+<div class="container">
+
+    <!-- Nevybraný film -->
+    <div *ngIf="!movieToDelete">
+
+        <!-- Načíst předchozí filmy -->
+        <div class="previousMovies" *ngIf="moviesIndex !== 0">
+            <button (click)="getMoreMovies(status.previous)">
+                <img src="assets/previous.png">
+            </button>
+        </div>
+
+        <div *ngFor="let movie of movies">
+
+            <div class="cell" (click)="selectMovie(movie)">
+        
+                <!-- Datum vydání -->
+                <div class="dayContainer">
+                    <div class="day">{{movie.releaseDate | date: "dd"}}.</div>
+                    <div class="month">{{getMonth(movie.releaseDate | date: "MM")}}</div>
+                    <div class="year">{{movie.releaseDate | date: "yyyy"}}</div>
+                </div>
+    
+                <!-- Informace o filmu -->
+                <div class="movieInfo">
+                    <img src="data:image/JPEG;base64,{{movie.image}}">
+                    <span class="name">{{movie.nameCZ}}</span>
+    
+                    <!-- Žánry -->
+                    <div class="genres">
+                        <div *ngFor="let genre of movie.genres; let last = last">
+                            <span>{{genre}}</span>
+                            <span *ngIf="!last">&nbsp;/&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Platforma -->
+                <div class="platform">
+                    <img src="assets/platforms/{{movie.platform}}.png">
+                </div>
+            </div>
+        </div>
+
+        <!-- Načíst další filmy -->
+        <div class="nextMovies" *ngIf="moviesCount !== moviesCountTotal">
+            <button (click)="getMoreMovies(status.next)">
+                <img src="assets/next.png">
+            </button>
+        </div>
+    </div>
+
+    <!-- Vybraný film -->
+    <div *ngIf="movieToDelete">
+
+        <div class="cell noHoverEffect">
+
+            <!-- Datum vydání -->
+            <div class="dayContainer">
+                <div class="day">{{movieToDelete.releaseDate | date: "dd"}}.</div>
+                <div class="month">{{getMonth(movieToDelete.releaseDate | date: "MM")}}</div>
+                <div class="year">{{movieToDelete.releaseDate | date: "yyyy"}}</div>
+            </div>
+
+            <!-- Informace o filmu -->
+            <div class="movieInfo">
+                <img src="data:image/JPEG;base64,{{movieToDelete.image}}">
+                <span class="name">{{movieToDelete.nameCZ}}</span>
+
+                <!-- Žánry -->
+                <div class="genres">
+                    <div *ngFor="let genre of movieToDelete.genres; let last = last">
+                        <span>{{genre}}</span>
+                        <span *ngIf="!last">&nbsp;/&nbsp;</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Platforma -->
+            <div class="platform">
+                <img src="assets/platforms/{{movieToDelete.platform}}.png">
+            </div>
+        </div>
+
+        <!-- Ověření -->
+        <div class="verify">
+            <span class="label">Ověřovací kód: </span>
+
+            <span class="verifyNumber">{{verifyNumber}}</span>
+            <input [(ngModel)]="verifyNumberInput" maxlength="5" type="text">
+        </div>
+
+        <!-- Zrušení vybraného filmu -->
+        <button (click)="unselectMovie()">Zrušit výběr</button>
+
+        <!-- Odebrání filmu -->
+        <button (click)="removeMovie()" [disabled]="verifyNumber.toString() !== verifyNumberInput"
+                [class.disabled]="verifyNumber.toString() !== verifyNumberInput">
+                
+            Odebrat
+        </button>
+    </div>
+</div>

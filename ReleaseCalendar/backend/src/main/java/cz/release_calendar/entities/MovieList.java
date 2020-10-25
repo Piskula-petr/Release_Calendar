@@ -14,12 +14,12 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "movies")
-public class ListMovie {
+public class MovieList {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Long id;
+	private long id;
 	
 	@Column(name = "name_cz", length = 100)
 	private String nameCZ;
@@ -49,7 +49,7 @@ public class ListMovie {
 	
 // Bezparametrový konstruktor //////////////////////////////////////////////////////////////
 	
-	public ListMovie() {
+	public MovieList() {
 		
 	}
 

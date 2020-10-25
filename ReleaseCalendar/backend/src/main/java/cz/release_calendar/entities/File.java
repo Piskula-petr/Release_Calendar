@@ -18,10 +18,10 @@ public class File {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Long id;
+	private long id;
 	
 	@Column(name = "movie_id")
-	private Long movie_id;
+	private long movie_id;
 	
 	@Column(name = "data")
 	private byte[] data;

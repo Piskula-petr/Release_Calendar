@@ -11,10 +11,14 @@ body {
     margin: 5px 0px;
 }
 
+.disabled {
+    opacity: 0.8;
+}
+
 /*__________________________ Link na seznam, kalendář __________________________*/
 .calendarLink {
     float: right;
-    margin: 3px 0px 10px 15px;
+    margin: 3px 0px 10px 10px;
     padding: 6px 5px 2px 5px;
     border: 2px solid transparent;
     border-radius: 10px;
@@ -22,7 +26,7 @@ body {
 
 .listLink {
     float: right;
-    margin: 3px 0px 10px 10px;
+    margin: 3px 5px 10px 10px;
     padding: 6px 5px 2px 5px;
     border: 2px solid transparent;
     border-radius: 10px;
@@ -36,29 +40,30 @@ body {
     width: 30px;
 }
 
-/*__________________________ Modal pro přidání filmu __________________________*/
-.addMovie {
+/*__________________________ Tlačítka pro přidání / odebrání filmu __________________________*/
+.addMovie, .removeMovie {
     float: right;
-    margin: 3px 0px 0px 20px;
+    margin: 3px 0px 0px 10px;
     padding: 6px 5px 2px 5px;
     border: 2px solid transparent;
     border-radius: 10px;
 }
 
-.addMovie img {
+.addMovie img, .removeMovie img {
     width: 23px;
 }
 
-.addMovie:hover {
+.addMovie:hover, .removeMovie:hover {
     border: 2px solid black; 
     cursor: pointer;
 }
 
-.addMovie:focus {
+.addMovie:focus, .removeMovie:focus {
     outline: none;
 }
 
-.addMovieModal {
+/*__________________________ Modal pro přidání filmu __________________________*/
+.movieModal {
     position: fixed;
     z-index: 1;
     left: 0;
@@ -70,7 +75,7 @@ body {
     background-color: rgba(0,0,0,0.4);
 }
 
-.addMovieModal .header {
+.movieModal .header {
     text-align: left;
     font-size: 1.3em;
     color: white;
@@ -82,27 +87,27 @@ body {
     margin: -1px -1px 0px -1px;
 }
 
-.addMovieModal .header button {
+.movieModal .header button {
     float: right;
     background-color: transparent;
     border: none;
     margin: 3px -5px 0px 0px;
 }
 
-.addMovieModal .header button:hover {
+.movieModal .header button:hover {
     cursor: pointer;
     opacity: 0.7;
 }
 
-.addMovieModal .header button:focus {
+.movieModal .header button:focus {
     outline: none;
 }
 
-.addMovieModal .header button img {
+.movieModal .header button img {
     width: 17px;
 }
 
-.addMovieModal .content {
+.movieModal .content {
     position: absolute;
     display: block;
     left: 50%;

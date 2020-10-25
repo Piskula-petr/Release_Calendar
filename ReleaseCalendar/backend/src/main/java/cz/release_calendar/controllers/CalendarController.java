@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cz.release_calendar.entities.CalendarMovie;
+import cz.release_calendar.entities.MovieCalendar;
 import cz.release_calendar.services.MovieService;
 
 @RestController
@@ -31,7 +31,7 @@ public class CalendarController {
 	 * @return - vrací List filmů
 	 */
 	@GetMapping("/movies/calendar/year={year}&month={month}")
-	public List<CalendarMovie> getMoviesOfMonth(@PathVariable("year") int year, 
+	public List<MovieCalendar> getMoviesOfMonth(@PathVariable("year") int year, 
 								 				@PathVariable("month") int month) {
 		
 		// Začátek měsíce "2020-01-01"
@@ -40,7 +40,7 @@ public class CalendarController {
 		// Konec měsíce "2020-01-31"
 		LocalDate endOfMonth = LocalDate.of(year, month, startOfMonth.lengthOfMonth());
 
-		List<CalendarMovie> movies = movieService.getMoviesByDate(startOfMonth, endOfMonth);
+		List<MovieCalendar> movies = movieService.getMoviesByDate(startOfMonth, endOfMonth);
 		
 		return movies;
 	}

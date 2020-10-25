@@ -3,14 +3,16 @@ package cz.release_calendar.services;
 import java.time.LocalDate;
 import java.util.List;
 
-import cz.release_calendar.entities.CalendarMovie;
+import cz.release_calendar.entities.MovieCalendar;
 import cz.release_calendar.entities.File;
-import cz.release_calendar.entities.ListMovie;
+import cz.release_calendar.entities.MovieList;
+import cz.release_calendar.entities.MoviePreview;
 import cz.release_calendar.entities.Movie;
 import cz.release_calendar.enums.Status;
 
 public interface MovieService {
 
+	
 	/**
 	 * Seznam filmů v zadaném měsíci
 	 * 
@@ -19,18 +21,36 @@ public interface MovieService {
 	 * 
 	 * @return - vrací List filmů pro kalendář
 	 */
-	public List<CalendarMovie> getMoviesByDate(LocalDate startOfMonth, LocalDate endOfMonth);
+	public List<MovieCalendar> getMoviesByDate(LocalDate startOfMonth, LocalDate endOfMonth);
 	
 	
 	/**
-	 * Počet záznamů od dnešního data
+	 * Počet filmů od dnešního data
 	 * 
 	 * @param today - dnešní datum
-	 * @param status - enum [další / předchozí]
+	 * @param staus - enum [další / předchozí]
 	 * 
-	 * @return - vrací počet záznamů
+	 * @return - vrací počet filmů
 	 */
-	public Long getMoviesFromTodayCount(LocalDate today, Status status);
+	public long getMoviesFromTodayCount(LocalDate today, Status status);
+	
+	
+	/**
+	 * Počet filmů
+	 * 
+	 * @return - vrací počet filmů
+	 */
+	public long getMoviesCount();
+	
+	
+	/**
+	 * Seznam filmů od počátečního indexu
+	 * 
+	 * @param startIndex - počáteční index
+	 * 
+	 * @return - vrací List filmů pro náhled
+	 */
+	public List<MoviePreview> getMoviePreview(int startIndex);
 	
 	
 	/**
@@ -42,7 +62,7 @@ public interface MovieService {
 	 * 
 	 * @return - vrací List filmů pro seznam
 	 */
-	public List<ListMovie> getMoviesFromToday(LocalDate today, int startIndex, Status status);
+	public List<MovieList> getMoviesFromToday(LocalDate today, int startIndex, Status status);
 	
 	
 	/**
@@ -54,7 +74,7 @@ public interface MovieService {
 	 * 
 	 * @return - vrací limitovaný List filmů pro seznam
 	 */
-	public List<ListMovie> getMoviesFromTodayLimited(LocalDate today, int limit, Status status);
+	public List<MovieList> getMoviesFromTodayLimited(LocalDate today, int limit, Status status);
 	
 	
 	/**
@@ -75,4 +95,14 @@ public interface MovieService {
 	 * @param poster - náhledový obrázek
 	 */
 	public void saveMovie(Movie movie, List<File> images, File poster);
+	
+	
+	/**
+	 * Smazání filmu
+	 * 
+	 * @param movieID - ID filmu
+	 * 
+	 * @return - vrací výsledek operace [0 = neúspěch, > 0 = úspěch]
+	 */
+	public int removeMovie(long movieID);
 }

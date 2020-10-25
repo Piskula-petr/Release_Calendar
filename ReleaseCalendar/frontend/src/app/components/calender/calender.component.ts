@@ -6,7 +6,6 @@ import { CalendarService } from "src/app/services/calendar/calendar.service";
 import { Status } from "src/app/models/status";
 import { Months } from "../../models/months";
 import { Router } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-calender',
@@ -15,7 +14,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class CalenderComponent implements OnInit {
 
-  public isModalClosed: boolean = true;
+  public isNewMovieModalClosed: boolean = true;
+  public isRemoveMovieModalClosed: boolean = true;
 
   @ViewChild("movieElement") movieElementRef: ElementRef;
   @ViewChildren("movieWrapper") movieWrapperRef: QueryList<ElementRef>;
@@ -48,7 +48,6 @@ export class CalenderComponent implements OnInit {
     private renderer: Renderer2,
     private router: Router,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer
   ) {}
 
 
@@ -79,12 +78,24 @@ export class CalenderComponent implements OnInit {
 
 
   /**
-   * Zavření / zobrazení Modalu
+   * Zavření zobrazeného Modalu
    * 
    * @param value - hondota
    */
   closeModal(value: boolean) {
-    this.isModalClosed = value;
+
+    // Zavření modalu pro přidání nového filmu
+    if (!this.isNewMovieModalClosed) {
+
+      this.isNewMovieModalClosed = value;
+
+    // Zavření modalu pro odebrání filmu
+    } else if (!this.isRemoveMovieModalClosed) {
+      
+      this.isRemoveMovieModalClosed = value;
+    }
+
+    this.ngOnInit();
   }
 
 

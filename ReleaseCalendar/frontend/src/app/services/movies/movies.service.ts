@@ -1,3 +1,4 @@
+import { MoviePreview } from './../../models/moviePreview';
 import { MoviesTotalCount } from './../../models/moviesCount';
 import { Status } from 'src/app/models/status';
 import { HttpClient } from '@angular/common/http';
@@ -20,6 +21,14 @@ export class MoviesService {
 
 
   /**
+   * ¨Získání počtu filmů
+   */
+  getMoviesCount(): Observable<number> {
+    return this.httpClient.get<number>("/api/movies/count");
+  }
+
+
+  /**
    * Získání pole filmů pro kalendář
    * 
    * @param year - rok (yyyy)
@@ -32,9 +41,9 @@ export class MoviesService {
 
 
   /**
-   * Získání počtu záznamů
+   * Získání počtu filmů od dnešního data
    */
-  getMoviesForListCount(): Observable<MoviesTotalCount> {
+  getMoviesFromTodayCount(): Observable<MoviesTotalCount> {
     return this.httpClient.get<MoviesTotalCount>("/api/movies/list/count");
   }
 
@@ -74,7 +83,7 @@ export class MoviesService {
   
 
   /**
-   * Odeslání dat na server
+   * Odeslání dat pro nový film
    * 
    * @param newMovie - informace o filmu
    * @param poster - náhledový obrázek
@@ -98,4 +107,22 @@ export class MoviesService {
     return this.httpClient.post("/api/saveMovie", formData);
   }
 
+  /**
+   * Odeslání ID filmu k odstranení
+   * 
+   * @param movieID - ID filmu
+   */
+  postDeleteMovieID(movieID: number): Observable<any> {
+    return this.httpClient.post("/api/removeMovie", movieID);
+  }
+
+
+  /**
+   * Získání pole filmu pro náhled
+   * 
+   * @param startIndex - počáteční index
+   */
+  getMoviesForPreview(startIndex: number): Observable<Array<MoviePreview>> {
+    return this.httpClient.get<Array<MoviePreview>>("api/movies/review/index=" + startIndex);
+  }
 }
