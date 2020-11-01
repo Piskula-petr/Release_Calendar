@@ -1,5 +1,6 @@
 package cz.release_calendar.entities;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -25,7 +26,7 @@ public class MovieCalendar {
 	private String nameEN;
 	
 	@Column(name = "release_date")
-	private Date releaseDate;
+	private LocalDate releaseDate;
 	
 	@Transient
 	private byte[] image;
@@ -62,11 +63,11 @@ public class MovieCalendar {
 		this.nameEN = nameEN;
 	}
 
-	public Date getReleaseDate() {
+	public LocalDate getReleaseDate() {
 		return releaseDate;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
+	public void setReleaseDate(LocalDate releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 

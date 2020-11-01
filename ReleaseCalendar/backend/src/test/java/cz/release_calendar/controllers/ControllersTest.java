@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import cz.release_calendar.configuration.ApplicationMain;
-
-@SpringBootTest(classes = ApplicationMain.class)
+@SpringBootTest
 public class ControllersTest {
 
 	@Autowired
@@ -26,6 +24,7 @@ public class ControllersTest {
 	@Autowired
 	private RemoveMovieController removeMovieController;
 	
+	
 	@Test
 	public void contextLoads() throws Exception {
 		
@@ -35,4 +34,5 @@ public class ControllersTest {
 		assertThat(newMovieController).isNotNull();
 		assertThat(removeMovieController).isNotNull();
 	}
+
 }

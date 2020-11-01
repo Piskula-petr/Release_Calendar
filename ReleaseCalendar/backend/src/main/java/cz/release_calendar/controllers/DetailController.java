@@ -20,7 +20,7 @@ public class DetailController {
 	
 	
 	/**
-	 * Získání detailu o filmu
+	 * Získání detailu filmu
 	 * 
 	 * @param movieID - ID filmu
 	 * 

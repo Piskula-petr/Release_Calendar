@@ -1,6 +1,6 @@
 package cz.release_calendar.controllers;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +75,7 @@ public class RemoveMovieController {
 			status = HttpStatus.BAD_REQUEST;
 		}
 		
-		body.put("timestamp", new Date());
+		body.put("timestamp", LocalDateTime.now());
 		
 		return new ResponseEntity<>(body, status);
 	}

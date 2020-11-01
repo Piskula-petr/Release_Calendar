@@ -1,8 +1,8 @@
 package cz.release_calendar.controllers;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class NewMovieController {
 
 	@Autowired
 	private MovieService movieService;
-	
+
 	
 	/**
 	 * Uložení filmu do databáze
@@ -81,7 +81,7 @@ public class NewMovieController {
 		
 		// Response - OK
 		Map<String, Object> body = new LinkedHashMap<>();
-		body.put("timestamp", new Date());
+		body.put("timestamp", LocalDateTime.now());
 		body.put("status", 200);
 		body.put("message", "success");
 		
