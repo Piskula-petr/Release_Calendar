@@ -48,6 +48,11 @@ public class NewMovieController {
 						  					@RequestParam(value = "file") MultipartFile file,
 				  							@RequestParam(value = "files") List<MultipartFile> files) {
 		
+		// Response - BAD REQUEST
+		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+		int status = 400;
+		String message = "failure";
+		
 		try {
 			
 			// Film
@@ -72,6 +77,10 @@ public class NewMovieController {
 			// Uložení do databáze
 			movieService.saveMovie(movie, imagesList, poster);
 			
+			httpStatus = HttpStatus.OK;
+			status = 200;
+			message = "success";
+			
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			
@@ -82,10 +91,10 @@ public class NewMovieController {
 		// Response - OK
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
-		body.put("status", 200);
-		body.put("message", "success");
+		body.put("status", status);
+		body.put("message", message);
 		
-		return new ResponseEntity<>(body, HttpStatus.OK);
+		return new ResponseEntity<>(body, httpStatus);
 	}
 	
 }

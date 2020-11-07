@@ -56,16 +56,6 @@ export class ListComponent implements OnInit {
    */
   ngOnInit(): void {
 
-    console.log("Init");
-    console.log("moviesPrevious: " + this.moviesPrevious);
-    console.log("moviesNext: " + this.moviesNext);
-
-    console.log("moviesPreviousCount: " + this.moviesPreviousCount);
-    console.log("moviesNextCount: " + this.moviesNextCount);
-
-    console.log("moviesPreviousTotal: " + this.moviesPreviousTotal);
-    console.log("moviesNextTotal: " + this.moviesNextTotal);
-
     // Nastavení počtu celkových záznamů
     this.moviesService.getMoviesFromTodayCount().subscribe((moviesCount: MoviesTotalCount) => {
       

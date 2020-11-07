@@ -94,7 +94,7 @@ public class MovieServiceImpl implements MovieService {
 		// Načíst předchozí
 		} else if (status.equals(Status.previous)) {
 
-			condition = "<=";
+			condition = "<";
 		}
 		
 		Session session = sessionFactory.getCurrentSession();

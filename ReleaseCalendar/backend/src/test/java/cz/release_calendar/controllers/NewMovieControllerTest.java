@@ -11,6 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Clock;
+import java.time.LocalDate;
+import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,9 @@ import cz.release_calendar.services.MovieService;
 
 @WebMvcTest(NewMovieController.class)
 public class NewMovieControllerTest {
+	
+	private Random random;
+	private LocalDate localDate;
 	
 	private byte[] poster;
 	private byte[] image;
@@ -51,6 +56,9 @@ public class NewMovieControllerTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		
+		random = new Random();
+		localDate = LocalDate.now();
+		
 		poster = Files.readAllBytes(Paths.get("src/test/resources/poster.jpg"));
 		image = Files.readAllBytes(Paths.get("src/test/resources/image.jpg"));
 	}
@@ -66,6 +74,23 @@ public class NewMovieControllerTest {
 		
 		// Vytvoření testovacích dat
 		Movie movie = new Movie();
+		movie.setId(random.nextLong());
+		movie.setNameCZ("Film");
+		movie.setNameEN("Movie");
+		movie.setReleaseDate(localDate);
+		movie.setPlatform("Platform");
+		
+		String[] genres = {"Action", "Comedy", "Drama"};
+		movie.setGenres(genres);
+		
+		movie.setCsfdLink("https://www.csfd.cz/");
+		movie.setImdbLink("https://www.imdb.com/");
+		movie.setDirector("Director");
+		
+		String[] actors = {"Actor1", "Actor2", "Actor3"};
+		movie.setActors(actors);
+		movie.setContent("Lorem ipsum dolor sit amet");
+		movie.setVideoLink("https://www.youtube.com");
 		
 		MockMultipartFile file = new MockMultipartFile("file", poster);
 		MockMultipartFile files = new MockMultipartFile("files", image);
