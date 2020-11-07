@@ -3,6 +3,6 @@
 ## Work in progress
 
 <div>
-  <img src="calendar.jpg" width="49%">
+  <img src="image1.jpg" width="49%">
   <img src="list.jpg" width="49.5%">
 </div> <br>
