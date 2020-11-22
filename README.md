@@ -1,8 +1,8 @@
 # 6. Release Calendar
 
 <div>
-  <img src="image1.jpg" width="49%">
-  <img src="image2.jpg" width="49.5%">
+  <img src="image01.jpg" width="49%">
+  <img src="image02.jpg" width="49.5%">
 </div> <br>
 
 ## Description
