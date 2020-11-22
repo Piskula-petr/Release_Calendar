@@ -90,7 +90,7 @@ public class ListControllerTest {
 		
 		List<MovieList> movies = new ArrayList<>();
 		
-		// Vytvoření testovacího objektu
+		// Vytvoření testovacího filmu
 		MovieList movie = getMovieListForTest();
 		movies.add(movie);
 		
@@ -128,7 +128,7 @@ public class ListControllerTest {
 		
 		List<MovieList> movies = new ArrayList<>();
 		
-		// Vytvoření testovacího objektu
+		// Vytvoření testovacího filmu
 		MovieList movie = getMovieListForTest();
 		movies.add(movie);
 		
@@ -157,9 +157,9 @@ public class ListControllerTest {
 	
 	
 	/**
-	 * Vytvoření testovacího objektu
+	 * Vytvoření testovacího filmu
 	 * 
-	 * @return - vrací testovací objektu
+	 * @return - vrací testovací film
 	 * 
 	 * @throws Exception
 	 */

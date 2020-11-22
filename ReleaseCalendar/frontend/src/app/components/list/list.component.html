@@ -20,6 +20,9 @@
         <img src="assets/add.png">
     </button>
 
+    <!-- Vyhledávací lišta -->
+    <app-search-bar class="searchBar"></app-search-bar>
+
     <!-- Načíst předchozí filmy -->
     <div class="previousMovies" *ngIf="moviesPreviousCount !== moviesPreviousTotal">
         <button (click)="getMoreMovies(status.previous)">
@@ -34,7 +37,9 @@
     <app-movies [movies]="moviesNext"></app-movies>
 
     <!-- Načíst další filmy -->
-    <div class="nextMovies" *ngIf="moviesNextCount !== moviesNextTotal">
+    <div class="nextMovies"
+        *ngIf="moviesNextCount !== moviesNextTotal && moviesNextTotal > moviesNextCount">
+
         <button (click)="getMoreMovies(status.next)">
             <img src="assets/next.png">
         </button>

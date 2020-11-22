@@ -8,6 +8,12 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.searchBar {
+    position: relative;
+    display: block;
+    width: 337px;
+}
+
 /*__________________________ Předchozí, další filmy (tlačítka) __________________________*/
 .nextMovies button, .previousMovies button {
     display: block;
@@ -35,7 +41,7 @@
 }
 
 .previousMovies {
-    margin: 0px 0px -15px 0px;
+    margin: 0px 0px -15px 113px;
 }
 
 .nextMovies {

@@ -19,6 +19,12 @@
     margin: 0px 8px 20px 8px;
 }
 
+.searchBar {
+    float: right;
+    position: relative;
+    margin: 0px 220px 0px 0px;
+}
+
 /*__________________________ Tooltip __________________________*/
 .tooltip {
     visibility: hidden;

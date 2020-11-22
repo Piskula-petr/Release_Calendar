@@ -3,11 +3,12 @@ package cz.release_calendar.services;
 import java.time.LocalDate;
 import java.util.List;
 
-import cz.release_calendar.entities.MovieCalendar;
 import cz.release_calendar.entities.File;
-import cz.release_calendar.entities.MovieList;
-import cz.release_calendar.entities.MoviePreview;
 import cz.release_calendar.entities.Movie;
+import cz.release_calendar.entities.MovieCalendar;
+import cz.release_calendar.entities.MovieList;
+import cz.release_calendar.entities.MovieName;
+import cz.release_calendar.entities.MoviePreview;
 import cz.release_calendar.enums.Status;
 
 public interface MovieService {
@@ -105,4 +106,13 @@ public interface MovieService {
 	 * @return - vrací výsledek operace [0 = neúspěch, > 0 = úspěch]
 	 */
 	public int removeMovie(long movieID);
+	
+	
+	/**
+	 * Seznam názvů filmů
+	 * 
+	 * @return - vrací List názvů filmů
+	 */
+	public List<MovieName> getMovieNames();
+	
 }

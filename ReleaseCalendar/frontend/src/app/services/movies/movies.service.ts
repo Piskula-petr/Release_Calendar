@@ -8,6 +8,7 @@ import { MovieCalendar } from 'src/app/models/movieCalendar';
 import { Movie } from 'src/app/models/movie';
 import { MovieList } from 'src/app/models/moviesList';
 import { NewMovie } from 'src/app/models/newMovie';
+import { MovieNames } from "src/app/models/moiveNames";
 
 @Injectable({
   providedIn: 'root'
@@ -125,4 +126,13 @@ export class MoviesService {
   getMoviesForPreview(startIndex: number): Observable<Array<MoviePreview>> {
     return this.httpClient.get<Array<MoviePreview>>("api/movies/review/index=" + startIndex);
   }
+
+
+  /**
+   * Získání pole názvů filmů
+   */
+  getMovieNames(): Observable<Array<MovieNames>> {
+    return this.httpClient.get<Array<MovieNames>>("api/movies/names");
+  }
+
 }

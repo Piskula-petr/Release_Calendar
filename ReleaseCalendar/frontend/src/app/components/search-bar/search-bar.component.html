@@ -1,0 +1,28 @@
+<div class="searchBar">
+
+    <img src="assets/search.png">
+
+    <!-- Vstup pro hledání -->
+    <input type="text" [(ngModel)]="input" placeholder="Hledat..." (keyup)="search()">
+
+    <div *ngIf="searchedMovieNamesCZ.length || searchedMovieNamesEN.length" class="options">
+
+        <!-- CZ výsledky -->
+        <div *ngIf="searchedMovieNamesCZ.length">
+            <div class="language">CZ</div>
+
+            <div class="option" *ngFor="let movieNameCZ of searchedMovieNamesCZ">
+                <a routerLink="/detail/{{movieNameCZ.id}}">{{movieNameCZ.nameCZ}}</a>
+            </div>
+        </div>
+
+        <!-- EN výsledky -->
+        <div *ngIf="searchedMovieNamesEN.length">
+            <div class="language">EN</div>
+
+            <div class="option" *ngFor="let movieNameEN of searchedMovieNamesEN">
+                <a routerLink="/detail/{{movieNameEN.id}}">{{movieNameEN.nameEN}}</a>
+            </div>
+        </div>
+    </div>
+</div>

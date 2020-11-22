@@ -16,6 +16,7 @@ import cz.release_calendar.entities.File;
 import cz.release_calendar.entities.Movie;
 import cz.release_calendar.entities.MovieCalendar;
 import cz.release_calendar.entities.MovieList;
+import cz.release_calendar.entities.MovieName;
 import cz.release_calendar.entities.MoviePreview;
 import cz.release_calendar.enums.FileCategory;
 import cz.release_calendar.enums.Status;
@@ -396,6 +397,27 @@ public class MovieServiceImpl implements MovieService {
 		}
 		
 		return result;
+	}
+	
+	
+	/**
+	 * Seznam názvů filmů
+	 * 
+	 * @return - vrací List názvů filmů
+	 */
+	@Override
+	@Transactional
+	public List<MovieName> getMovieNames() {
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+				
+		"FROM MovieName "
+	  + "ORDER BY id", MovieName.class);
+		
+		List<MovieName> movieNames = query.list();
+		
+		return movieNames;
 	}
 	
 }

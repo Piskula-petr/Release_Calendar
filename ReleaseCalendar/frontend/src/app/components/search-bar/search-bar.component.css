@@ -1,0 +1,55 @@
+.searchBar img {
+    position: absolute;
+    top: 13px;
+    left: 5px;
+    width: 23px;
+}
+
+/*__________________________ Input __________________________*/
+.searchBar input {
+    margin: 8px 0px 0px 0px;
+    border: 1px solid #808080;
+    border-radius: 5px;
+    height: 30px;
+    width: 300px;
+    font-size: 1.3em;
+    color: #232344;
+    padding: 1px 0px 1px 33px;
+}
+
+.searchBar input:focus {
+    outline: none;
+}
+
+/*__________________________ Hledané možnosti __________________________*/
+.options {
+    position: absolute;
+    z-index: 1;
+    background: #EEE;
+    width: 323px;
+    border: 1px solid #808080;
+    padding: 0px 5px;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.language {
+    background-color: #808080;
+    margin: 0 -5px;
+    padding: 3px 5px;
+    font-weight: bold;
+    color: #EEE;
+}
+
+.option {
+    padding: 3px 0px;
+}
+
+.option:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.option a {
+    text-decoration: none;
+}
