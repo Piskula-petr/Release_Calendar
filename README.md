@@ -14,3 +14,6 @@ Hibernate <br>
 Angular <br>
 PostgreSQL <br>
 JUnit / Mockito <br>
+
+## SQL Diagram
+<img src="sql.png">
