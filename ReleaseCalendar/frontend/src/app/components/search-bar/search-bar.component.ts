@@ -1,6 +1,7 @@
-import { MoviesService } from 'src/app/services/movies/movies.service';
-import { MovieNames } from './../../models/moiveNames';
 import { Component, OnInit } from '@angular/core';
+
+import { MoviesService } from 'src/app/services/movies/movies.service';
+import { MovieNames } from 'src/app/modules/interfaces/moiveNames';
 
 @Component({
   selector: 'app-search-bar',

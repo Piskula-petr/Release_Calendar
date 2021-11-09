@@ -1,9 +1,10 @@
-import { Movie } from './../../models/movie';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { Title } from "@angular/platform-browser";
-import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Location } from "@angular/common";
+
+import { MoviesService } from 'src/app/services/movies/movies.service';
+import { Movie } from 'src/app/modules/interfaces/movie';
 
 @Component({
   selector: 'app-movie-detail',

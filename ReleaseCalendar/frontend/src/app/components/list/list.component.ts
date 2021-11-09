@@ -1,11 +1,12 @@
-import { MoviesTotalCount } from './../../models/moviesCount';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Status } from 'src/app/models/status';
 import { Title } from '@angular/platform-browser';
 import { Component, OnInit } from '@angular/core';
-import { Months } from 'src/app/models/months';
-import { MovieList } from 'src/app/models/moviesList';
+
+import { Status } from 'src/app/modules/enums/status';
+import { Months } from 'src/app/modules/months';
+import { MovieList } from 'src/app/modules/interfaces/moviesList';
 import { MoviesService } from 'src/app/services/movies/movies.service';
+import { MoviesTotalCount } from 'src/app/modules/interfaces/moviesCount';
 
 @Component({
   selector: 'app-list',

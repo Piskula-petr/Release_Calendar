@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { MovieCalendar } from 'src/app/models/movieCalendar';
+
+import { MovieCalendar } from 'src/app/modules/interfaces/movieCalendar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarService {
 
-  // Obsah měsíce (dny, filmy[])
-  private moviesOfMonth: Array<{day: number, movies: Array<MovieCalendar>}>;
+  // Obsah měsíce (den, index zobrazeného filmu, filmy)
+  private monthContent: Array<{day: number, index: number, movies: Array<MovieCalendar>}>;
 
   // Pole filmů
   private movies: Array<MovieCalendar> = [];
@@ -15,7 +16,6 @@ export class CalendarService {
 
   /**
    * Konstruktor
-   * 
    */
   constructor() {}
 
@@ -27,17 +27,20 @@ export class CalendarService {
    * @param year - rok (yyyy)
    * @param month - měsíc (0 - 11)
    */
-  getMoviesOfMonth(movies: Array<MovieCalendar>, year: number, month: number): Array<{day: number, movies: Array<MovieCalendar>}> {
+  getMonthContent(movies: Array<MovieCalendar>, year: number, month: number): Array<{day: number, index: number, movies: Array<MovieCalendar>}> {
 
-    this.moviesOfMonth = [];
+    this.monthContent = [];
 
-    // Počáteční den měsíce (0-6), 0 = Pondělí, 1 = Úterý...
-    const monthStartDay: number = new Date(year, month).getDay();
-    
+    // Počáteční den měsíce (0-6), 0 = Neděle, 1 = Pondělí...
+    let monthStartDay: number = new Date(year, month).getDay();
+
+    // Ošetření začátku měsíce v něděli
+    if (monthStartDay === 0) monthStartDay = 7;
+
     // Počet dnů měsíce
     const monthLenght: number = new Date(year, (month + 1), 0).getDate();
-    
-    let day: number = 1;
+
+    let day: number = 0;
 
     // Délka pole = délka měsíce + počet prázdných dnů
     for (let i = 0; i < (monthLenght + monthStartDay) - 1; i++) {
@@ -58,13 +61,14 @@ export class CalendarService {
       } else day = null;
 
       // Nastavení parametrů
-      this.moviesOfMonth[i] = ({
+      this.monthContent[i] = ({
         day: day, 
+        index: 0,
         movies: this.movies,
       });
     }
 
-    return this.moviesOfMonth;
+    return this.monthContent;
   }
 
 

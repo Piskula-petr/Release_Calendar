@@ -1,14 +1,15 @@
-import { MoviePreview } from './../../models/moviePreview';
-import { MoviesTotalCount } from './../../models/moviesCount';
-import { Status } from 'src/app/models/status';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MovieCalendar } from 'src/app/models/movieCalendar';
-import { Movie } from 'src/app/models/movie';
-import { MovieList } from 'src/app/models/moviesList';
-import { NewMovie } from 'src/app/models/newMovie';
-import { MovieNames } from "src/app/models/moiveNames";
+
+import { MoviePreview } from "src/app/modules/interfaces/moviePreview";
+import { MoviesTotalCount } from 'src/app/modules/interfaces/moviesCount';
+import { Status } from 'src/app/modules/enums/status';
+import { MovieCalendar } from 'src/app/modules/interfaces/movieCalendar';
+import { Movie } from 'src/app/modules/interfaces/movie';
+import { MovieList } from 'src/app/modules/interfaces/moviesList';
+import { NewMovie } from 'src/app/modules/interfaces/newMovie';
+import { MovieNames } from "src/app/modules/interfaces/moiveNames";
 
 @Injectable({
   providedIn: 'root'

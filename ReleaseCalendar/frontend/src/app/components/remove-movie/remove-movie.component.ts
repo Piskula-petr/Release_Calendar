@@ -1,8 +1,9 @@
-import { Status } from './../../models/status';
-import { MoviesService } from 'src/app/services/movies/movies.service';
-import { MoviePreview } from './../../models/moviePreview';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Months } from 'src/app/models/months';
+
+import { Status } from 'src/app/modules/enums/status';
+import { MoviesService } from 'src/app/services/movies/movies.service';
+import { MoviePreview } from 'src/app/modules/interfaces/moviePreview';
+import { Months } from 'src/app/modules/months';
 
 @Component({
   selector: 'app-remove-movie',

@@ -12,56 +12,28 @@
     display: none;
 }
 
-.title {
-    float: left;
+/*__________________________ Horní panel __________________________*/
+.headerPanel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dateContainer {
+    display: flex;
+    width: 410px;
+    margin: 0px 0px 10px 10px;
+}
+
+.date {
     font-weight: bold;
     font-size: 2.5em;
-    margin: 0px 8px 20px 8px;
+    margin: 0px 0px 0px 20px;
 }
 
-.searchBar {
-    float: right;
-    position: relative;
-    margin: 0px 220px 0px 0px;
-}
-
-/*__________________________ Tooltip __________________________*/
-.tooltip {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #EEE;
-    text-align: center;
-    border-radius: 4px;
-    padding: 5px 1px;
-    position: absolute;
-    z-index: 1;
-    top: 160px;
-    left: 175px;
-    opacity: 0;
-}
-
-.nameContainer .tooltip::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    margin-top: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent black transparent transparent;
-  }
-
-.nameContainer:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 0s linear 2s;
-}
-
-/*__________________________ Předchozí, další měsíc (tlačítka) __________________________*/
-.previousMonth, .nextMonth, .movieFrame button {
-    float: right;
-    margin: 0px 7px;
+.previousMonth, .nextMonth {
+    margin: 0px 4px;
     background-color: transparent;
     border: none;
 }
@@ -77,6 +49,17 @@
 
 .previousMonth img, .nextMonth img {
     width: 25px;
+}
+
+.searchBar {
+    height: 60px;
+    position: relative;
+}
+
+.movieFrame button {
+    margin: 0px 7px;
+    background-color: transparent;
+    border: none;
 }
 
 /*__________________________ Dny v týdnu (panel) __________________________*/
@@ -115,6 +98,17 @@
     float: left;
     margin: 8px;
     padding: 5px;
+    animation: fadeIn 1s linear;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 /*__________________________ Filmy __________________________*/
@@ -136,11 +130,6 @@
     z-index: 1;
 }
 
-.previousMovie:hover {
-    opacity: 0.7;
-    cursor: pointer;
-}
-
 .movieFrame button img {
     width: 10px;
 }
@@ -150,14 +139,10 @@
     cursor: pointer;
 }
 
-.movieWrapper {
-    text-align: center;
-}
-
 /*__________________________ Film __________________________*/
 .movie {
+    text-align: center;
     width: 170px;
-    float: left;
 }
 
 .movie a {
@@ -168,7 +153,6 @@
     max-width: 100px;
     max-height: 140px;
     border-radius: 4px;
-    margin: 0px auto;
 }
 
 .movie .nameContainer {

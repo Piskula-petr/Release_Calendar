@@ -37,7 +37,7 @@ body {
 }
 
 .listLink img, .calendarLink img {
-    width: 30px;
+    width: 40px;
 }
 
 /*__________________________ Tlačítka pro přidání / odebrání filmu __________________________*/
@@ -50,7 +50,7 @@ body {
 }
 
 .addMovie img, .removeMovie img {
-    width: 23px;
+    width: 30px;
 }
 
 .addMovie:hover, .removeMovie:hover {

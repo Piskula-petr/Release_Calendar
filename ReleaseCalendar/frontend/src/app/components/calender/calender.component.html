@@ -1,39 +1,49 @@
 <div class="calendar">
 
-    <div class="title">{{monthString}} {{year}}</div> 
+    <div class="headerPanel">
 
-    <!-- Seznam link -->
-    <a routerLink="/seznam" class="listLink">
-        <img src="assets/list.png">
-    </a>
+        <div class="dateContainer">
 
-    <!-- Kalendář link -->
-    <a routerLink="/kalendar" class="calendarLink">
-        <img src="assets/calendar.png">
-    </a>
+            <!-- Předchozí měsíc -->
+            <button (click)="changeMonth(status.previous)" class="previousMonth">
+                <img src="assets/previous.png">
+            </button>
+            
+            <!-- Další měsíc -->
+            <button (click)="changeMonth(status.next)" class="nextMonth">
+                <img src="assets/next.png">
+            </button>
+            
+            <div class="date">{{monthString}} {{year}}</div>
+        </div>
 
-    <!-- Odebrání filmu -->
-    <button (click)="isRemoveMovieModalClosed = false" class="removeMovie">
-        <img src="assets/minus.png">
-    </button>
+        <!-- Vyhledávací lišta -->
+        <app-search-bar class="searchBar"></app-search-bar>
 
-    <!-- Přidání filmu -->
-    <button (click)="isNewMovieModalClosed = false" class="addMovie">
-        <img src="assets/add.png">
-    </button>
+        <div>
 
-    <!-- Další měsíc -->
-    <button (click)="changeMonth(status.next)" class="nextMonth">
-        <img src="assets/next.png">
-    </button>
+            <!-- Seznam link -->
+            <a routerLink="/seznam" class="listLink">
+                <img src="assets/list.png">
+            </a>
 
-    <!-- Předchozí měsíc -->
-    <button (click)="changeMonth(status.previous)" class="previousMonth">
-        <img src="assets/previous.png">
-    </button>
+            <!-- Kalendář link -->
+            <a routerLink="/kalendar" class="calendarLink">
+                <img src="assets/calendar.png">
+            </a>
 
-    <!-- Vyhledávací lišta -->
-    <app-search-bar class="searchBar"></app-search-bar>
+            <!-- Odebrání filmu -->
+            <button (click)="isRemoveMovieModalClosed = false" class="removeMovie">
+                <img src="assets/minus.png">
+            </button>
+
+            <!-- Přidání filmu -->
+            <button (click)="isNewMovieModalClosed = false" class="addMovie">
+                <img src="assets/add.png">
+            </button>
+        </div>
+
+    </div>
 
     <!-- Dny v týdnu -->
     <div class="daysOfWeek">
@@ -47,47 +57,37 @@
     </div>
 
     <!-- Dny v měsíci -->
-    <div *ngFor="let monthContent of moviesOfMonth">
+    <div *ngFor="let dayContent of monthContent">
 
-        <div class="cell">{{monthContent.day}}
+        <div class="cell">{{dayContent.day}}
 
             <div class="movieFrame">
 
-                <!-- Další film -->
-                <button [ngClass]="{hide: monthContent.movies.length === 0 || monthContent.movies.length === 1, nextMovie: true}" 
-                    (click)="changeMovie(monthContent.movies[0].id, status.next)">
-
-                    <img src="assets/next.png">
-                </button>
-
                 <!-- Předchozí film -->
-                <button [ngClass]="{hide: true, previousMovie: true}"
-                    (click)="changeMovie(monthContent.movies[0].id, status.previous)">
+                <button [ngClass]="{hide: dayContent.index === 0}" class="previousMovie"
+                    (click)="changeMovie(dayContent.day, status.previous)">
 
                     <img src="assets/previous.png">
                 </button>
 
-                <!-- Filmy -->
-                <div *ngFor="let movie of monthContent.movies">
+                <!-- Další film -->
+                <button [ngClass]="{hide: dayContent.movies.length === 0 || dayContent.index === dayContent.movies.length-1}"
+                    class="nextMovie" (click)="changeMovie(dayContent.day, status.next)">
 
-                    <!-- Nastavení šířky podle počtu filmů -->
-                    <div #movieWrapper [movieID]="movie.id" 
-                        [style.width.px]="movieElement.offsetWidth * monthContent.movies.length" 
-                        class="movieWrapper">
+                    <img src="assets/next.png">
+                </button>
 
-                        <!-- Film -->
-                        <div #movieElement class="movie">
+                <!-- Film -->
+                <div *ngIf="dayContent.movies[dayContent.index]" class="movie">
 
-                            <a routerLink="/detail/{{movie.id}}" [queryParams]="{month: month, year: year}">
-                                <img src="data:image/JPEG;base64,{{movie.image}}"> <br>
+                    <a routerLink="/detail/{{dayContent.movies[dayContent.index].id}}" [queryParams]="{month: month, year: year}">
+                        
+                        <img src="data:image/JPEG;base64,{{dayContent.movies[dayContent.index].image}}"> <br>
 
-                                <div class="nameContainer">
-                                    <span class="name">{{movie.nameCZ}}</span>
-                                    <span class="tooltip">{{movie.nameCZ}}</span>
-                                </div>
-                            </a>
+                        <div class="nameContainer">
+                            <span class="name">{{dayContent.movies[dayContent.index].nameCZ}}</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

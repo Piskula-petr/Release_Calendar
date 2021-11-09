@@ -1,19 +1,20 @@
-import { MoviesService } from './services/movies/movies.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { CalenderComponent } from './components/calender/calender.component';
-import { CalendarService } from "./services/calendar/calendar.service";
-import { MovieDetailComponent } from './components/movie-detail/movie-detail.component';
+import { AppRoutingModule } from 'src/app/app-routing.module';
+import { AppComponent } from 'src/app/app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ListComponent } from './components/list/list.component';
-import { MoviesComponent } from './components/list/movies/movies.component';
 import { FormsModule } from '@angular/forms';
-import { NewMovieComponent } from './components/new-movie/new-movie.component';
-import { RemoveMovieComponent } from './components/remove-movie/remove-movie.component';
-import { SearchBarComponent } from './components/search-bar/search-bar.component';
-import { UrlPipe } from './pipes/url.pipe';
+
+import { UrlPipe } from 'src/app/pipes/url.pipe';
+import { MoviesService } from 'src/app/services/movies/movies.service';
+import { CalendarService } from "src/app/services/calendar/calendar.service";
+import { CalenderComponent } from 'src/app/components/calender/calender.component';
+import { MovieDetailComponent } from 'src/app/components/movie-detail/movie-detail.component';
+import { ListComponent } from 'src/app/components/list/list.component';
+import { MoviesComponent } from 'src/app/components/list/movies/movies.component';
+import { NewMovieComponent } from 'src/app/components/new-movie/new-movie.component';
+import { RemoveMovieComponent } from 'src/app/components/remove-movie/remove-movie.component';
+import { SearchBarComponent } from 'src/app/components/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { UrlPipe } from './pipes/url.pipe';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
+    FormsModule
   ],
   providers: [
     CalendarService,

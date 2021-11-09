@@ -1,6 +1,7 @@
-import { MovieList } from './../../../models/moviesList';
 import { Component, Input, OnInit } from '@angular/core';
-import { Months } from 'src/app/models/months';
+
+import { MovieList } from 'src/app/modules/interfaces/moviesList';
+import { Months } from 'src/app/modules/months';
 
 @Component({
   selector: 'app-movies',

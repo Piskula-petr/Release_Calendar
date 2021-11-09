@@ -1,9 +1,10 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import { FileStatus } from 'src/app/models/fileStatus';
-import { Genres } from 'src/app/models/genres';
-import { NewMovie } from "src/app/models/newMovie";
-import { Platforms } from 'src/app/models/platforms';
+
+import { Platforms } from 'src/app/modules/platforms';
 import { MoviesService } from 'src/app/services/movies/movies.service';
+import { NewMovie } from "src/app/modules/interfaces/newMovie";
+import { Genres } from 'src/app/modules/genres';
+import { FileStatus } from 'src/app/modules/enums/fileStatus';
 
 @Component({
   selector: 'app-new-movie',
@@ -20,7 +21,7 @@ export class NewMovieComponent implements OnInit {
   // Enum - [náhledový obrázek / obrázky]
   public fileStatus = FileStatus;
 
-  public newMovie: NewMovie = new NewMovie();
+  public newMovie: NewMovie;
 
   // Náhledový obrázek
   public poster: File = null;
