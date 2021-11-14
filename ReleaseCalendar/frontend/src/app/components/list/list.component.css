@@ -8,6 +8,14 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+/*__________________________ Horní panel __________________________*/
+.headerPanel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .searchBar {
     position: relative;
     display: block;
@@ -15,9 +23,19 @@
 }
 
 /*__________________________ Předchozí, další filmy (tlačítka) __________________________*/
+.previousMovies {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0px -10px 0px;
+}
+
+.nextMovies {
+    display: flex;
+    justify-content: center;
+    margin: -10px 0px 20px 0px;
+}
+
 .nextMovies button, .previousMovies button {
-    display: block;
-    margin: 0 auto;
     background-color: transparent;
     border: none;
     -webkit-transform: rotate(90deg);
@@ -38,12 +56,4 @@
 
 .nextMovies button img, .previousMovies button img {
     width: 24px;
-}
-
-.previousMovies {
-    margin: 0px 0px -15px 113px;
-}
-
-.nextMovies {
-    margin: -15px 0px 5px 0px;
 }

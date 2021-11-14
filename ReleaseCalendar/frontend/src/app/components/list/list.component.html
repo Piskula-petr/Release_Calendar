@@ -1,31 +1,38 @@
 <div class="list">
 
-    <!-- Seznam link -->
-    <a routerLink="/seznam" class="listLink">
-        <img src="assets/list.png">
-    </a>
+    <div class="headerPanel">
 
-    <!-- Kalendář link -->
-    <a routerLink="/kalendar" class="calendarLink">
-        <img src="assets/calendar.png">
-    </a>
+        <!-- Vyhledávací lišta -->
+        <app-search-bar class="searchBar"></app-search-bar>
 
-    <!-- Odebrání filmu -->
-    <button (click)="isRemoveMovieModalClosed = false" class="removeMovie">
-        <img src="assets/minus.png">
-    </button>
+        <div>
 
-    <!-- Přidání filmu -->
-    <button (click)="isNewMovieModalClosed = false" class="addMovie">
-        <img src="assets/add.png">
-    </button>
-
-    <!-- Vyhledávací lišta -->
-    <app-search-bar class="searchBar"></app-search-bar>
+            <!-- Seznam link -->
+            <a routerLink="/seznam" class="listLink">
+                <img src="assets/list.png">
+            </a>
+        
+            <!-- Kalendář link -->
+            <a routerLink="/kalendar" class="calendarLink">
+                <img src="assets/calendar.png">
+            </a>
+        
+            <!-- Odebrání filmu -->
+            <button (click)="isRemoveMovieModalClosed = false" class="removeMovie">
+                <img src="assets/minus.png">
+            </button>
+        
+            <!-- Přidání filmu -->
+            <button (click)="isNewMovieModalClosed = false" class="addMovie">
+                <img src="assets/add.png">
+            </button>
+        </div>
+    </div>
 
     <!-- Načíst předchozí filmy -->
-    <div class="previousMovies" *ngIf="moviesPreviousCount !== moviesPreviousTotal">
-        <button (click)="getMoreMovies(status.previous)">
+    <div class="previousMovies" *ngIf="moviesPrevious.length !== moviesPreviousTotal">
+        
+        <button (click)="getMoreMovies(moviesPrevious.length, status.previous)">
             <img src="assets/previous.png">
         </button>
     </div>
@@ -37,10 +44,9 @@
     <app-movies [movies]="moviesNext"></app-movies>
 
     <!-- Načíst další filmy -->
-    <div class="nextMovies"
-        *ngIf="moviesNextCount !== moviesNextTotal && moviesNextTotal > moviesNextCount">
+    <div class="nextMovies" *ngIf="moviesNext.length !== moviesNextTotal">
 
-        <button (click)="getMoreMovies(status.next)">
+        <button (click)="getMoreMovies(moviesNext.length, status.next)">
             <img src="assets/next.png">
         </button>
     </div>

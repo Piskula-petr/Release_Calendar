@@ -24,7 +24,7 @@ export class SearchBarComponent implements OnInit {
   /**
    * Konstruktor
    * 
-   * @param moviesService
+   * @param moviesService - service pro získání filmů z databáze
    */
   constructor(private moviesService: MoviesService){}
 
@@ -60,11 +60,13 @@ export class SearchBarComponent implements OnInit {
   
         // Přidání do pole, při schodě CZ jména
         if (nameCZ.includes(input)) {
+
           this.searchedMovieNamesCZ.push(movieName);
         }
         
         // Přidání do pole, při schodě EN jména
         if (nameEN.includes(input)) {
+          
           this.searchedMovieNamesEN.push(movieName)
         }
       }

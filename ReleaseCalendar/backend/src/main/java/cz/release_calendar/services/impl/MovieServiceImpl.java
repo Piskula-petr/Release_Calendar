@@ -1,6 +1,8 @@
 package cz.release_calendar.services.impl;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -187,6 +189,7 @@ public class MovieServiceImpl implements MovieService {
 	public List<MovieList> getMoviesFromToday(LocalDate today, int startIndex, Status status) {
 		
 		String condition = "";
+		String reverseOrder = "";
 		
 		// Načíst další
 		if (status.equals(Status.next)) {
@@ -197,6 +200,7 @@ public class MovieServiceImpl implements MovieService {
 		} else if (status.equals(Status.previous)) {
 
 			condition = "<";
+			reverseOrder = " DESC";
 		}
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -204,13 +208,19 @@ public class MovieServiceImpl implements MovieService {
 		
 		"FROM MovieList "
 	  + "WHERE release_date " + condition + " :today "
-	  + "ORDER BY release_date", MovieList.class);
+	  + "ORDER BY release_date" + reverseOrder, MovieList.class);
 		
 		query.setParameter("today", today);
 		query.setFirstResult(startIndex);
-		query.setMaxResults(8);
+		query.setMaxResults(5);
 		
 		List<MovieList> movies = query.list();
+		
+		// Převrácení listu
+		if (status.equals(Status.previous)) {
+			
+			Collections.reverse(movies);
+		}
 		
 		// Náhledové obrázky, podle ID filmu
 		for (MovieList movieList : movies) {
@@ -245,6 +255,7 @@ public class MovieServiceImpl implements MovieService {
 	public List<MovieList> getMoviesFromTodayLimited(LocalDate today, int limit, Status status) {
 		
 		String condition = "";
+		String reverseOrder = "";
 		
 		// Načíst další
 		if (status.equals(Status.next)) {
@@ -255,6 +266,7 @@ public class MovieServiceImpl implements MovieService {
 		} else if (status.equals(Status.previous)) {
 
 			condition = "<";
+			reverseOrder = " DESC";
 		}
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -262,12 +274,18 @@ public class MovieServiceImpl implements MovieService {
 				
 		"FROM MovieList "
 	  + "WHERE release_date " + condition + " :today "
-	  + "ORDER BY release_date", MovieList.class);
+	  + "ORDER BY release_date" + reverseOrder, MovieList.class);
 		
 		query.setParameter("today", today);
 		query.setMaxResults(limit);
 		
 		List<MovieList> movies = query.list();
+		
+		// Převrácení listu
+		if (status.equals(Status.previous)) {
+			
+			Collections.reverse(movies);
+		}
 		
 		// Náhledové obrázky, podle ID filmu
 		for (MovieList movieList : movies) {
