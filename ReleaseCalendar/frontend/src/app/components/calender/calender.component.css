@@ -51,11 +51,6 @@
     width: 25px;
 }
 
-.searchBar {
-    height: 60px;
-    position: relative;
-}
-
 .movieFrame button {
     margin: 0px 7px;
     background-color: transparent;
@@ -64,11 +59,11 @@
 
 /*__________________________ Dny v týdnu (panel) __________________________*/
 .daysOfWeek {
-    float: left;
+    display: flex;
     border: 1px solid #BEBEBE;
     background: #232344;
     border-radius: 4px;
-    margin: 0 8px;
+    margin: 0px 8px;
     padding: 5px 0;
     font-weight: bold;
 }
@@ -77,9 +72,8 @@
     text-align: center;
     color: white;
     width: 170px;
-    float: left;
-    margin: 0 18px 0 0;
-    padding: 0 5px;
+    margin: 0px 18px 0px 0px;
+    padding: 0px 5px;
 }
 
 .daysOfWeek div:last-child {
@@ -98,7 +92,7 @@
     float: left;
     margin: 8px;
     padding: 5px;
-    animation: fadeIn 1s linear;
+    animation: fadeIn .5s linear;
 }
 
 @keyframes fadeIn {

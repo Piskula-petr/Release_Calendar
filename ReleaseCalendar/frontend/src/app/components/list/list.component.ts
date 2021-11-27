@@ -4,10 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { Status } from 'src/app/modules/enums/status';
-import { Months } from 'src/app/modules/months';
-import { MovieList } from 'src/app/modules/interfaces/moviesList';
+import { MovieListDetailed } from 'src/app/modules/interfaces/moviesList';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { MoviesTotalCount } from 'src/app/modules/interfaces/moviesCount';
+import { SearchBehavior } from 'src/app/modules/enums/searchBehavior';
 
 @Component({
   selector: 'app-list',
@@ -16,6 +16,9 @@ import { MoviesTotalCount } from 'src/app/modules/interfaces/moviesCount';
 })
 export class ListComponent implements OnInit {
 
+  // Limit filmů
+  private MOVIE_FETCH_LIMIT: number = 5;
+
   // Zobrazení / skrytí modalů, pro přidání a odebrání filmů
   public isNewMovieModalClosed: boolean = true;
   public isRemoveMovieModalClosed: boolean = true;
@@ -23,15 +26,19 @@ export class ListComponent implements OnInit {
   // Enum - [další / předchozí]
   public status = Status;
 
-  public moviesPrevious: Array<MovieList> = [];
-  public moviesNext: Array<MovieList> = [];
+  // Enum vyhledávání - [přesměrování / vrácení ID]
+  public searchBehavior = SearchBehavior;
+
+  public moviesPrevious: Array<MovieListDetailed> = [];
+  public moviesNext: Array<MovieListDetailed> = [];
+
+  // Počet zobrazených filmů
+  private moviesPreviousCount: number = 0;
+  private moviesNextCount: number = 0;
 
   // Celkový počet filmů
-  public moviesPreviousTotal: number;
-  public moviesNextTotal: number;
-  
-  // Měsíce (textově)
-  public monthsString = Months;
+  public moviesPreviousTotal: number = 0;
+  public moviesNextTotal: number = 0;
   
 
   /**
@@ -56,9 +63,8 @@ export class ListComponent implements OnInit {
    */
   ngOnInit(): void {
 
-    // Nastavení počtu celkových záznamů
-    this.moviesService.getMoviesFromTodayCount().subscribe((moviesCount: MoviesTotalCount) => {
-      
+    // Request - získání celkového počtu filmů
+    this.moviesService.getMoviesCountByToday().subscribe((moviesCount: MoviesTotalCount) => {
       this.moviesPreviousTotal = moviesCount.previousTotal;
       this.moviesNextTotal = moviesCount.nextTotal;
     });
@@ -70,12 +76,12 @@ export class ListComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
 
       const previous: number = (params.previous ? parseInt(params.previous) : 0);
-      const next: number = (params.next ? parseInt(params.next) : 5);
+      const next: number = (params.next ? parseInt(params.next) : this.MOVIE_FETCH_LIMIT);
 
         if (previous !== 0)
-          this.setMovies(previous, Status.previous);
+          this.setMovies(0, Status.previous, previous, false);
 
-        this.setMovies(next, Status.next);
+        this.setMovies(0, Status.next, next, false);
 
         // Nastavení URL parametrů 
         this.setQueryParametrs(previous, next);
@@ -102,15 +108,19 @@ export class ListComponent implements OnInit {
     }
 
     // Vynulování stávajících hodnot
-    this.moviesNext = null;
-    this.moviesPrevious = null;
+    this.moviesNext = [];
+    this.moviesPrevious = [];
 
-    this.moviesPreviousTotal = null;
-    this.moviesNextTotal = null;
+    this.moviesNextCount = 0;
+    this.moviesPreviousCount = 0;
+
+    this.moviesPreviousTotal = 0;
+    this.moviesNextTotal = 0;
     
     // Nastavení URL parametrů 
     this.setQueryParametrs(this.moviesPrevious.length, this.moviesNext.length)
 
+    // Inicializační metoda
     this.ngOnInit();
   }
 
@@ -118,49 +128,32 @@ export class ListComponent implements OnInit {
   /**
    * Nastavení filmů
    * 
-   * @param limit - limit zobrazených filmů
-   * @param status - enum - [další / předchozí]
-   */
-  setMovies(limit: number, status: Status): void {
-
-    this.moviesService.getMoviesForListLimited(limit, status).subscribe((movies: Array<MovieList>) => {
-
-      switch (Status[status]) {
-
-        case Status.previous: 
-          this.moviesPrevious = movies; break;
-
-        case Status.next: 
-          this.moviesNext = movies; break;
-      }
-    });
-  }
-
-
-  /**
-   * Načtení více filmů (dalších / předchozích)
-   * 
    * @param startIndex - počáteční index
    * @param status - enum - [další / předchozí]
+   * @param limit - limit zobrazených filmů
+   * @param setQueryParametrs - nastavit URL parametry
    */
-  getMoreMovies(startIndex: number, status: Status): void {
+  setMovies(startIndex: number, status: Status, limit: number, setQueryParametrs: boolean): void {
 
-    // Nastavení nových filmů
-    this.moviesService.getMoviesForList(startIndex, status).subscribe((movies: Array<MovieList>) => {
+    // Request - získání filmů
+    this.moviesService.getMoviesListDetailed(startIndex, status, limit).subscribe((movies: Array<MovieListDetailed>) => {
 
       switch (Status[status]) {
 
         case Status.previous:
+          this.moviesPreviousCount = this.moviesPreviousCount + movies.length;
           this.moviesPrevious = movies.concat(this.moviesPrevious);
           break;
 
         case Status.next:
+          this.moviesNextCount = this.moviesNextCount + movies.length;
           this.moviesNext = this.moviesNext.concat(movies);
           break;
       }
 
       // Nastavení URL parametrů
-      this.setQueryParametrs(this.moviesPrevious.length, this.moviesNext.length);
+      if (setQueryParametrs) 
+        this.setQueryParametrs(this.moviesPrevious.length, this.moviesNext.length)
     });
   }
 

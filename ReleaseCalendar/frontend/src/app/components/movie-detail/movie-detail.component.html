@@ -14,7 +14,7 @@
         <div class="movieInfo">
 
             <!-- Název -->
-            <span class="nameCZ">{{movie.nameCZ}}</span> 
+            <span *ngIf="movie.nameCZ" class="nameCZ">{{movie.nameCZ}}</span> 
             <span class="nameEN">{{movie.nameEN}}</span>
             <span class="year">2020</span>
 

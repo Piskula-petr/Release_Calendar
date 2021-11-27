@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { MoviePreview } from "src/app/modules/interfaces/moviePreview";
+import { MovieList } from "src/app/modules/interfaces/moviePreview";
 import { MoviesTotalCount } from 'src/app/modules/interfaces/moviesCount';
 import { Status } from 'src/app/modules/enums/status';
 import { MovieCalendar } from 'src/app/modules/interfaces/movieCalendar';
 import { Movie } from 'src/app/modules/interfaces/movie';
-import { MovieList } from 'src/app/modules/interfaces/moviesList';
+import { MovieListDetailed } from 'src/app/modules/interfaces/moviesList';
 import { NewMovie } from 'src/app/modules/interfaces/newMovie';
 import { MovieNames } from "src/app/modules/interfaces/moiveNames";
 
@@ -16,6 +16,7 @@ import { MovieNames } from "src/app/modules/interfaces/moiveNames";
 })
 export class MoviesService {
 
+  
   /**
    * Konstruktor
    */
@@ -23,54 +24,63 @@ export class MoviesService {
 
 
   /**
-   * ¨Získání počtu filmů
+   * Získání počtu filmů pro seznam
    */
   getMoviesCount(): Observable<number> {
-    return this.httpClient.get<number>("/api/movies/count");
+    return this.httpClient.get<number>("/api/movies/list/count");
+  }
+
+
+  /**
+   * Získání počtu filmů pro seznam od dnešního dne
+   */
+  getMoviesCountByToday(): Observable<MoviesTotalCount> {
+    return this.httpClient.get<MoviesTotalCount>("/api/movies/list/count/today");
   }
 
 
   /**
    * Získání pole filmů pro kalendář
    * 
-   * @param year - rok (yyyy)
-   * @param month - měsíc (0 - 11)
+   * @param year - rok [yyyy]
+   * @param month - měsíc [0 - 11]
    */
-  getMoviesForCalendar(year: number, month: number): Observable<Array<MovieCalendar>> {
+  getMoviesCalendar(year: number, month: number): Observable<Array<MovieCalendar>> {
     return this.httpClient.get<Array<MovieCalendar>>
-      ("/api/movies/calendar/year=" + year + "&month=" + (month + 1));
+      (`/api/movies/calendar/year=${year}&month=${(month + 1)}`);
   }
 
 
-  /**
-   * Získání počtu filmů od dnešního data
-   */
-  getMoviesFromTodayCount(): Observable<MoviesTotalCount> {
-    return this.httpClient.get<MoviesTotalCount>("/api/movies/list/count");
-  }
-
-  
   /**
    * Získání pole filmů pro seznam
    * 
    * @param startIndex - počáteční index
-   * @param status - enum [další / předchozí]
    */
-  getMoviesForList(startIndex: number, status: Status): Observable<Array<MovieList>> {
-    return this.httpClient.get<Array<MovieList>>
-      ("/api/movies/list/index=" + startIndex + "&" + Status[status]);
+   getMoviesList(startIndex: number): Observable<Array<MovieList>> {
+    return this.httpClient.get<Array<MovieList>>(`api/movies/list/index=${startIndex}`);
+  }
+
+
+  /**
+   * Získání filmu pro seznam podle ID
+   * 
+   * @param movieID - ID filmu
+   */
+    getMovieList(movieID: number): Observable<MovieList> {
+    return this.httpClient.get<MovieList>(`/api/movies/list/movieID=${movieID}`);
   }
 
   
   /**
-   * Získání limitovaného pole filmů pro seznam
+   * Získání detailního pole filmů pro seznam
    * 
-   * @param limit - limit výstupů
+   * @param startIndex - počáteční index
    * @param status - enum [další / předchozí]
+   * @param limit - limit výstupů
    */
-  getMoviesForListLimited(limit: number, status: Status): Observable<Array<MovieList>> {
-    return this.httpClient.get<Array<MovieList>>
-      ("/api/movies/list/limit=" + limit + "&" + Status[status]);
+  getMoviesListDetailed(startIndex: number, status: Status, limit: number): Observable<Array<MovieListDetailed>> {
+    return this.httpClient.get<Array<MovieListDetailed>>
+      (`/api/movies/list/detailed/index=${startIndex}&${Status[status]}&limit=${limit}`);
   }
 
 
@@ -80,12 +90,12 @@ export class MoviesService {
    * @param movieID - ID filmu
    */
   getMovieDetail(movieID: number): Observable<Movie> {
-    return this.httpClient.get<Movie>("/api/movie/" + movieID);
+    return this.httpClient.get<Movie>(`/api/movie/${movieID}`);
   }
   
 
   /**
-   * Odeslání dat pro nový film
+   * Uložení filmu do databáze
    * 
    * @param newMovie - informace o filmu
    * @param poster - náhledový obrázek
@@ -111,7 +121,7 @@ export class MoviesService {
 
   
   /**
-   * Odeslání ID filmu k odstranení
+   * Odstranění filmu z databáze, podle ID
    * 
    * @param movieID - ID filmu
    */
@@ -121,20 +131,12 @@ export class MoviesService {
 
 
   /**
-   * Získání pole filmu pro náhled
+   * Získání pole názvů filmů, podle zadané hodnoty
    * 
-   * @param startIndex - počáteční index
+   * @param value - vstupní hodnota
    */
-  getMoviesForPreview(startIndex: number): Observable<Array<MoviePreview>> {
-    return this.httpClient.get<Array<MoviePreview>>("api/movies/review/index=" + startIndex);
-  }
-
-
-  /**
-   * Získání pole názvů filmů
-   */
-  getMovieNames(): Observable<Array<MovieNames>> {
-    return this.httpClient.get<Array<MovieNames>>("api/movies/names");
+  getMovieNames(value: string): Observable<Array<MovieNames>> {
+    return this.httpClient.get<Array<MovieNames>>(`/api/movies/search/value=${value}`);
   }
 
 }

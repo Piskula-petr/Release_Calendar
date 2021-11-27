@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { MovieList } from 'src/app/modules/interfaces/moviesList';
+import { MovieListDetailed } from 'src/app/modules/interfaces/moviesList';
 import { Months } from 'src/app/modules/months';
 
 @Component({
@@ -10,8 +10,8 @@ import { Months } from 'src/app/modules/months';
 })
 export class MoviesComponent implements OnInit {
 
-  // Vstup - pole filmů
-  @Input() movies: Array<MovieList>
+  // Pole filmů
+  @Input() movies: Array<MovieListDetailed>
 
 
   /**
@@ -29,9 +29,10 @@ export class MoviesComponent implements OnInit {
   /**
    * Získání měsíce (String)
    * 
-   * @param month - měsíc (0 - 11)
+   * @param month - měsíc [0 - 11]
    */
   getMonth(month: number): string {
+    
     return Months[month - 1];
   }
 

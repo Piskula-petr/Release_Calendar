@@ -60,17 +60,19 @@ public class SearchBarControllerTest {
 		movieName.setNameEN("nameEN");
 		movieNames.add(movieName);
 		
-		when(movieService.getMovieNames()).thenReturn(movieNames);
+		String value = "value";
+		
+		when(movieService.getMovieNames(value)).thenReturn(movieNames);
 		
 		// Porovnání výstupních hodnot
-		mockMvc.perform(get("/api/movies/names"))
+		mockMvc.perform(get("/api/movies/search/value=" + value))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.length()").value(movieNames.size()))
 			.andExpect(jsonPath("$[0].id").value(movieName.getId()))
 			.andExpect(jsonPath("$[0].nameCZ").value(movieName.getNameCZ()))
 			.andExpect(jsonPath("$[0].nameEN").value(movieName.getNameEN()));
 		
-		verify(movieService, times(1)).getMovieNames();
+		verify(movieService, times(1)).getMovieNames(value);
 	}
 	
 }

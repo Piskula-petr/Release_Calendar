@@ -23,16 +23,14 @@ public class CalendarController {
 	
 	
 	/**
-	 * Získání filmů v zadaném měsíci
+	 * Získání pole filmů pro kalendář
 	 * 
 	 * @param year - rok
 	 * @param month - měsíc
-	 * 
-	 * @return - vrací List filmů
 	 */
 	@GetMapping("/movies/calendar/year={year}&month={month}")
-	public List<MovieCalendar> getMoviesOfMonth(@PathVariable("year") int year, 
-								 				@PathVariable("month") int month) {
+	public List<MovieCalendar> getMoviesCalendar(@PathVariable("year") int year, 
+								 				 @PathVariable("month") int month) {
 		
 		// Začátek měsíce "2020-01-01"
 		LocalDate startOfMonth = LocalDate.of(year, month, 1);
@@ -40,7 +38,7 @@ public class CalendarController {
 		// Konec měsíce "2020-01-31"
 		LocalDate endOfMonth = LocalDate.of(year, month, startOfMonth.lengthOfMonth());
 
-		List<MovieCalendar> movies = movieService.getMoviesByDate(startOfMonth, endOfMonth);
+		List<MovieCalendar> movies = movieService.getMoviesCalendar(startOfMonth, endOfMonth);
 		
 		return movies;
 	}

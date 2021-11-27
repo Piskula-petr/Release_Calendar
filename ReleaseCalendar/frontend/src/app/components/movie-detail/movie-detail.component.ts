@@ -46,7 +46,7 @@ export class MovieDetailComponent implements OnInit {
         this.movie = movie;
 
         // Nastavení titulku
-        this.title.setTitle(this.movie.nameCZ + " | Release Calendar");
+        this.title.setTitle((this.movie.nameCZ ? this.movie.nameCZ : this.movie.nameEN) + " | Release Calendar");
       }, 
       (error) => console.log(error)
     );

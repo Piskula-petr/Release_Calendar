@@ -20,9 +20,16 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "movies")
 @TypeDef(name = "string-array", typeClass = StringArrayType.class)
+@NoArgsConstructor
+@Getter
+@Setter
 public class Movie {
 
 	@Id
@@ -72,125 +79,5 @@ public class Movie {
 	
 	@Transient
 	private List<byte[]> images;
-	
-// Bezparametrový konstruktor //////////////////////////////////////////////////////////////
-	
-	public Movie() {
-		
-	}
-	
-// Gettery + Settery ///////////////////////////////////////////////////////////////////////
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNameCZ() {
-		return nameCZ;
-	}
-
-	public void setNameCZ(String nameCZ) {
-		this.nameCZ = nameCZ;
-	}
-
-	public String getNameEN() {
-		return nameEN;
-	}
-
-	public void setNameEN(String nameEN) {
-		this.nameEN = nameEN;
-	}
-
-	public LocalDate getReleaseDate() {
-		return releaseDate;
-	}
-
-	public void setReleaseDate(LocalDate releaseDate) {
-		this.releaseDate = releaseDate;
-	}
-
-	public String getPlatform() {
-		return platform;
-	}
-
-	public void setPlatform(String platform) {
-		this.platform = platform;
-	}
-
-	public String [] getGenres() {
-		return genres;
-	}
-
-	public void setGenres(String [] genres) {
-		this.genres = genres;
-	}
-
-	public String getCsfdLink() {
-		return csfdLink;
-	}
-
-	public void setCsfdLink(String csfdLink) {
-		this.csfdLink = csfdLink;
-	}
-
-	public String getImdbLink() {
-		return imdbLink;
-	}
-
-	public void setImdbLink(String imdbLink) {
-		this.imdbLink = imdbLink;
-	}
-
-	public String getDirector() {
-		return director;
-	}
-
-	public void setDirector(String director) {
-		this.director = director;
-	}
-
-	public String [] getActors() {
-		return actors;
-	}
-
-	public void setActors(String [] actors) {
-		this.actors = actors;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getVideoLink() {
-		return videoLink;
-	}
-
-	public void setVideoLink(String videoLink) {
-		this.videoLink = videoLink;
-	}
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
-
-	public List<byte[]> getImages() {
-		return images;
-	}
-
-	public void setImages(List<byte[]> images) {
-		this.images = images;
-	}
 	
 }

@@ -24,14 +24,14 @@ export class CalendarService {
    * Získání pole dnů ze zadaného měsíce (včetně prázdných počátečních dnů)
    * 
    * @param movies - pole filmů
-   * @param year - rok (yyyy)
-   * @param month - měsíc (0 - 11)
+   * @param year - rok [yyyy]
+   * @param month - měsíc [0 - 11]
    */
   getMonthContent(movies: Array<MovieCalendar>, year: number, month: number): Array<{day: number, index: number, movies: Array<MovieCalendar>}> {
 
     this.monthContent = [];
 
-    // Počáteční den měsíce (0-6), 0 = Neděle, 1 = Pondělí...
+    // Počáteční den měsíce [0 - 6], 0 = Neděle, 1 = Pondělí...
     let monthStartDay: number = new Date(year, month).getDay();
 
     // Ošetření začátku měsíce v něděli
@@ -75,8 +75,8 @@ export class CalendarService {
   /**
    * Další měsíc
    * 
-   * @param year - rok (yyyy)
-   * @param month - měsíc (0 - 11)
+   * @param year - rok [yyyy]
+   * @param month - měsíc [0 - 11]
    */
   nextMonth(year: number, month: number): Date {
 
@@ -94,8 +94,8 @@ export class CalendarService {
   /**
    * Předchozí měsíc
    * 
-   * @param year - rok (yyyy)
-   * @param month - měsíc (0 - 11)
+   * @param year - rok [yyyy]
+   * @param month - měsíc [0 - 11]
    */
   previousMonth(year: number, month: number): Date {
 

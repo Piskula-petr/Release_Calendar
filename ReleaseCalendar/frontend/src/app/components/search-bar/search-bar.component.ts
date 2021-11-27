@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { MovieNames } from 'src/app/modules/interfaces/moiveNames';
+import { SearchBehavior } from 'src/app/modules/enums/searchBehavior';
 
 @Component({
   selector: 'app-search-bar',
@@ -10,67 +12,113 @@ import { MovieNames } from 'src/app/modules/interfaces/moiveNames';
 })
 export class SearchBarComponent implements OnInit {
 
-  // Hledaný název
+  // Šířka lišty
+  @Input() public width: number;
+
+  // Enum vyhledávání - [přesměrování / vrácení ID]
+  @Input() public searchBehavior: SearchBehavior;
+
+  // ID hledaného filmu
+  @Output() public movieID = new EventEmitter<number>();
+
+  // Předchozí vstupní hodnota
+  public oldInput: string;
+
+  // Aktuální vstupní hodnota
   public input: string;
 
   // Všechny názvy filmů
   public movieNames: Array<MovieNames>;
 
   // Výsledky hledání CZ / EN
-  public searchedMovieNamesCZ: Array<MovieNames> = [];
-  public searchedMovieNamesEN: Array<MovieNames> = [];
+  public searchedMovieCZ: Array<MovieNames> = [];
+  public searchedMovieEN: Array<MovieNames> = [];
 
 
   /**
    * Konstruktor
    * 
    * @param moviesService - service pro získání filmů z databáze
+   * @param router
    */
-  constructor(private moviesService: MoviesService){}
+  constructor(
+    private moviesService: MoviesService,
+    private router: Router
+    ){}
 
 
   /**
    * Inicializační metoda
    */
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
-    // Získání názvů filmů
-    this.moviesService.getMovieNames().subscribe((movieNames: Array<MovieNames>) => {
-      this.movieNames = movieNames;
-    });
+
+  /**
+   * Event změny vstupné hodnoty
+   * 
+   * @param input - aktuální hodnota vstupu
+   */
+  changeEvent(input: string): void {
+
+    this.searchedMovieCZ = [];
+    this.searchedMovieEN = [];
+
+    this.input = input;
+
+    if (!input.startsWith(" ")) {
+
+      if (!this.oldInput) {
+  
+        // Získání pole názvů filmů
+        this.moviesService.getMovieNames(this.input.toLocaleLowerCase()).subscribe((movieNames: Array<MovieNames>) => {
+          this.movieNames = movieNames;
+          this.search();
+        });
+  
+      } else if (this.input) this.search();
+    }
+  }
+
+
+  /**
+   * Event kliknutí na hledaný název
+   * 
+   * @param movieID - ID filmu
+   */
+  clickEvent(movieID: number): void {
+
+    switch (this.searchBehavior) {
+
+      case SearchBehavior.redirect: 
+        this.router.navigate([`/detail/${movieID}`]); break;
+
+      case SearchBehavior.returnID:
+        this.movieID.emit(movieID); break;
+    }
   }
 
 
   /**
    * Vyhledání názvů, podle vstupu
    */
-  search() {
-    
-    this.searchedMovieNamesCZ = [];
-    this.searchedMovieNamesEN = [];
+  search(): void {
 
-    const input: string = this.input.toLocaleLowerCase();
+    for (let movieName of this.movieNames) {
 
-    if (this.input && !this.input.startsWith(" ")) {
+      const nameCZ: string = movieName.nameCZ?.toLocaleLowerCase();
+      const nameEN: string = movieName.nameEN?.toLocaleLowerCase();
 
-      for (let movieName of this.movieNames) {
+      // Přidání do pole, při schodě CZ jména
+      if (nameCZ?.includes(this.input.toLocaleLowerCase())) {
 
-        const nameCZ: string = movieName.nameCZ.toLocaleLowerCase();
-        const nameEN: string = movieName.nameEN.toLocaleLowerCase();
-  
-        // Přidání do pole, při schodě CZ jména
-        if (nameCZ.includes(input)) {
-
-          this.searchedMovieNamesCZ.push(movieName);
-        }
+        this.searchedMovieCZ.push(movieName);
+      }
+      
+      // Přidání do pole, při schodě EN jména
+      if (nameEN?.includes(this.input.toLocaleLowerCase())) {
         
-        // Přidání do pole, při schodě EN jména
-        if (nameEN.includes(input)) {
-          
-          this.searchedMovieNamesEN.push(movieName)
-        }
+        this.searchedMovieEN.push(movieName)
       }
     }
-  }
-
+  }  
 }

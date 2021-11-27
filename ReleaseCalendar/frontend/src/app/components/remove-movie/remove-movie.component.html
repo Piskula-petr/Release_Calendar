@@ -2,6 +2,9 @@
 
     <!-- Nevybraný film -->
     <div *ngIf="!movieToDelete">
+        
+        <!-- Vyhledávací lišta -->
+        <app-search-bar [width]="600" (movieID)="findMovie($event)" [searchBehavior]="searchBehavior.returnID"></app-search-bar>
 
         <!-- Načíst předchozí filmy -->
         <div class="previousMovies" *ngIf="moviesIndex !== 0">
@@ -21,11 +24,13 @@
                     <div class="year">{{movie.releaseDate | date: "yyyy"}}</div>
                 </div>
     
+                <img src="data:image/JPEG;base64,{{movie.image}}">
+
                 <!-- Informace o filmu -->
                 <div class="movieInfo">
-                    <img src="data:image/JPEG;base64,{{movie.image}}">
-                    <span class="name">{{movie.nameCZ}}</span>
-    
+
+                    <div class="name">{{(movie.nameCZ ? movie.nameCZ : movie.nameEN)}}</div>
+
                     <!-- Žánry -->
                     <div class="genres">
                         <div *ngFor="let genre of movie.genres; let last = last">
@@ -62,10 +67,11 @@
                 <div class="year">{{movieToDelete.releaseDate | date: "yyyy"}}</div>
             </div>
 
+            <img src="data:image/JPEG;base64,{{movieToDelete.image}}">
+
             <!-- Informace o filmu -->
             <div class="movieInfo">
-                <img src="data:image/JPEG;base64,{{movieToDelete.image}}">
-                <span class="name">{{movieToDelete.nameCZ}}</span>
+                <div class="name">{{(movieToDelete.nameCZ ? movieToDelete.nameCZ : movieToDelete.nameEN)}}</div>
 
                 <!-- Žánry -->
                 <div class="genres">

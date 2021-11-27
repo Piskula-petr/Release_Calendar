@@ -1,3 +1,4 @@
+import { SearchBehavior } from './../../modules/enums/searchBehavior';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -19,11 +20,14 @@ export class CalenderComponent implements OnInit {
   public isNewMovieModalClosed: boolean = true;
   public isRemoveMovieModalClosed: boolean = true;
 
-  // Obsah měsíce (den, index zobrazeného filmu, filmy)
+  // Obsah měsíce [den, index zobrazeného filmu, filmy]
   public monthContent: Array<{day: number, index: number, movies: Array<MovieCalendar>}>;
 
   // Enum - [další / předchozí]
   public status = Status;
+
+  // Enum vyhledávání - [přesměrování / vrácení ID]
+  public searchBehavior = SearchBehavior;
 
   // Datum
   public monthString: string;
@@ -56,6 +60,7 @@ export class CalenderComponent implements OnInit {
     // Získání parametrů z URL
     this.route.queryParams.subscribe(params => {
 
+      // Existující parametry
       if (params.month && params.year) {
 
         this.month = parseInt(params.month) - 1;
@@ -64,6 +69,7 @@ export class CalenderComponent implements OnInit {
         // Nastavení potřebných dat pro komponentu
         this.setComponentData();
 
+      // Neexistující parametry  
       } else {
 
         const date = new Date();
@@ -95,6 +101,7 @@ export class CalenderComponent implements OnInit {
       this.isRemoveMovieModalClosed = value;
     }
 
+    // Inicializační metoda
     this.ngOnInit();
   }
 
@@ -105,9 +112,11 @@ export class CalenderComponent implements OnInit {
   setComponentData(): void {
 
     this.monthString = this.getMonth(this.month);
-    this.moviesService.getMoviesForCalendar(this.year, this.month).subscribe((movies: Array<MovieCalendar>) => {
 
-      // Přenastavení parametrů
+    // Request - získání filmů
+    this.moviesService.getMoviesCalendar(this.year, this.month).subscribe((movies: Array<MovieCalendar>) => {
+
+      // Přetypování datumu ze String na Date
       movies = movies.map(movie => ({
         ...movie,
         releaseDate: new Date(movie.releaseDate),
@@ -138,7 +147,6 @@ export class CalenderComponent implements OnInit {
 
     let date: Date;
 
-    // Nastavení data pro odlišný status
     switch (Status[status]) {
 
       case Status.previous:
@@ -159,14 +167,14 @@ export class CalenderComponent implements OnInit {
 
 
   /**
-   * Změna filmu 
+   * Změna filmu ve stejném dni
    * 
    * @param day - den vydání
    * @param status - enum [další / předchozí]
    */
   changeMovie(day: number, status: Status): void {
 
-    const monthIndex = this.monthContent.findIndex(dayContent => dayContent.day === day);
+    const monthIndex: number = this.monthContent.findIndex(dayContent => dayContent.day === day);
 
     switch (Status[status]) {
 

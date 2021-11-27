@@ -1,4 +1,4 @@
-export interface MovieList {
+export interface MovieListDetailed {
     id: number;
     nameCZ: string;
     nameEN: string;

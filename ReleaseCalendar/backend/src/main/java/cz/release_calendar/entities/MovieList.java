@@ -12,8 +12,15 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "movies")
+@NoArgsConstructor
+@Getter
+@Setter
 public class MovieList {
 
 	@Id
@@ -24,7 +31,7 @@ public class MovieList {
 	@Column(name = "name_cz", length = 100)
 	private String nameCZ;
 	
-	@Column(name = "name_en", length = 100)
+	@Column(name = "name_EN", length = 100)
 	private String nameEN;
 	
 	@Column(name = "release_date")
@@ -33,98 +40,11 @@ public class MovieList {
 	@Column(name = "platform", length = 100)
 	private String platform;
 	
-	@Column(name = "director", length = 100)
-	private String director;
-	
 	@Type(type = "string-array")
 	@Column(name = "genres")
 	private String [] genres;
 	
-	@Type(type = "string-array")
-	@Column(name = "actors")
-	private String [] actors;
-	
 	@Transient
 	private byte[] image;
-	
-// Bezparametrový konstruktor //////////////////////////////////////////////////////////////
-	
-	public MovieList() {
-		
-	}
 
-// Gettery + Settery ///////////////////////////////////////////////////////////////////////
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNameCZ() {
-		return nameCZ;
-	}
-
-	public void setNameCZ(String nameCZ) {
-		this.nameCZ = nameCZ;
-	}
-
-	public String getNameEN() {
-		return nameEN;
-	}
-
-	public void setNameEN(String nameEN) {
-		this.nameEN = nameEN;
-	}
-
-	public LocalDate getReleaseDate() {
-		return releaseDate;
-	}
-
-	public void setReleaseDate(LocalDate releaseDate) {
-		this.releaseDate = releaseDate;
-	}
-
-	public String getPlatform() {
-		return platform;
-	}
-
-	public void setPlatform(String platform) {
-		this.platform = platform;
-	}
-
-	public String getDirector() {
-		return director;
-	}
-
-	public void setDirector(String director) {
-		this.director = director;
-	}
-
-	public String[] getGenres() {
-		return genres;
-	}
-
-	public void setGenres(String[] genres) {
-		this.genres = genres;
-	}
-
-	public String[] getActors() {
-		return actors;
-	}
-
-	public void setActors(String[] actors) {
-		this.actors = actors;
-	}
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
-	
 }

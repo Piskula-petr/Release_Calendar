@@ -40,8 +40,6 @@ public class NewMovieController {
 	 * @param file - náhledový obrázek
 	 * @param movieJSON - informace o filmu ve formátu JSON
 	 * @param files - obrázky k filmu
-	 * 
-	 * @return - vrací Response 200  
 	 */
 	@PostMapping("/saveMovie")
 	public ResponseEntity<Object> saveMovie(@RequestParam(value = "newMovie") String movieJSON,

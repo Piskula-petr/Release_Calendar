@@ -1,20 +1,30 @@
 .container {
-    display: block;
-    margin: auto;
-    width: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 10px;
 }
 
 .cell {
-    position: relative;
-    display: table;
+    display: flex;
     width: 600px;
-    height: 60px;
+    height: 80px;
     background: whitesmoke;
     border-radius: 4px;
     margin: 15px 0px;
-    border: 1px solid #BEBEBE;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    animation: fadeIn .5s linear;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .cell:hover {
@@ -29,12 +39,13 @@
 
 /*__________________________ Datum vydání __________________________*/
 .dayContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 90px;
-    height: 80px;
     background: #232344;
     text-align: center;
-    display: table-cell;
-    vertical-align: middle;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
@@ -43,24 +54,21 @@
     color: #EEE;
     font-size: 1.1em;
     font-weight: bold;
-    max-width: 90px;
-    max-height: 80px;
 }
 
 .cell img {
-    float: left;
     height: 80px;
 }
 
 /*__________________________ Informace o filmu __________________________*/
 .movieInfo {
-    float: left;
-    width: 443px;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
     height: 80px;
 }
 
 .name {
-    float: left;
     text-align: left;
     margin: 10px 0px 3px 7px;
     font-size: 1.5em;
@@ -72,7 +80,6 @@
 }
 
 .genres {
-    float: left;
     text-align: left;
     width: 373px;
     margin: 1px 0px 0px 7px;
@@ -92,20 +99,25 @@
 }
 
 .platform {
-    position: absolute;
-    top: 16px;
-    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 10px;
 }
 
 .platform img {
-    width: 100%;
-    height: 100%;
+    width: 60px;
+    height: 60px;
 }
 
 /*__________________________ Předchozí, další filmy (tlačítka) __________________________*/
+.nextMovies, .previousMovies {
+    display: flex;
+    justify-content: center;
+    height: 40px;
+}
+
 .nextMovies button, .previousMovies button {
-    display: block;
-    margin: 0 auto;
     background-color: transparent;
     border: none;
     -webkit-transform: rotate(90deg);
@@ -126,14 +138,6 @@
 
 .nextMovies button img, .previousMovies button img {
     width: 24px;
-}
-
-.previousMovies {
-    margin: 0px 0px -15px 0px;
-}
-
-.nextMovies {
-    margin: -15px 0px 5px 0px;
 }
 
 /*__________________________ Ověření __________________________*/

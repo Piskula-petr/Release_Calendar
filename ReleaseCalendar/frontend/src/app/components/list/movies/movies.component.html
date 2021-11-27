@@ -10,28 +10,35 @@
         </div>
 
         <!-- Informace o filmu -->
-        <div class="movieInfo">
+        <div class="movieContainer">
             <img src="data:image/JPEG;base64,{{movie.image}}">
-            <span class="name">{{movie.nameCZ}} | {{movie.nameEN}}</span>
 
-            <!-- Režie -->
-            <div class="director">Režie: 
-                <span>{{movie.director}}</span>
-            </div>
-
-            <!-- Žánry -->
-            <div class="genres">{{movie.genres.length === 1 ? "Žánr" : "Žánry"}}:
-                <div *ngFor="let genre of movie.genres; let last = last">
-                    <span>{{genre}}</span>
-                    <span *ngIf="!last">&nbsp;/&nbsp;</span>
+            <div class="movieInfo">
+                <span class="name">
+                    {{movie.nameCZ}}
+                    {{(movie.nameCZ ? "|" : "")}}
+                    {{movie.nameEN}}
+                </span>
+    
+                <!-- Režie -->
+                <div class="director">Režie: 
+                    <span>{{movie.director}}</span>
                 </div>
-            </div>
-
-            <!-- Herci -->
-            <div class="actors">Hrají:
-                <div *ngFor="let actor of movie.actors | slice:0:4; let last = last;">
-                    <span>{{actor}}</span>
-                    <span *ngIf="!last">,&nbsp;</span>
+    
+                <!-- Žánry -->
+                <div class="genres">{{movie.genres.length === 1 ? "Žánr" : "Žánry"}}:
+                    <div *ngFor="let genre of movie.genres; let last = last">
+                        <span>{{genre}}</span>
+                        <span *ngIf="!last">&nbsp;/&nbsp;</span>
+                    </div>
+                </div>
+    
+                <!-- Herci -->
+                <div class="actors">Hrají:
+                    <div *ngFor="let actor of movie.actors | slice:0:4; let last = last;">
+                        <span>{{actor}}</span>
+                        <span *ngIf="!last">,&nbsp;</span>
+                    </div>
                 </div>
             </div>
         </div>

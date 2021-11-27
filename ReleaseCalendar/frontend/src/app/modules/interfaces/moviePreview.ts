@@ -1,8 +1,8 @@
-export interface MoviePreview {
+export interface MovieList {
     id: number;
     nameCZ: string;
     releaseDate: Date;
     platform: string;
-    image: string;
     genres: Array<string>;
+    image: string;
 }

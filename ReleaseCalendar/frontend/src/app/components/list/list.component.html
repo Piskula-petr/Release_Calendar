@@ -3,7 +3,7 @@
     <div class="headerPanel">
 
         <!-- Vyhledávací lišta -->
-        <app-search-bar class="searchBar"></app-search-bar>
+        <app-search-bar [width]="350" [searchBehavior]="searchBehavior.redirect"></app-search-bar>
 
         <div>
 
@@ -32,7 +32,7 @@
     <!-- Načíst předchozí filmy -->
     <div class="previousMovies" *ngIf="moviesPrevious.length !== moviesPreviousTotal">
         
-        <button (click)="getMoreMovies(moviesPrevious.length, status.previous)">
+        <button (click)="setMovies(moviesPrevious.length, status.previous, MOVIE_FETCH_LIMIT, true)">
             <img src="assets/previous.png">
         </button>
     </div>
@@ -46,7 +46,7 @@
     <!-- Načíst další filmy -->
     <div class="nextMovies" *ngIf="moviesNext.length !== moviesNextTotal">
 
-        <button (click)="getMoreMovies(moviesNext.length, status.next)">
+        <button (click)="setMovies(moviesNext.length, status.next, MOVIE_FETCH_LIMIT, true)">
             <img src="assets/next.png">
         </button>
     </div>

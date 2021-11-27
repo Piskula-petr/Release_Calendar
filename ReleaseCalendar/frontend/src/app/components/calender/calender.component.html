@@ -18,7 +18,7 @@
         </div>
 
         <!-- Vyhledávací lišta -->
-        <app-search-bar class="searchBar"></app-search-bar>
+        <app-search-bar [width]="350" [searchBehavior]="searchBehavior.redirect"></app-search-bar>
 
         <div>
 
@@ -85,7 +85,11 @@
                         <img src="data:image/JPEG;base64,{{dayContent.movies[dayContent.index].image}}"> <br>
 
                         <div class="nameContainer">
-                            <span class="name">{{dayContent.movies[dayContent.index].nameCZ}}</span>
+                            <span class="name">
+                                {{(dayContent.movies[dayContent.index].nameCZ 
+                                    ? dayContent.movies[dayContent.index].nameCZ 
+                                        : dayContent.movies[dayContent.index].nameEN)}}
+                            </span>
                         </div>
                     </a>
                 </div>

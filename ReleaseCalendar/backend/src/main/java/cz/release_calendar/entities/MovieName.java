@@ -7,8 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
 @Table(name = "movies")
+@NoArgsConstructor
+@Getter
+@Setter
 public class MovieName {
 
 	@Id
@@ -21,37 +28,5 @@ public class MovieName {
 	
 	@Column(name = "name_en", length = 100)
 	private String nameEN;
-	
-// Konstruktor ///////////////////////////////////////////////////////////////////////////
-	
-	public MovieName() {
-		
-	}
-
-// Gettery + Settery /////////////////////////////////////////////////////////////////////
-	
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getNameCZ() {
-		return nameCZ;
-	}
-
-	public void setNameCZ(String nameCZ) {
-		this.nameCZ = nameCZ;
-	}
-
-	public String getNameEN() {
-		return nameEN;
-	}
-
-	public void setNameEN(String nameEN) {
-		this.nameEN = nameEN;
-	}
 	
 }
