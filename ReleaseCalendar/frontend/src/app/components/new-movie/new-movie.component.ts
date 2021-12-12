@@ -4,7 +4,7 @@ import { Platforms } from 'src/app/modules/platforms';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { NewMovie } from "src/app/modules/interfaces/newMovie";
 import { Genres } from 'src/app/modules/genres';
-import { FileStatus } from 'src/app/modules/enums/fileStatus';
+import { FileType } from 'src/app/modules/enums/fileType';
 
 @Component({
   selector: 'app-new-movie',
@@ -13,15 +13,16 @@ import { FileStatus } from 'src/app/modules/enums/fileStatus';
 })
 export class NewMovieComponent implements OnInit {
 
+  // Zobrazení / skrytí modalů, pro přidání filmu
   @Output() isNewMovieModalClosed = new EventEmitter<boolean>();
 
   @ViewChild("file") fileRef: ElementRef;
   @ViewChild("files") filesRef: ElementRef;
 
-  // Enum - [náhledový obrázek / obrázky]
-  public fileStatus = FileStatus;
+  // Enum typ souboru - [náhledový obrázek / obrázky]
+  public fileType = FileType;
 
-  public newMovie: NewMovie;
+  public newMovie = <NewMovie>{};
 
   // Náhledový obrázek
   public poster: File = null;
@@ -41,8 +42,10 @@ export class NewMovieComponent implements OnInit {
   public actorInput: string;
   public selectedActors: Array<string> = [];
 
+  // Chyby formátů souborů
   public posterFormatError: boolean = false;
   public imagesFormatError: boolean = false;
+
 
   /**
    * Konstruktor
@@ -50,7 +53,10 @@ export class NewMovieComponent implements OnInit {
    * @param renderer 
    * @param moviesService - service pro získání filmů z databáze
    */
-  constructor(private renderer: Renderer2, private moviesService: MoviesService) {}
+  constructor(
+    private renderer: Renderer2, 
+    private moviesService: MoviesService
+  ) {}
 
 
   /**
@@ -63,6 +69,7 @@ export class NewMovieComponent implements OnInit {
    * Zavření Modalu
    */
   closeModal() {
+
     this.isNewMovieModalClosed.emit(true);
   }
 
@@ -71,56 +78,57 @@ export class NewMovieComponent implements OnInit {
    * Zpracování souborů + vytvoření nového
    * 
    * @param file - nahraný soubor
-   * @param fileStatus - enum - [náhledový obrázek / obrázky]
+   * @param fileType - enum [náhledový obrázek / obrázky]
    */
-  processFiles(file: FileList, fileStatus: FileStatus): void {
+  processFiles(file: FileList, fileType: FileType): void {
 
-    let lastElement: Element;
+    let containerElement: Element;
 
-    const duplicateFile = this.images.find(image => image.name === file[0].name);
+    const duplicateFile: File = this.images.find((image: File) => image.name === file[0].name);
 
     // Ochrana null hondoty, duplicity, počtu souborů
     if (file[0] && !duplicateFile && (!this.poster || this.images.length !== 5)) {
 
-      // Náhledový obrázek
-      if (FileStatus[fileStatus] === FileStatus.poster) {
+      switch (fileType) {
 
-        lastElement = this.fileRef.nativeElement.lastElementChild;
+        // Náhledový obrázek
+        case FileType.poster:
 
-        if (file[0].type !== "image/jpeg") this.posterFormatError = true;
+          containerElement = this.fileRef.nativeElement.lastElementChild;
 
-        this.poster = file[0];
+          this.poster = file[0]; 
 
-      // Obrázky
-      } else if (FileStatus[fileStatus] === FileStatus.images) {
+          this.posterFormatError = (file[0].type !== "image/jpeg") ? true : false;
+          break;
 
-        lastElement = this.filesRef.nativeElement.lastElementChild;
+        // Obrázky
+        case FileType.images:
 
-        if (file[0].type !== "image/jpeg") this.imagesFormatError = true;
+          containerElement = this.filesRef.nativeElement.lastElementChild;
 
-        this.images.push(file[0]);
+          this.images.push(file[0]); 
+
+          const wrongFileType: File = this.images.find((image: File) => image.type !== "image/jpeg");
+          this.imagesFormatError = (wrongFileType) ? true : false;
+          break;
       }
 
-      // Jméno posledního nahraného souboru
-      const lastFileName: string = file[0].name
+      // Vytvoření tlačítka pro odebrání souboru
+      this.createRemoveButton(containerElement, file[0].name, fileType);
 
-      const spanElement: Element = lastElement.getElementsByTagName("span")[0];
+      // Zakázání dialogu, pro znovu vybrání souboru
+      const inputElement: HTMLInputElement = containerElement.getElementsByTagName("input")[0];
+      this.renderer.setAttribute(inputElement, "disabled", "true");
 
-      // Vytvoření elementu tlačítka pro odebrání souboru
-      const button: Element = this.renderer.createElement("button");
-      const buttonText: Element = this.renderer.createText("x");
-      this.renderer.appendChild(button, buttonText);
-
-      // Click event, pro odebrání souboru
-      this.renderer.listen(button, "click", () => this.removeFiles(lastFileName, fileStatus));
-
-      this.renderer.appendChild(lastElement, button);
+      // Odstranení hover efektu
+      this.renderer.removeClass(containerElement, "hoverEffect");
 
       // Nastavení jména souboru
-      spanElement.innerHTML = lastFileName;
+      const spanElement: HTMLSpanElement = containerElement.getElementsByTagName("span")[0]; 
+      spanElement.innerHTML = file[0].name;
 
       // Maximálně 5 obrázků
-      if (this.images.length < 5 && FileStatus[fileStatus] === FileStatus.images) {
+      if (this.images.length < 5 && FileType[fileType] === FileType.images) {
 
         // Vytvoření nového elementu pro přidání souboru
         this.createFileInputElement(this.filesRef.nativeElement);
@@ -128,15 +136,40 @@ export class NewMovieComponent implements OnInit {
     }
   }
 
+
+  /**
+   * Vytvoření tlačítka pro odebrání souboru
+   * 
+   * @param containerElement - obalový element
+   * @param fileName - název souboru
+   * @param fileType - enum [náhledový obrázek / obrázky]
+   */
+  createRemoveButton(containerElement: Element, fileName: string, fileType: FileType): void {
+
+    // Vytvoření tlačítka
+    const button: Element = this.renderer.createElement("button");
+    const buttonText: Element = this.renderer.createText("x");
+    this.renderer.appendChild(button, buttonText);
+
+    // Click event, pro odebrání souboru
+    this.renderer.listen(button, "click", () => this.removeFiles(fileName, fileType));
+
+    this.renderer.appendChild(containerElement, button);
+  }
+
+
   /**
    * Vytvoření nového elementu pro přidání souboru
+   * 
+   * @param containerElement - obalový element
    */
-  createFileInputElement(element: Element): void {
+  createFileInputElement(containerElement: Element): void {
 
     // Label - obalový element
     const label: Element = this.renderer.createElement("label");
     this.renderer.addClass(label, "fileContainer");
-    this.renderer.appendChild(element, label);
+    this.renderer.addClass(label, "hoverEffect");
+    this.renderer.appendChild(containerElement, label);
 
     // Span - vnitřní element (název souboru)
     const span: Element = this.renderer.createElement("span");
@@ -153,59 +186,50 @@ export class NewMovieComponent implements OnInit {
 
 
   /**
-   * Odebrání souboru z listu i z DOM
-   * 
+   * Odebrání souboru z listu
+   *
    * @param fileName - název souboru
-   * @param fileStatus - enum - [náhledový obrázek / obrázky]
+   * @param fileType - enum [náhledový obrázek / obrázky]
    */
-  removeFiles(fileName: string, fileStatus: FileStatus) {
+  removeFiles(fileName: string, fileType: FileType) {
 
     let elementRef: Element;
 
-      // Náhledový obrázek
-    if (FileStatus[fileStatus] === FileStatus.poster) {
+    // Náhledový obrázek
+    switch (fileType) {
 
-      this.createFileInputElement(this.fileRef.nativeElement);
+      case FileType.poster:
 
-      this.posterFormatError = false;
+        // Vytvoření nového elementu pro přidání souboru
+        this.createFileInputElement(this.fileRef.nativeElement);
 
-      elementRef = this.fileRef.nativeElement;
+        this.poster = null;
+        this.posterFormatError = false;
+        elementRef = this.fileRef.nativeElement;
+        break;
 
-      this.poster = null;
+      // Obrázky
+      case FileType.images:
 
-    // Obrázky
-    } else if (FileStatus[fileStatus] === FileStatus.images) {
-
-      if (this.images.length === 5) {
-        this.createFileInputElement(this.filesRef.nativeElement);
-      }
-
-      elementRef = this.filesRef.nativeElement;
-
-      for (let index in this.images) {
+        // Vytvoření nového elementu pro přidání souboru
+        if (this.images.length === 5) this.createFileInputElement(this.filesRef.nativeElement);
 
         // Odebrání souboru z listu, při shodě jména
-        if (this.images[index].name === fileName) {
-          this.images.splice(parseInt(index), 1);
-        }
-      }
+        this.images = this.images.filter((image: File) => image.name !== fileName);
+  
+        // Kontrola formátu
+        const wrongFileType: File = this.images.find((image: File) => image.type !== "image/jpeg");
+        this.imagesFormatError = (wrongFileType) ? true : false;
+        elementRef = this.filesRef.nativeElement;
+        break;
+    }
 
-      // Kontrola formátu
-      let isError = this.images.find((image: File) => image.type !== "image/jpeg");
-
-      if (isError) {
-
-        this.imagesFormatError = true;
-
-      } else this.imagesFormatError = false;
-     }
-
-    const elements: NodeList = elementRef.querySelectorAll(".fileContainer span");
-
-    elements.forEach((element: Element) => {
+    // Odebrání elementu z DOM
+    elementRef.querySelectorAll(".fileContainer span").forEach((element: Element) => {
       
-      // Odebrání elementu z DOM, při shodě jména
+      // Odebrání elementu z DOM
       if (element.innerHTML === fileName) {
+
         this.renderer.removeChild(elementRef, element.parentElement);
       }
     });
@@ -221,8 +245,11 @@ export class NewMovieComponent implements OnInit {
   addValue(value: string, array: Array<string>): void {
 
     if (!array.includes(value) && value) {
+
       array.push(value);
     }
+
+    this.actorInput = "";
   }
 
 
@@ -233,7 +260,10 @@ export class NewMovieComponent implements OnInit {
    * @param array - pole
    */
   removeValue(index: number, array: Array<string>): void {
+
     array.splice(index, 1);
+
+    if (array.length === 0) this.genreSelect = "";
   }
 
 
@@ -245,13 +275,16 @@ export class NewMovieComponent implements OnInit {
     this.newMovie.genres = this.selectedGenres;
     this.newMovie.actors = this.selectedActors;
 
+    // Request - uložení nového filmu
     this.moviesService.postNewMovie(this.newMovie, this.poster, this.images).subscribe((response: Response) => {
-
+      
       // Response - OK
       if (response.status === 200) {
+
+        // Zavření Modalu
         this.closeModal();
       }
-    }, (error) => console.log(error));
+    })
   }
 
 }

@@ -1,199 +1,231 @@
 <form #newMovieForm="ngForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">   
 
-    <table>
+    <!-- Název CZ -->
+    <div class="nameCZ">
 
-        <!-- Název CZ -->
-        <tr>
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="!newMovie.nameCZ && nameCZ.touched" for="nameCZ">Název CZ: </label>
-            </td>
+        <div class="labelColumn">
+            <label [class.error]="!newMovie.nameCZ && nameCZ.touched" for="nameCZ">
+                Název CZ: 
+            </label>
+        </div>
 
-            <td class="inputColumn">
-                <input required [class.errorBorder]="!newMovie.nameCZ && nameCZ.touched" #nameCZ="ngModel" type="text" name="nameCZ" id="nameCZ" [(ngModel)]="newMovie.nameCZ">
-            </td>
-        </tr>
+        <input #nameCZ="ngModel" [class.error]="!newMovie.nameCZ && nameCZ.touched" type="text" 
+            name="nameCZ" id="nameCZ" [(ngModel)]="newMovie.nameCZ" required autocomplete="off">
+    </div>
 
-        <!-- Název EN -->
-        <tr>
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="!newMovie.nameEN && nameEN.touched" for="nameEN">Název EN: </label>
-            </td>
+    <!-- Název EN -->
+    <div class="nameEN">
 
-            <td class="inputColumn">
-                <input required [class.errorBorder]="!newMovie.nameEN && nameEN.touched" #nameEN="ngModel" type="text" name="nameEN" id="nameEN" [(ngModel)]="newMovie.nameEN">
-            </td>
-        </tr>
+        <div class="labelColumn">
+            <label [class.error]="!newMovie.nameEN && nameEN.touched" for="nameEN">
+                Název EN: 
+            </label>
+        </div>
+
+        <input #nameEN="ngModel" [class.error]="!newMovie.nameEN && nameEN.touched" type="text" 
+            name="nameEN" id="nameEN" [(ngModel)]="newMovie.nameEN" required autocomplete="off">
+    </div>
+
+    <!-- Datum premiéry -->
+    <div class="releaseDate">
+
+        <div class="labelColumn">
+            <label [class.error]="!newMovie.releaseDate && releaseDate.touched" for="releaseDate">
+                Datum premiéry: 
+            </label>
+        </div>
+
+        <input #releaseDate="ngModel" [class.error]="!newMovie.releaseDate && releaseDate.touched" 
+            type="date" name="releaseDate" id="releaseDate" [(ngModel)]="newMovie.releaseDate" required>
+    </div>
+
+    <!-- Výběr náhledového obrázku -->
+    <div class="poster">
+
+        <div class="labelColumn">
+            <label [class.error]="posterFormatError">
+                Náhledový obrázek: 
+            </label>
+        </div>
+
+        <div class="container">
+
+            <small class="error" *ngIf="posterFormatError">
+                Zadaný soubor musí být ve formátu JPEG
+            </small>
+    
+            <div #file (change)="processFiles($event.target.files, fileType.poster)">
+    
+                <label class="fileContainer hoverEffect">
+                    <span>+ Přidat soubor</span>
+                    <input class="hide" type="file">
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Výběr obrázků -->
+    <div class="images">
+
+        <div class="labelColumn">
+            <label [class.error]="imagesFormatError">
+                Obrázky: 
+            </label>
+        </div>
+
+        <div class="container">
+
+            <small class="error" *ngIf="imagesFormatError">
+                Zadané soubory musí být ve formátu JPEG
+            </small>
+
+            <div id="files" #files (change)="processFiles($event.target.files, fileType.images)">
+                    
+                <label class="fileContainer hoverEffect">
+                    <span>+ Přidat soubor</span>
+                    <input class="hide" type="file">
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Platforma -->
+    <div class="platform">
+
+        <div class="labelColumn">
+            <label [class.error]="!newMovie.platform && platform.touched">
+                Platforma: 
+            </label>
+        </div>
+
+        <select #platform="ngModel" [class.error]="!newMovie.platform && platform.touched" 
+            name="platform" [(ngModel)]="newMovie.platform" required>
+
+            <option *ngFor="let platform of platforms" value="{{platform.value}}">
+                {{platform.name}}
+            </option>
+        </select>
+    </div>
+
+    <!-- Vybrané žánry -->
+    <div class="selectedGenresContainer">
+        <div *ngFor="let selectedGenre of selectedGenres; let index = index">
+                    
+            <button (click)="removeValue(index, selectedGenres)">
+                {{selectedGenres[index]}}
+            </button>
+        </div>
+    </div>
+    
+    <!-- Žánry -->
+    <div class="genres">
+
+        <div class="labelColumn">
+            <label [class.error]="selectedGenres.length === 0 && genresElement.touched">
+                Žánry: 
+            </label>
+        </div>
+
+        <select #genresElement="ngModel" [class.error]="selectedGenres.length === 0 && genresElement.touched" 
+            name="genreSelect" [(ngModel)]="genreSelect" (change)="addValue(genreSelect, selectedGenres)">
+
+            <option *ngFor="let genre of genres; let index = index">{{genres[index]}}</option>
+        </select>
+    </div>
+
+    <!-- ČSFD odkaz -->
+    <div class="csfdLink">
+
+        <div class="labelColumn">
+            <label [class.error]="!newMovie.csfdLink && csfdLink.touched" for="csfdLink">
+                ČSFD odkaz: 
+            </label>
+        </div>
+
+        <input #csfdLink="ngModel" [class.error]="!newMovie.csfdLink && csfdLink.touched" 
+            type="url" name="csfdLink" id="csfdLink" [(ngModel)]="newMovie.csfdLink" required autocomplete="off">
+    </div>
+
+    <!-- IMDb odkaz -->
+    <div class="imdbLink">
+
+        <div class="labelColumn">
+            <label [class.error]="!newMovie.imdbLink && imdbLink.touched" for="imbdLink">
+                IMDb odkaz: 
+            </label>
+        </div>
+
+        <input #imdbLink="ngModel" [class.error]="!newMovie.imdbLink && imdbLink.touched" 
+            type="url" name="imdbLink" id="imdbLink" [(ngModel)]="newMovie.imdbLink" required autocomplete="off">
+    </div>
+
+    <!-- Režie -->
+    <div class="director">
+
+        <div class="labelColumn">
+            <label [class.error]="!newMovie.director && director.touched" for="director">
+                Režie: 
+            </label>
+        </div>
+
+        <input #director="ngModel" [class.error]="!newMovie.director && director.touched" 
+            type="text" name="director" id="director" [(ngModel)]="newMovie.director" required autocomplete="off">
+    </div>
+
+    <!-- Vybraní herci -->
+    <div class="selectedActorsContainer">
+        <div class="selectedActors" *ngFor="let selectedActor of selectedActors; let index = index">
+
+            <button (click)="removeValue(index, selectedActors)">
+                {{selectedActors[index]}}
+            </button>
+        </div>
+    </div>
+
+    <!-- Přidat herce -->
+    <div class="actors">
+
+        <div class="labelColumn">
+            <label [class.error]="selectedActors.length === 0 && !actorInput && actors.touched" for="actorInput">
+                Hrají: 
+            </label>
+        </div>
+
+        <input #actors="ngModel" [class.error]="selectedActors.length === 0 && !actorInput && actors.touched" 
+            type="text" id="actorInput" name="actorInput" [(ngModel)]="actorInput" autocomplete="off">
         
-        <!-- Datum premiéry -->
-        <tr> 
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="!newMovie.releaseDate && releaseDate.touched" for="releaseDate">Datum premiéry: </label>
-            </td>
+        <button type="button" [class.error]="selectedActors.length === 0 && !actorInput && actors.touched" 
+            id="actorButton" (click)="addValue(actorInput, selectedActors)">
 
-            <td class="inputColumn">
-                <input required [class.errorBorder]="!newMovie.releaseDate && releaseDate.touched" #releaseDate="ngModel" type="date" name="releaseDate" id="releaseDate" [(ngModel)]="newMovie.releaseDate">
-            </td>
-        </tr>
+            Přidat
+        </button>
+    </div>
 
-        <!-- Výběr náhledového obrázku -->
-        <tr>
-            <td class="toRight labelColumn fileLabel">
-                <div *ngIf="posterFormatError">&nbsp;</div>
-                <label [class.errorColor]="posterFormatError">Náhledový obrázek: </label>
-            </td>
+    <!-- Obsah -->
+    <div class="movieContent">
 
-            <td>
-                <small class="errorColor" *ngIf="posterFormatError">Zadaný soubor musí být ve formátu JPEG</small>
-                <div #file (change)="processFiles($event.target.files, fileStatus.poster)">
+        <div class="labelColumn">
+            <label [class.error]="!newMovie.content && content.touched" for="content">
+                Obsah: 
+            </label>
+        </div>
 
-                    <label class="fileContainer">
-                        <span>+ Přidat soubor</span>
-                        <input class="hide" type="file">
-                    </label>
-                </div>
-            </td>
-        </tr>
+        <textarea #content="ngModel" [class.error]="!newMovie.content && content.touched" rows="5" cols="20" name="content" id="content" [(ngModel)]="newMovie.content" required></textarea>
+    </div>
 
-        <!-- Výběr obrázků -->
-        <tr>
-            <td class="toRight labelColumn fileLabel">
-                <div *ngIf="imagesFormatError">&nbsp;</div>
-                <label [class.errorColor]="imagesFormatError">Obrázky: </label>
-            </td>
+    <!-- Odkaz video -->
+    <div class="videoLink">
 
-            <td>
-                <small class="errorColor" *ngIf="imagesFormatError">Zadané soubory musí být ve formátu JPEG</small>
-                <div id="files" #files (change)="processFiles($event.target.files, fileStatus.images)">
-                    
-                    <label class="fileContainer">
-                        <span>+ Přidat soubor</span>
-                        <input class="hide" type="file">
-                    </label>
-                </div>
-            </td>
-        </tr>
+        <div class="labelColumn">
 
-        <!-- Platforma -->
-        <tr>
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="!newMovie.platform && platform.touched">Platformy:</label>
-            </td>
+            <label [class.error]="!newMovie.videoLink && videoLink.touched" for="videoLink">
+                Odkaz na video: 
+            </label>
+        </div>
 
-            <td class="inputColumn">
-                <select required [class.errorBorder]="!newMovie.platform && platform.touched" #platform="ngModel" name="platform" [(ngModel)]="newMovie.platform">
-                    <option *ngFor="let platform of platforms" value="{{platform.value}}">
-                        {{platform.name}}
-                    </option>
-                </select>
-            </td>
-        </tr>
-
-        <!-- Vybrané žánry -->
-        <tr>
-            <td></td>
-            <td class="selectedContainer">
-                <div class="selectedGenres" *ngFor="let selectedGenre of selectedGenres; let index = index">
-                    
-                    <button (click)="removeValue(index, selectedGenres)">
-                        {{selectedGenres[index]}}
-                    </button>
-                </div>
-            </td>
-        </tr>
-
-        <!-- Žánry -->
-        <tr>
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="selectedGenres.length === 0 && genresElement.touched">Žánry: </label>
-            </td>
-
-            <td class="inputColumn">
-                <select [class.errorBorder]="selectedGenres.length === 0 && genresElement.touched" #genresElement="ngModel" name="genreSelect" [(ngModel)]="genreSelect" (change)="addValue(genreSelect, selectedGenres)">
-                    <option *ngFor="let genre of genres; let index = index">{{genres[index]}}</option>
-                </select>
-            </td>
-        </tr>
-
-        <!-- ČSFD odkaz -->
-        <tr>
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="!newMovie.csfdLink && csfdLink.touched" for="csfdLink">ČSFD odkaz: </label>
-            </td>
-
-            <td class="inputColumn">
-                <input required [class.errorBorder]="!newMovie.csfdLink && csfdLink.touched" #csfdLink="ngModel" type="url" name="csfdLink" id="csfdLink" [(ngModel)]="newMovie.csfdLink">
-            </td>
-        </tr>
-
-        <!-- IMDb odkaz -->
-        <tr>
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="!newMovie.imdbLink && imdbLink.touched" for="imbdLink">IMDb odkaz: </label>
-            </td>
-
-            <td class="inputColumn">
-                <input required [class.errorBorder]="!newMovie.imdbLink && imdbLink.touched" #imdbLink="ngModel" type="url" name="imdbLink" id="imdbLink" [(ngModel)]="newMovie.imdbLink">
-            </td>
-        </tr>
-
-        <!-- Režie -->
-        <tr>
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="!newMovie.director && director.touched" for="director">Režie: </label>
-            </td>
-
-            <td class="inputColumn">
-                <input required [class.errorBorder]="!newMovie.director && director.touched" #director="ngModel" type="text" name="director" id="director" [(ngModel)]="newMovie.director">
-            </td>
-        </tr>
-
-        <!-- Vybraní herci -->
-        <tr>
-            <td></td>
-            <td class="selectedContainer">
-                <div class="selectedActors" *ngFor="let selectedActor of selectedActors; let index = index">
-                    
-                    <button (click)="removeValue(index, selectedActors)">
-                        {{selectedActors[index]}}
-                    </button>
-                </div>
-            </td>
-        </tr>
-
-        <!-- Přidat herce -->
-        <tr>
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="selectedActors.length === 0 && actors.touched" for="actors">Hrají: </label>
-            </td>
-
-            <td class="inputColumn">
-                <input [class.errorBorder]="selectedActors.length === 0 && actors.touched" #actors="ngModel" type="text" id="actorInput" name="actorInput" [(ngModel)]="actorInput">
-                <button type="button" id="actorButton" (click)="addValue(actorInput, selectedActors)">Přidat</button>
-            </td>
-        </tr>
-
-        <!-- Obsah -->
-        <tr>
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="!newMovie.content && content.touched" for="content">Obsah: </label>
-            </td>
-
-            <td class="inputColumn">
-                <textarea required [class.errorBorder]="!newMovie.content && content.touched" #content="ngModel" rows="5" cols="20" name="content" id="content" [(ngModel)]="newMovie.content"></textarea>
-            </td>
-        </tr>
-
-        <!-- Odkaz video -->
-        <tr>
-            <td class="toRight labelColumn">
-                <label [class.errorColor]="!newMovie.videoLink && videoLink.touched" for="videoLink">Odkaz na video: </label>
-            </td>
-
-            <td class="inputColumn">
-                <input required [class.errorBorder]="!newMovie.videoLink && videoLink.touched" #videoLink="ngModel" type="url" name="videoLink" id="videoLink" [(ngModel)]="newMovie.videoLink">
-            </td>
-        </tr>
-    </table>
+        <input #videoLink="ngModel" [class.error]="!newMovie.videoLink && videoLink.touched" 
+            type="url" name="videoLink" id="videoLink" [(ngModel)]="newMovie.videoLink" required autocomplete="off">
+    </div>
 
     <button [class.disabled]="selectedGenres.length === 0 || selectedActors.length === 0 || !poster || images.length === 0 || newMovieForm.form.invalid" 
             [disabled]="selectedGenres.length === 0 || selectedActors.length === 0 || !poster || images.length === 0 || newMovieForm.form.invalid" id="submitButton" type="submit">

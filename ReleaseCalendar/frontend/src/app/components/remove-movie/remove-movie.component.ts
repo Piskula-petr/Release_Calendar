@@ -178,21 +178,19 @@ export class RemoveMovieComponent implements OnInit {
    */
   removeMovie(): void {
 
-    this.closeModal();
-
     // Request - odstranění filmu
-    //this.moviesService.postDeleteMovieID(this.movieToDelete.id).subscribe((response: Response) => {
+    this.moviesService.postDeleteMovieID(this.movieToDelete.id).subscribe((response: Response) => {
 
-    //   // Response - OK
-    //   if (response.status === 200) {
+      // Response - OK
+      if (response.status === 200) {
 
-          // Zavření modalu
-    //     this.closeModal();
+        // Zavření modalu
+        this.closeModal();
 
-          // Inicializační metoda
-    //     this.ngOnInit();
-    //   }
-    // }, (error) => console.log(error));
+        // Inicializační metoda
+        this.ngOnInit();
+      }
+    }, (error) => console.log(error));
   }
 
 }
