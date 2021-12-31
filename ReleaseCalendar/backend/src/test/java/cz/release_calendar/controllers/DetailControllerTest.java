@@ -92,7 +92,7 @@ public class DetailControllerTest {
 		movie.setImage(poster);
 		movie.setImages(images);
 		
-		when(movieService.getMovieByID(anyLong())).thenReturn(movie);
+		when(movieService.getMovieDetail(anyLong())).thenReturn(movie);
 		
 		long movieID = random.nextLong();
 		
@@ -117,7 +117,7 @@ public class DetailControllerTest {
 			.andExpect(jsonPath("$.images.length()").value(movie.getImages().size()))
 			.andExpect(jsonPath("$.images[0]").value(Base64.getEncoder().encodeToString(movie.getImages().get(0))));
 	
-		verify(movieService, times(1)).getMovieByID(anyLong());
+		verify(movieService, times(1)).getMovieDetail(anyLong());
 	}
 	
 }

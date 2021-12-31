@@ -1,15 +1,16 @@
 .movieDetail {
     width: 1100px;
-    display: table;
+    display: flex;
+    flex-direction: column;
     margin: 0px auto;
     background: #EEE;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19);
 }
 
 .label {
-    font-size: 1.3em;
+    font-size: 1.3rem;
     color: white;
     font-weight: bold;
     background: #232344;
@@ -21,8 +22,9 @@
 
 /*__________________________ Předchozí stránka __________________________*/
 .movieDetail button {
+    display: flex;
+    align-items: center;
     margin: -5px 0px 10px 0px;
-    float: left;
     background-color: transparent;
     border: none;
 }
@@ -40,12 +42,17 @@
     width: 24px;
 }
 
+.movieDetail button div {
+    font-size: 1.4rem;
+    padding: 10px;
+}
+
 /*__________________________ Copyright __________________________*/
 .copyright {
     color: white;
     float: right;
     font-weight: normal;
-    font-size: 0.8em;
+    font-size: 1rem;
     margin: 3px 0px 0px 0px;
 }
 
@@ -61,7 +68,6 @@
 /*__________________________ Přehled filmu __________________________*/
 .movieContainer {
     position: relative;
-    float: left;
     width: 1100px;
     border: 1px solid #BEBEBE;
     background: whitesmoke;
@@ -83,7 +89,7 @@
 
 .nameCZ {
     display: inline-block;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-weight: bold;
     margin: 10px 10px 10px 20px;
     padding: 0px 20px 0px 0px;
@@ -92,7 +98,7 @@
 
 .nameEN {
     display: inline-block;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-weight: bold;
     margin: 10px 10px 10px 10px;
     padding: 0px 20px 0px 0px;
@@ -101,7 +107,7 @@
 
 .year {
     display: inline-block;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-weight: bold;
     margin: 10px 10px 10px 10px;
 }
@@ -109,7 +115,7 @@
 .genres, .release, .director {
     font-weight: bold;
     margin: 10px 20px;
-    font-size: 1.2em;
+    font-size: 1.2rem;
 }
 
 .genres div {
@@ -123,7 +129,7 @@
 table {
     position: relative;
     margin: 10px 20px;
-    font-size: 1.2em;
+    font-size: 1.2rem;
     width: 650px;
 }
 
@@ -181,14 +187,13 @@ table .actor {
 }
 
 .movieContent p {
-    font-size: 1.05em;
+    font-size: 1.05rem;
     padding: 0px 15px;
 }
 
 /*__________________________ Video __________________________*/
 .video {
     width: 100%;
-    float: left;
     border: 1px solid #BEBEBE;
     background: whitesmoke;
     border-radius: 4px;
@@ -207,7 +212,6 @@ table .actor {
 /*__________________________ Video __________________________*/
 .images {
     width: 100%;
-    float: left;
     border: 1px solid #BEBEBE;
     background: whitesmoke;
     border-radius: 4px;

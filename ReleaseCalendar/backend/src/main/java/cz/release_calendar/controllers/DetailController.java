@@ -23,13 +23,11 @@ public class DetailController {
 	 * Získání detailu filmu
 	 * 
 	 * @param movieID - ID filmu
-	 * 
-	 * @return - vrací detailní informace o filmu
 	 */
 	@GetMapping("/movie/{movieID}")
 	public Movie getMovieDatail(@PathVariable("movieID") long movieID) {
 		
-		Movie movie = movieService.getMovieByID(movieID);
+		Movie movie = movieService.getMovieDetail(movieID);
 		
 		return movie;
 	}

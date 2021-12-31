@@ -1,32 +1,15 @@
 package cz.release_calendar.pojo;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@Getter
+@Setter
 public class MoviesTotalCount {
 
 	private long previousTotal;
 	private long nextTotal;
-	
-// Konstruktor /////////////////////////////////////////////////////////////////////////////
-	
-	public MoviesTotalCount() {
-		
-	}
-
-// Gettery + Settery ///////////////////////////////////////////////////////////////////////
-	
-	public long getPreviousTotal() {
-		return previousTotal;
-	}
-	
-	public void setPreviousTotal(long previousTotal) {
-		this.previousTotal = previousTotal;
-	}
-
-	public long getNextTotal() {
-		return nextTotal;
-	}
-
-	public void setNextTotal(long nextTotal) {
-		this.nextTotal = nextTotal;
-	}
 	
 }

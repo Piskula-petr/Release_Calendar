@@ -6,24 +6,58 @@
     display: none;
 }
 
-.errorColor {
-    color: red;
-}
-
-.errorBorder {
-    border-color: red !important;
-    color: red;
+.error {
+    border-color: #B22222 !important;
+    color: #B22222;
 }
 
 /*__________________________ Formulář __________________________*/
 form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 10px;
+}
+
+.labelColumn {
+    align-self: center;
+    display: inline-block;
+    text-align: right;
+    width: 220px;
+}
+
+.nameCZ .labelColumn, .nameEN .labelColumn, .csfdLink .labelColumn, 
+.imdbLink .labelColumn, .director .labelColumn, .movieContent .labelColumn, .videoLink .labelColumn {
+    margin: 8px 20px 8px 0px;
+}
+
+.releaseDate .labelColumn {
+    margin: 10px 20px 2px 0px;
+}
+
+.platform .labelColumn {
+    margin: 12px 21px 0px 0px;
+}
+
+.genres .labelColumn, .actors .labelColumn {
+    margin: 4px 21px 10px 0px;
+}
+
+.poster .labelColumn, .images .labelColumn {
+    margin: 0px 20px 0px 0px;
+}
+
+.movieContent {
+    display: flex;
+    align-content: center;
 }
 
 form input {
     border: 1px solid #808080;
     border-radius: 4px;
     padding: 5px;
+    margin: 0px 0px 0px 20px;
     width: 220px;
 }
 
@@ -36,7 +70,7 @@ form select {
     border-radius: 4px;
     padding: 5px;
     width: 233px;
-    margin: 0;
+    margin: 0px 0px 4px 20px;
 }
 
 form option {
@@ -49,23 +83,7 @@ form textarea {
     padding: 5px;
     width: 220px;
     resize: none;
-}
-
-form table {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-form table tr td {
-    padding: 10px 0px 0px 0px;
-}
-
-.labelColumn {
-    width: 160px;
-}
-
-.inputColumn {
-    width: 300px;
+    margin: 4px 0px 4px 20px;
 }
 
 form button {
@@ -76,29 +94,51 @@ form button:hover {
     cursor: pointer;
 }
 
-.selectedContainer {
-    width: 300px;
+/*__________________________ Náhledový obrázek / Obrázky __________________________*/
+.poster {
+    display: flex;
 }
 
-.selectedGenres, .selectedActors {
-    float: left;
+.images {
+    display: flex;
+}
+
+.poster .container, .images .container {
+    display: block;
+    width: 230px;
+    margin: 0px 0px 0px 19px;
+}
+
+.poster small, .images small {
+    display: block;
+    width: 290px;
+    margin: 7px 0px 0px -25px;
+}
+
+.poster label, .images label {
+    display: block;
+    width: 220px;
+    margin: 8px 0px 0px 0px;
+}
+
+/*__________________________ Vybrané žánry / herci __________________________*/
+.selectedGenresContainer, .selectedActorsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 2px 0px 2px 0px;
 }
 
 /*__________________________ Přidání souborů __________________________*/
 .fileContainer {
-    position: relative;
-    display: block;
-    width: 218px;
-    height: 19px;
+    height: 22px;
 	border: 1px solid #808080;
     border-radius: 4px;
-    padding: 3px 7px;
-    margin: 10px auto 0px auto;
+    padding: 3px 5px;
 }
 
 .fileContainer span {
-    position: relative;
-    width: 190px;
+    width: 191px;
     overflow: hidden;
     display: inline-block;
     text-overflow: ellipsis;
@@ -106,26 +146,29 @@ form button:hover {
 }
 
 .fileContainer button {
-    padding: 5px 7px;
+    height: 28px;
     position: relative;
-    margin: 0;
-    top: -5px;
-    right: -8px;
+    margin: 0px 0px 0px 5px;
+    top: -4px;
+    right: -7px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
     border: none;
     border-left: 1px solid #808080;
+    background: transparent;
+}
+
+.fileContainer button:hover {
+    cursor: pointer;
 }
 
 .fileContainer button:focus {
     outline: none;
 }
 
-.fileContainer:hover {
+.hoverEffect:hover {
     cursor: pointer;
     background: #E8E8E8;
-}
-
-.fileLabel {
-    padding: 17px 0px 0px 0px !important;
 }
 
 /*__________________________ Přidání herců __________________________*/
@@ -136,10 +179,9 @@ form button:hover {
 }
 
 #actorButton {
-    margin: 0;
+    margin: 0px 0px 0px -1px;
     height: 27px;
     border: 1px solid #808080;
-    border-left: none;
     border-top-left-radius: 0px;
     border-top-right-radius: 4px;
     border-bottom-left-radius: 0px;
@@ -159,7 +201,7 @@ form button:hover {
 #submitButton {
 	margin: 30px 0px 10px 0px;
 	padding: 3px 15px;
-	font-size: 1.2em;
+	font-size: 1.2rem;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;

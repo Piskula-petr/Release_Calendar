@@ -1,6 +1,5 @@
 package cz.release_calendar.controllers;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cz.release_calendar.entities.MovieList;
+import cz.release_calendar.entities.MovieListDetailed;
 import cz.release_calendar.enums.Status;
 import cz.release_calendar.pojo.MoviesTotalCount;
 import cz.release_calendar.services.MovieService;
@@ -25,54 +25,71 @@ public class ListController {
 	
 	
 	/**
-	 * Získání počtu filmů od dnešního data
-	 * 
-	 * @return - vrací počet filmů
+	 * Získání počtu filmů v databázi
 	 */
 	@GetMapping("/movies/list/count")
-	public MoviesTotalCount getMoviesFromTodayCount() {
+	public long getMoviesCount() {
+		
+		return movieService.getMoviesCount();
+	}
+	
+	
+	/**
+	 * Získání počtu filmů od dnešního dne
+	 */
+	@GetMapping("/movies/list/count/today")
+	public MoviesTotalCount getMoviesCountByToday() {
 		
 		MoviesTotalCount moviesTotalCount = new MoviesTotalCount();
-		moviesTotalCount.setNextTotal(movieService.getMoviesFromTodayCount(LocalDate.now(), Status.next));
-		moviesTotalCount.setPreviousTotal(movieService.getMoviesFromTodayCount(LocalDate.now(), Status.previous));
+		moviesTotalCount.setNextTotal(movieService.getMoviesCountByToday(Status.next));
+		moviesTotalCount.setPreviousTotal(movieService.getMoviesCountByToday(Status.previous));
 		
 		return moviesTotalCount;
 	}
-	
+
 	
 	/**
-	 * Získání filmů od dnešního data
+	 * Získání pole filmů
 	 * 
 	 * @param startIndex - počáteční index
-	 * @param status - enum [další / předchozí]
-	 * 
-	 * @return - vrací pole filmů
 	 */
-	@GetMapping("/movies/list/index={startIndex}&{status}")
-	public List<MovieList> getMoviesFromToday(@PathVariable("startIndex") int startIndex,
-											  @PathVariable("status") Status status) {
-			
-		List<MovieList> movies = movieService.getMoviesFromToday(LocalDate.now(), startIndex, status);
+	@GetMapping("/movies/list/index={startIndex}")
+	public List<MovieList> getMoviesList(@PathVariable("startIndex") int startIndex) {
+		
+		List<MovieList> movies = movieService.getMoviesList(startIndex);
 		
 		return movies;
 	}
 	
 	
 	/**
-	 * Získání limitovaného seznamu filmů od dnešního data
+	 * Získání detailního pole filmů
 	 * 
-	 * @param limit - limit výstupů
-	 * @param staus - enum [další / předchozí]
-	 * 
-	 * @return - vrací limitované pole filmů
+	 * @param startIndex - počáteční index
+	 * @param status - enum [další / předchozí]
 	 */
-	@GetMapping("/movies/list/limit={limit}&{status}")
-	public List<MovieList> getMoviesFromTodayLimited(@PathVariable("limit") int limit,
-													 @PathVariable("status") Status status) {
-		
-		List<MovieList> movies = movieService.getMoviesFromTodayLimited(LocalDate.now(), limit, status);
+	@GetMapping("/movies/list/detailed/index={startIndex}&{status}&limit={limit}")
+	public List<MovieListDetailed> getMoviesListDetailed(@PathVariable("startIndex") int startIndex,
+													     @PathVariable("status") Status status, 
+														 @PathVariable("limit") int limit) {
+			
+		List<MovieListDetailed> movies = movieService.getMoviesListDetailed(startIndex, status, limit);
 		
 		return movies;
+	}
+	
+	
+	/**
+	 * Získání filmu, podle ID
+	 * 
+	 * @param movieID - id filmu
+	 */
+	@GetMapping("/movies/list/movieID={movieID}")
+	public MovieList getMovieName(@PathVariable("movieID") long movieID) {
+		
+		MovieList movieList = movieService.getMovieList(movieID);
+		
+		return movieList;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package cz.release_calendar.services.impl;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +17,8 @@ import cz.release_calendar.entities.File;
 import cz.release_calendar.entities.Movie;
 import cz.release_calendar.entities.MovieCalendar;
 import cz.release_calendar.entities.MovieList;
+import cz.release_calendar.entities.MovieListDetailed;
 import cz.release_calendar.entities.MovieName;
-import cz.release_calendar.entities.MoviePreview;
 import cz.release_calendar.enums.FileCategory;
 import cz.release_calendar.enums.Status;
 import cz.release_calendar.services.MovieService;
@@ -30,16 +31,68 @@ public class MovieServiceImpl implements MovieService {
 	
 	
 	/**
-	 * Seznam filmů v zadaném měsíci
-	 * 
-	 * @param startOfMonth - první den v měsíci
-	 * @param endOfMonth - poslední den v měsíci
-	 * 
-	 * @return - vrací List filmů pro kalendář
+	 * Počet filmů
 	 */
 	@Override
 	@Transactional
-	public List<MovieCalendar> getMoviesByDate(LocalDate startOfMonth, LocalDate endOfMonth) {
+	public long getMoviesCount() {
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+		
+		"SELECT COUNT(*) FROM Movie");
+		
+		long moviesCount = (long) query.uniqueResult();
+		
+		return moviesCount;
+	}
+	
+	
+	/**
+	 * Počet filmů od dnešního dne
+	 * 
+	 * @param staus - enum [další / předchozí]
+	 */
+	@Override
+	@Transactional
+	public long getMoviesCountByToday(Status status) {
+		
+		String condition = "";
+		
+		// Načíst další
+		if (status.equals(Status.next)) {
+			
+			condition = ">=";
+			
+		// Načíst předchozí
+		} else if (status.equals(Status.previous)) {
+
+			condition = "<";
+		}
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(
+		
+		"SELECT COUNT(*) FROM MovieListDetailed "
+	  + "WHERE release_date " + condition + " :today");
+		
+		query.setParameter("today", LocalDate.now());
+		
+		long moviesCount =  (long) query.uniqueResult();
+		
+		return moviesCount;
+	}
+	
+	
+	/**
+	 * Pole filmů pro kalendář
+	 * 
+	 * @param startOfMonth - první den v měsíci
+	 * @param endOfMonth - poslední den v měsíci
+	 */
+	@Override
+	@Transactional
+	public List<MovieCalendar> getMoviesCalendar(LocalDate startOfMonth, LocalDate endOfMonth) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
@@ -71,142 +124,23 @@ public class MovieServiceImpl implements MovieService {
 		
 		return movies;
 	}
-
-	
-	/**
-	 * Počet filmů od dnešního data
-	 * 
-	 * @param today - dnešní datum
-	 * @param staus - enum [další / předchozí]
-	 * 
-	 * @return - vrací počet filmů
-	 */
-	@Override
-	@Transactional
-	public long getMoviesFromTodayCount(LocalDate today, Status status) {
-		
-		String condition = "";
-		
-		// Načíst další
-		if (status.equals(Status.next)) {
-			
-			condition = ">=";
-			
-		// Načíst předchozí
-		} else if (status.equals(Status.previous)) {
-
-			condition = "<";
-		}
-		
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(
-		
-		"SELECT COUNT(*) FROM MovieList "
-	  + "WHERE release_date " + condition + " :today");
-		
-		query.setParameter("today", today);
-		
-		long moviesCount =  (long) query.uniqueResult();
-		
-		return moviesCount;
-	}
 	
 	
 	/**
-	 * Počet filmů
-	 * 
-	 * @return - vrací počet filmů
-	 */
-	@Override
-	@Transactional
-	public long getMoviesCount() {
-		
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(
-		
-		"SELECT COUNT(*) FROM Movie");
-		
-		long moivesCount = (long) query.uniqueResult();
-		
-		return moivesCount;
-	}
-	
-	
-	/**
-	 * Seznam filmů od počátečního indexu
+	 * Pole filmů
 	 * 
 	 * @param startIndex - počáteční index
-	 * 
-	 * @return - vrací List filmů pro náhled
 	 */
 	@Override
 	@Transactional
-	public List<MoviePreview> getMoviePreview(int startIndex) {
-		
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(
-		
-		"FROM MoviePreview "
-	  + "ORDER BY release_date", MoviePreview.class);
-		
-		query.setFirstResult(startIndex);
-		query.setMaxResults(8);
-		
-		List<MoviePreview> movies = query.list();
-		
-		// Náhledové obrázky, podle ID filmu
-		for (MoviePreview moviePreview : movies) {
-			
-			query = session.createQuery(
-			
-			"FROM File "
-		  + "WHERE movie_id = :movieID AND category = :category", File.class);
-			
-			query.setParameter("movieID", moviePreview.getId());
-			query.setParameter("category", FileCategory.poster);
-			
-			File file = (File) query.uniqueResult();
-			moviePreview.setImage(file.getData());
-		}
-		
-		return movies;
-	}
-	
-	
-	/**
-	 * Seznam filmů od dnešního data
-	 * 
-	 * @param today - dnešní datum
-	 * @param startIndex - počáteční index
-	 * @param staus - enum [další / předchozí]
-	 * 
-	 * @return - vrací List filmů pro seznam
-	 */
-	@Override
-	@Transactional
-	public List<MovieList> getMoviesFromToday(LocalDate today, int startIndex, Status status) {
-		
-		String condition = "";
-		
-		// Načíst další
-		if (status.equals(Status.next)) {
-			
-			condition = ">=";
-			
-		// Načíst předchozí
-		} else if (status.equals(Status.previous)) {
-
-			condition = "<";
-		}
+	public List<MovieList> getMoviesList(int startIndex) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
 		
 		"FROM MovieList "
-	  + "WHERE release_date " + condition + " :today "
 	  + "ORDER BY release_date", MovieList.class);
 		
-		query.setParameter("today", today);
 		query.setFirstResult(startIndex);
 		query.setMaxResults(8);
 		
@@ -232,19 +166,18 @@ public class MovieServiceImpl implements MovieService {
 	
 	
 	/**
-	 * Limitovaný seznam filmů od dnešního data
+	 * Detailní pole filmů
 	 * 
-	 * @param today - dnešní datum
-	 * @param limit - limit výstupů
+	 * @param startIndex - počáteční index
 	 * @param status - enum [další / předchozí]
-	 * 
-	 * @return - vrací limitovaný List filmů pro seznam
+	 * @param limit - limit výstupů
 	 */
 	@Override
 	@Transactional
-	public List<MovieList> getMoviesFromTodayLimited(LocalDate today, int limit, Status status) {
+	public List<MovieListDetailed> getMoviesListDetailed(int startIndex, Status status, int limit) {
 		
 		String condition = "";
+		String reverseOrder = "";
 		
 		// Načíst další
 		if (status.equals(Status.next)) {
@@ -255,33 +188,41 @@ public class MovieServiceImpl implements MovieService {
 		} else if (status.equals(Status.previous)) {
 
 			condition = "<";
+			reverseOrder = " DESC";
 		}
 		
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
-				
-		"FROM MovieList "
-	  + "WHERE release_date " + condition + " :today "
-	  + "ORDER BY release_date", MovieList.class);
 		
-		query.setParameter("today", today);
+		"FROM MovieListDetailed "
+	  + "WHERE release_date " + condition + " :today "
+	  + "ORDER BY release_date" + reverseOrder, MovieListDetailed.class);
+		
+		query.setParameter("today", LocalDate.now());
+		query.setFirstResult(startIndex);
 		query.setMaxResults(limit);
 		
-		List<MovieList> movies = query.list();
+		List<MovieListDetailed> movies = query.list();
+		
+		// Převrácení listu
+		if (status.equals(Status.previous)) {
+			
+			Collections.reverse(movies);
+		}
 		
 		// Náhledové obrázky, podle ID filmu
-		for (MovieList movieList : movies) {
+		for (MovieListDetailed movieListDetailed : movies) {
 			
 			query = session.createQuery(
 			
 			"FROM File "
 		  + "WHERE movie_id = :movieID AND category = :category", File.class);
 			
-			query.setParameter("movieID", movieList.getId());
+			query.setParameter("movieID", movieListDetailed.getId());
 			query.setParameter("category", FileCategory.poster);
 			
 			File file = (File) query.uniqueResult();
-			movieList.setImage(file.getData());
+			movieListDetailed.setImage(file.getData());
 		}
 		
 		return movies;
@@ -289,15 +230,41 @@ public class MovieServiceImpl implements MovieService {
 	
 	
 	/**
-	 * Detailní informace o filmu
+	 * Film podle ID, pro seznam
 	 * 
 	 * @param movieID - ID filmu
-	 * 
-	 * @return - vrací detailní informace o filmu
 	 */
 	@Override
 	@Transactional
-	public Movie getMovieByID(long movieID) {
+	public MovieList getMovieList(long movieID) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		MovieList movieList = session.get(MovieList.class, movieID);
+		
+		// Náhledový obrázek, podle ID filmu
+		Query query = session.createQuery(
+				
+		"FROM File "
+	  + "WHERE movie_id = :movieID AND category = :category", File.class);
+		
+		query.setParameter("movieID", movieID);
+		query.setParameter("category", FileCategory.poster);
+		
+		File file = (File) query.uniqueResult();
+		movieList.setImage(file.getData());
+		
+		return movieList;
+	}
+
+	
+	/**
+	 * Detail filmu podle ID
+	 * 
+	 * @param movieID - ID filmu
+	 */
+	@Override
+	@Transactional
+	public Movie getMovieDetail(long movieID) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		Movie movie = session.get(Movie.class, movieID);
@@ -335,7 +302,7 @@ public class MovieServiceImpl implements MovieService {
 	 * Uložení nového filmu (informace + obrázky)
 	 * 
 	 * @param movie - film
-	 * @param images - obrázky
+	 * @param images - pole obrázky
 	 * @param poster - náhledový obrázek
 	 */
 	@Override
@@ -362,8 +329,6 @@ public class MovieServiceImpl implements MovieService {
 	 * Smazání filmu
 	 * 
 	 * @param movieID - ID filmu
-	 * 
-	 * @return - vrací výsledek operace [0 = neúspěch, > 0 = úspěch]
 	 */
 	@Override
 	@Transactional
@@ -401,23 +366,27 @@ public class MovieServiceImpl implements MovieService {
 	
 	
 	/**
-	 * Seznam názvů filmů
+	 * Pole názvů filmů, podle zadané hodnoty
 	 * 
-	 * @return - vrací List názvů filmů
+	 * @param value - hodnota názvu filmu
 	 */
 	@Override
 	@Transactional
-	public List<MovieName> getMovieNames() {
+	public List<MovieName> getMovieNames(String value) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
 				
 		"FROM MovieName "
-	  + "ORDER BY id", MovieName.class);
+	  + "WHERE LOWER(name_cz) LIKE :value "
+	  + "OR LOWER(name_en) LIKE :value", MovieName.class);
+		
+		query.setParameter("value", "%" + value + "%");
 		
 		List<MovieName> movieNames = query.list();
 		
 		return movieNames;
 	}
+	
 	
 }

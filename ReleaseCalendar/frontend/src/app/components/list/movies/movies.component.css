@@ -6,8 +6,19 @@
     background: whitesmoke;
     border-radius: 4px;
     margin: 25px 0px;
-    border: 1px solid #BEBEBE;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19);
+    animation: fadeIn .5s linear;
+    text-decoration: none;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .cell:hover {
@@ -28,28 +39,31 @@
 
 .dayContainer .day, .dayContainer .month, .dayContainer .year {
     color: #EEE;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-weight: bold;
     max-width: 120px;
     max-height: 120px;
 }
 
 .cell img {
-    float: left;
     height: 120px;
 }
 
 /*__________________________ Informace o filmu __________________________*/
-.movieInfo {
-    float: left;
+.movieContainer {
+    display: flex;
     width: 1160px;
     height: 120px;
 }
 
+.movieInfo {
+    display: flex;
+    flex-direction: column;
+}
+
 .name {
-    float: left;
     margin: 7px 20px 3px 20px;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-weight: bold;
     width: 1030px;
     overflow: hidden;
@@ -58,10 +72,9 @@
 }
 
 .director, .genres, .actors {
-    float: left;
     width: 1030px;
     margin: 1px 20px;
-    font-size: 1.2em;
+    font-size: 1.2rem;
     font-weight: bold;
 }
 

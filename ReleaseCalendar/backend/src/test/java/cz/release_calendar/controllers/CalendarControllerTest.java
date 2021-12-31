@@ -65,7 +65,7 @@ public class CalendarControllerTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void getMoviesOfMonth() throws Exception {
+	public void getMoviesCalendar() throws Exception {
 		
 		// Vytvoření testovacího filmu
 		MovieCalendar movie = new MovieCalendar();
@@ -76,7 +76,7 @@ public class CalendarControllerTest {
 		movie.setImage(poster);
 		movies.add(movie);
 		
-		when(movieService.getMoviesByDate(any(LocalDate.class), any(LocalDate.class))).thenReturn(movies);
+		when(movieService.getMoviesCalendar(any(LocalDate.class), any(LocalDate.class))).thenReturn(movies);
 		
 		int year = date.getYear();
 		int month = date.getMonthValue();
@@ -91,7 +91,7 @@ public class CalendarControllerTest {
 			.andExpect(jsonPath("$[0].releaseDate").value(movie.getReleaseDate().toString()))
 			.andExpect(jsonPath("$[0].image").value(Base64.getEncoder().encodeToString(movie.getImage())));
 		
-		verify(movieService, times(1)).getMoviesByDate(any(LocalDate.class), any(LocalDate.class));
+		verify(movieService, times(1)).getMoviesCalendar(any(LocalDate.class), any(LocalDate.class));
 	}
 	
 }

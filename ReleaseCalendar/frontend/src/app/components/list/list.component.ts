@@ -1,11 +1,13 @@
-import { MoviesTotalCount } from './../../models/moviesCount';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Status } from 'src/app/models/status';
+import { ActivatedRoute, Router, UrlTree } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Component, OnInit } from '@angular/core';
-import { Months } from 'src/app/models/months';
-import { MovieList } from 'src/app/models/moviesList';
+import { Location } from '@angular/common';
+
+import { Status } from 'src/app/modules/enums/status';
+import { MovieListDetailed } from 'src/app/modules/interfaces/moviesList';
 import { MoviesService } from 'src/app/services/movies/movies.service';
+import { MoviesTotalCount } from 'src/app/modules/interfaces/moviesCount';
+import { SearchBehavior } from 'src/app/modules/enums/searchBehavior';
 
 @Component({
   selector: 'app-list',
@@ -14,25 +16,29 @@ import { MoviesService } from 'src/app/services/movies/movies.service';
 })
 export class ListComponent implements OnInit {
 
+  // Limit filmů
+  private MOVIE_FETCH_LIMIT: number = 5;
+
+  // Zobrazení / skrytí modalů, pro přidání a odebrání filmů
   public isNewMovieModalClosed: boolean = true;
   public isRemoveMovieModalClosed: boolean = true;
 
   // Enum - [další / předchozí]
   public status = Status;
 
-  public moviesPrevious: Array<MovieList> = [];
-  public moviesNext: Array<MovieList> = [];
+  // Enum vyhledávání - [přesměrování / vrácení ID]
+  public searchBehavior = SearchBehavior;
 
-  // Počty zobrazených filmů
-  public moviesPreviousCount: number;
-  public moviesNextCount: number;
+  public moviesPrevious: Array<MovieListDetailed> = [];
+  public moviesNext: Array<MovieListDetailed> = [];
+
+  // Počet zobrazených filmů
+  private moviesPreviousCount: number = 0;
+  private moviesNextCount: number = 0;
 
   // Celkový počet filmů
-  public moviesPreviousTotal: number;
-  public moviesNextTotal: number;
-  
-  // Měsíce (textově)
-  public monthsString = Months;
+  public moviesPreviousTotal: number = 0;
+  public moviesNextTotal: number = 0;
   
 
   /**
@@ -48,6 +54,7 @@ export class ListComponent implements OnInit {
     private title: Title,
     private router: Router,
     private route: ActivatedRoute,
+    private location: Location
   ) {}
 
 
@@ -56,9 +63,8 @@ export class ListComponent implements OnInit {
    */
   ngOnInit(): void {
 
-    // Nastavení počtu celkových záznamů
-    this.moviesService.getMoviesFromTodayCount().subscribe((moviesCount: MoviesTotalCount) => {
-      
+    // Request - získání celkového počtu filmů
+    this.moviesService.getMoviesCountByToday().subscribe((moviesCount: MoviesTotalCount) => {
       this.moviesPreviousTotal = moviesCount.previousTotal;
       this.moviesNextTotal = moviesCount.nextTotal;
     });
@@ -69,11 +75,16 @@ export class ListComponent implements OnInit {
     // Získání parametrů z URL
     this.route.queryParams.subscribe(params => {
 
-      this.moviesPreviousCount = (params.previous ? parseInt(params.previous) : 0);
-      this.moviesNextCount = (params.next ? parseInt(params.next) : 8);
-    
-      this.setMovies(this.moviesPreviousCount, Status.previous);
-      this.setMovies(this.moviesNextCount, Status.next);
+      const previous: number = (params.previous ? parseInt(params.previous) : 0);
+      const next: number = (params.next ? parseInt(params.next) : this.MOVIE_FETCH_LIMIT);
+
+        if (previous !== 0)
+          this.setMovies(0, Status.previous, previous, false);
+
+        this.setMovies(0, Status.next, next, false);
+
+        // Nastavení URL parametrů 
+        this.setQueryParametrs(previous, next);
     });
   }
 
@@ -97,21 +108,19 @@ export class ListComponent implements OnInit {
     }
 
     // Vynulování stávajících hodnot
-    this.moviesNext = null;
-    this.moviesPrevious = null;
+    this.moviesNext = [];
+    this.moviesPrevious = [];
 
-    this.moviesPreviousCount = null;
-    this.moviesNextCount = null;
+    this.moviesNextCount = 0;
+    this.moviesPreviousCount = 0;
 
-    this.moviesPreviousTotal = null;
-    this.moviesNextTotal = null;
+    this.moviesPreviousTotal = 0;
+    this.moviesNextTotal = 0;
+    
+    // Nastavení URL parametrů 
+    this.setQueryParametrs(this.moviesPrevious.length, this.moviesNext.length)
 
-    // Vynulování URL parametrů
-    this.router.navigate([], {queryParams: {
-      previous: this.moviesPreviousCount,
-      next: this.moviesNextCount,
-    }});
-
+    // Inicializační metoda
     this.ngOnInit();
   }
 
@@ -119,51 +128,15 @@ export class ListComponent implements OnInit {
   /**
    * Nastavení filmů
    * 
-   * @param limit - limit
+   * @param startIndex - počáteční index
    * @param status - enum - [další / předchozí]
+   * @param limit - limit zobrazených filmů
+   * @param setQueryParametrs - nastavit URL parametry
    */
-  setMovies(limit: number, status: Status): void {
+  setMovies(startIndex: number, status: Status, limit: number, setQueryParametrs: boolean): void {
 
-    this.moviesService.getMoviesForListLimited(limit, status).subscribe((movies: Array<MovieList>) => {
-
-      switch (Status[status]) {
-
-        case Status.previous: 
-          this.moviesPrevious = movies; break;
-
-        case Status.next: 
-          this.moviesNext = movies; break;
-      }
-
-      // Přidání parametrů do URL
-      this.router.navigate([], {queryParams: {
-        previous: this.moviesPreviousCount,
-        next: this.moviesNextCount,
-      }});
-    });
-  }
-
-
-  /**
-   * Načtení více filmů (dalších / předchozích)
-   * 
-   * @param status - enum - [další / předchozí]
-   */
-  getMoreMovies(status: Status): void {
-
-    let startIndex: number;
-
-    // Nastavení počátečního indexu
-    switch (Status[status]) {
-
-      case Status.previous: 
-        startIndex = this.moviesPreviousCount; break;
-
-      case Status.next:
-        startIndex = this.moviesNextCount; break;
-    }
-
-    this.moviesService.getMoviesForList(startIndex, status).subscribe((movies: Array<MovieList>) => {
+    // Request - získání filmů
+    this.moviesService.getMoviesListDetailed(startIndex, status, limit).subscribe((movies: Array<MovieListDetailed>) => {
 
       switch (Status[status]) {
 
@@ -178,12 +151,29 @@ export class ListComponent implements OnInit {
           break;
       }
 
-      // Přidání upravených parametrů do URL
-      this.router.navigate([], {queryParams: {
-        previous: this.moviesPreviousCount,
-        next: this.moviesNextCount,
-      }});
+      // Nastavení URL parametrů
+      if (setQueryParametrs) 
+        this.setQueryParametrs(this.moviesPrevious.length, this.moviesNext.length)
     });
+  }
+
+
+  /**
+   * Nastavení URL parametrů
+   * 
+   * @param previous - velikost starších filmů
+   * @param next - velikost nadcházejícíh filmů
+   */
+  setQueryParametrs(previous: number, next: number): void {
+
+    let urlTree: UrlTree = this.router.parseUrl(this.router.url);
+
+    urlTree.queryParams = {
+      previous,
+      next
+    }; 
+
+    this.location.go(urlTree.toString());
   }
 
 }

@@ -40,8 +40,6 @@ public class NewMovieController {
 	 * @param file - náhledový obrázek
 	 * @param movieJSON - informace o filmu ve formátu JSON
 	 * @param files - obrázky k filmu
-	 * 
-	 * @return - vrací Response 200  
 	 */
 	@PostMapping("/saveMovie")
 	public ResponseEntity<Object> saveMovie(@RequestParam(value = "newMovie") String movieJSON,
@@ -77,6 +75,7 @@ public class NewMovieController {
 			// Uložení do databáze
 			movieService.saveMovie(movie, imagesList, poster);
 			
+			// Response - OK
 			httpStatus = HttpStatus.OK;
 			status = 200;
 			message = "success";
@@ -88,7 +87,6 @@ public class NewMovieController {
 			e.printStackTrace();
 		}
 		
-		// Response - OK
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
 		body.put("status", status);

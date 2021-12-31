@@ -1,9 +1,10 @@
-import { Movie } from './../../models/movie';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { Title } from "@angular/platform-browser";
-import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Location } from "@angular/common";
+
+import { MoviesService } from 'src/app/services/movies/movies.service';
+import { Movie } from 'src/app/modules/interfaces/movie';
 
 @Component({
   selector: 'app-movie-detail',
@@ -40,12 +41,13 @@ export class MovieDetailComponent implements OnInit {
     // Získání ID filmu z URL
     const movieID: number = parseInt(this.route.snapshot.paramMap.get("movieID"));
 
+    // Request - získání detailu o filmu
     this.moviesService.getMovieDetail(movieID).subscribe((movie: Movie) => {
 
         this.movie = movie;
 
         // Nastavení titulku
-        this.title.setTitle(this.movie.nameCZ + " | Release Calendar");
+        this.title.setTitle((this.movie.nameCZ ? this.movie.nameCZ : this.movie.nameEN) + " | Release Calendar");
       }, 
       (error) => console.log(error)
     );
@@ -56,6 +58,7 @@ export class MovieDetailComponent implements OnInit {
    * Přesměrování na předchozí stránku
    */
   previousPage() {
+    
     this.location.back();
   }
 
