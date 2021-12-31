@@ -13,7 +13,7 @@
     background: whitesmoke;
     border-radius: 4px;
     margin: 15px 0px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19);
     animation: fadeIn .5s linear;
 }
 
@@ -52,7 +52,7 @@
 
 .dayContainer .day, .dayContainer .month, .dayContainer .year {
     color: #EEE;
-    font-size: 1.1em;
+    font-size: 1.1rem;
     font-weight: bold;
 }
 
@@ -71,7 +71,7 @@
 .name {
     text-align: left;
     margin: 10px 0px 3px 7px;
-    font-size: 1.5em;
+    font-size: 1.4rem;
     font-weight: bold;
     width: 373px;
     overflow: hidden;
@@ -84,7 +84,7 @@
     width: 373px;
     margin: 1px 0px 0px 7px;
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 1.1rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -146,20 +146,20 @@
 }
 
 .verify .label {
-    font-size: 1.1em;
+    font-size: 1.1rem;
 }
 
 .verify .verifyNumber {
     margin: 0px 10px;
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 1.5rem;
 }
 
 .verify input {
     border: 1px solid #808080;
     border-radius: 4px;
     padding: 2px 5px;
-    font-size: 1.2em;
+    font-size: 1.1rem;
     width: 55px;
 }
 
@@ -170,7 +170,7 @@
 /*__________________________ Tlačítka __________________________*/
 button {
     text-align: left;
-    font-size: 1.3em;
+    font-size: 1.3rem;
     color: white;
     font-weight: bold;
     background: #232344;

@@ -41,6 +41,7 @@ export class MovieDetailComponent implements OnInit {
     // Získání ID filmu z URL
     const movieID: number = parseInt(this.route.snapshot.paramMap.get("movieID"));
 
+    // Request - získání detailu o filmu
     this.moviesService.getMovieDetail(movieID).subscribe((movie: Movie) => {
 
         this.movie = movie;
@@ -57,6 +58,7 @@ export class MovieDetailComponent implements OnInit {
    * Přesměrování na předchozí stránku
    */
   previousPage() {
+    
     this.location.back();
   }
 
