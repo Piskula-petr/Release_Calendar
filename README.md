@@ -1,8 +1,9 @@
 # 6. Release Calendar
 
 <div>
-  <img src="https://user-images.githubusercontent.com/60322749/126777090-3b0a46ce-6a95-4f56-8c29-c21fd37bb876.jpg" width="49%">
-  <img src="https://user-images.githubusercontent.com/60322749/126777124-bc03fb6a-de29-4545-af1b-c19d082f592c.jpg" width="49.5%">
+  <img src="https://user-images.githubusercontent.com/60322749/147822273-052e8a88-1ea3-4b89-bb85-55c7efabbe45.jpg" width="32.5%">
+  <img src="https://user-images.githubusercontent.com/60322749/147822294-69d23020-69dc-4c12-b3f0-465e56f91229.jpg" width="32.5%">
+  <img src="https://user-images.githubusercontent.com/60322749/147822300-62fbab82-3f04-460c-8b73-453d258040f1.jpg" width="32.5%">
 </div> <br>
 
 ## Description
